@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Sistema de Controle de Tickets</title>
+
+    {% block css %}
+        <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/dist/css/AdminLTE.min.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/dist/css/skins/skin-black.css') }}">
+    {% endblock %}
+</head>
+<body class="skin-black sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="#" class="logo">
+                <span class="logo-mini">
+                    <b>0</b> T
+                </span>
+                <span class="logo-lg">
+                    <b>ZER0</b> Tickets
+                </span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="{{ asset('img/usuario.png') }}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">Usuário Logado</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="{{ asset('img/usuario.png') }}" class="img-circle" alt="User Image">
+                                    <p>
+                                        Usuário logado
+                                        <small>email.do.usuario@empresa-dele.com</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">Sair</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">MENU</li>
+                <li class="active">
+                    <a href="#">
+                        <i class="fa fa-link"></i> <span>Criar Ticket</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-link"></i> <span>Visualizar Tickets</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-link"></i> <span>Gerenciar Usuários</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <section class="content-wrapper">
+            <header class="content-header">
+                <h1>
+                    {% block titulo %}{% endblock %}
+                    <small>{% block subtitulo %}{% endblock %}</small>
+                </h1>
+            </header>
+
+            <article class="content">
+                {% for tipo, mensagens in app.session.flashBag.all() %}
+                    {% for msg in mensagens %}
+                    <div class="callout callout-{{ tipo }}">
+                        {{ msg }}
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+                {% block conteudo %}{% endblock %}
+            </article>
+        </section>
+
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                GPL
+            </div>
+            <strong>ZER0 Tickets &copy; 2016</strong>
+        </footer>
+    </div>
+
+    {% block js %}
+        <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('node_modules/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('node_modules/admin-lte/dist/js/app.min.js') }}"></script>
+        <script src="{{ asset('node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+    {% endblock %}
+</body>
+</html>
