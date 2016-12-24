@@ -6,18 +6,13 @@ use AppBundle\Entity\Ticket;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\{SubmitType, TextareaType, TextType};
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 class TicketsController extends Controller
 {
     /**
      * @Route("/")
-     * @Method("GET")
      */
     public function indexAction(): Response
     {
