@@ -6,6 +6,7 @@
 {% block conteudo %}
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
+            {% if not temErro is defined %}
             <div class="callout callout-info">
                 <h4>Dica!</h4>
 
@@ -15,6 +16,7 @@
                     e que tipo de mensagem apareceu, por exemplo.
                 </p>
             </div>
+            {% endif %}
 
             <div class="box box-primary">
                 <div class="box-header with-border">
