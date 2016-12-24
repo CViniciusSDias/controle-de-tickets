@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Ticket
 {
     use ModelTrait;
+
     /**
      * @var int
      *
@@ -71,19 +72,18 @@ class Ticket
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumn(name="usuario_criador", referencedColumnName="id")
+     * @ORM\JoinColumn(name="usuario_criador")
      */
     private $usuarioCriador;
 
     /**
      * @ORM\ManyToOne(targetEntity="Usuario")
-     * @ORM\JoinColumn(name="atendente_responsavel", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="atendente_responsavel", nullable=true)
      */
     private $atendenteResponsavel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Categoria")
-     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
 
@@ -92,5 +92,10 @@ class Ticket
         $this->aberto = true;
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
+    }
+
+    public function getStatus(): string
+    {
+        return $this->aberto ? 'aberto' : 'fechado';
     }
 }
