@@ -31,4 +31,10 @@ trait ModelTrait
 
         throw new DomainException('Propriedade inválida');
     }
+
+    public function __call(string $metodo, array $args)
+    {
+        $propriedade = lcfirst(str_replace('get', '', $metodo));
+        return $this->$propriedade;
+    }
 }
