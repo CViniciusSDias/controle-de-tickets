@@ -37,7 +37,8 @@
 
                         <div class="form-group">
                             <label for="categoria-ticket">Categoria:</label>
-                            <select name="categoria-ticket" id="categoria-ticket" class="form-control">
+                            <select name="categoria-ticket" id="categoria-ticket" class="form-control" required>
+                                <option value="">Selecione</option>
                             {% for categoria in categorias %}
                                 <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
                             {% endfor %}
