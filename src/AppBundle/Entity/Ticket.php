@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -48,6 +49,7 @@ class Ticket
      * @var int
      *
      * @ORM\Column(name="prioridade", type="smallint")
+     * @Assert\LessThan(6)
      */
     private $prioridade;
 
