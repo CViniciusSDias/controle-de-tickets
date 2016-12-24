@@ -40,15 +40,11 @@ class Ticket
     private $descricao;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="status", type="string", length=255)
-     * @Assert\Choice(
-     *     choices = { "aberto", "fechado" },
-     *     message = "Selecione um status válido"
-     * )
+     * @ORM\Column(name="aberto", type="boolean")
      */
-    private $status;
+    private $aberto;
 
     /**
      * @var int
@@ -93,7 +89,7 @@ class Ticket
 
     public function __construct()
     {
-        $this->status = 'aberto';
+        $this->aberto = true;
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
     }
