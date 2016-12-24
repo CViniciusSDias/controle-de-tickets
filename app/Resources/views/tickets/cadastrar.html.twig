@@ -23,33 +23,27 @@
                     <h3 class="box-title">Novo Ticket</h3>
                 </div>
 
-                <form action="{{ path('inserir_ticket') }}" role="form" method="post">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="titulo-ticket">Título:</label>
-                            <input type="text" class="form-control" id="titulo-ticket" name="titulo-ticket"
-                               required>
+                <div class="box-body">
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                            {{ form_label(form.titulo, 'Título') }}
+                            {{ form_widget(form.titulo, {'attr': {'class': 'form-control'}}) }}
                         </div>
 
                         <div class="form-group">
-                            <label for="descricao-titcket">Descrição:</label>
-                            <textarea name="descricao-ticket" id="descricao-titcket" class="form-control"></textarea>
+                            {{ form_label(form.descricao, 'Descrição') }}
+                            {{ form_widget(form.descricao, {'attr': {'class': 'form-control'}}) }}
                         </div>
 
                         <div class="form-group">
-                            <label for="categoria-ticket">Categoria:</label>
-                            <select name="categoria-ticket" id="categoria-ticket" class="form-control" required>
-                                <option value="">Selecione</option>
-                            {% for categoria in categorias %}
-                                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-                            {% endfor %}
-                            </select>
+                            {{ form_label(form.categoria, 'Categoria') }}
+                            {{ form_widget(form.categoria, {'attr': {'class': 'form-control'}}) }}
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
