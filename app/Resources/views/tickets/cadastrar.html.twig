@@ -34,6 +34,15 @@
                             <label for="descricao-titcket">Descrição:</label>
                             <textarea name="descricao-ticket" id="descricao-titcket" class="form-control"></textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="categoria-ticket">Categoria:</label>
+                            <select name="categoria-ticket" id="categoria-ticket" class="form-control">
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary">Salvar</button>

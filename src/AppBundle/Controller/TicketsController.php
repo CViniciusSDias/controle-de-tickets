@@ -18,7 +18,8 @@ class TicketsController extends Controller
      */
     public function cadastrarAction(): Response
     {
-        return $this->render('tickets/cadastrar.html.twig');
+        $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')->findAll();
+        return $this->render('tickets/cadastrar.html.twig', ['categorias' => $categorias]);
     }
 
     /**
@@ -29,6 +30,7 @@ class TicketsController extends Controller
     {
         $titulo = $request->request->get('titulo-ticket');
         $descricao = $request->request->get('descricao-ticket');
+        $idCategoria = $request->request->get('categoria-ticket');
         $doctrine = $this->getDoctrine();
 
         $usuario = $doctrine->getRepository('AppBundle:Usuario')->find(1);
@@ -37,6 +39,7 @@ class TicketsController extends Controller
         $ticket->titulo = $titulo;
         $ticket->descricao = $descricao;
         $ticket->usuarioCriador = $usuario;
+        $ticket->categoria = $doctrine->getRepository('AppBundle:Categoria')->find($idCategoria);
 
         $em = $doctrine->getManager();
         $em->persist($ticket);

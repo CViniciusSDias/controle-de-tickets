@@ -66,20 +66,22 @@ class Ticket
     private $previsaoResposta;
 
     /**
-     * @var int
-     *
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumn(name="usuario_criador", referencedColumnName="id")
      */
     private $usuarioCriador;
 
     /**
-     * @var int
-     *
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumn(name="atendente_responsavel", referencedColumnName="id", nullable=true)
      */
     private $atendenteResponsavel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Categoria")
+     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
+     */
+    private $categoria;
 
     public function __construct()
     {
