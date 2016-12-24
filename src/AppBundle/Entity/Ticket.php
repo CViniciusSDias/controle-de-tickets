@@ -28,6 +28,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="titulo", type="string", length=128)
+     * @Assert\Length(min=8, minMessage="O título deve conter pelo menos 8 caracteres")
      */
     private $titulo;
 
@@ -42,6 +43,10 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=255)
+     * @Assert\Choice(
+     *     choices = { "aberto", "fechado" },
+     *     message = "Selecione um status válido"
+     * )
      */
     private $status;
 
@@ -49,7 +54,8 @@ class Ticket
      * @var int
      *
      * @ORM\Column(name="prioridade", type="smallint")
-     * @Assert\LessThan(6)
+     * @Assert\LessThan(value=6, message="A prioridade deve ser entre 0 e 5")
+     * @Assert\GreaterThanOrEqual(value=0, message="A prioridade deve ser entre 0 e 5")
      */
     private $prioridade;
 

@@ -32,6 +32,7 @@ class TicketsController extends Controller
         $descricao = $request->request->get('descricao-ticket');
         $idCategoria = $request->request->get('categoria-ticket');
         $doctrine = $this->getDoctrine();
+        $validador = $this->get('validator');
 
         $usuario = $doctrine->getRepository('AppBundle:Usuario')->find(1);
 
@@ -41,11 +42,19 @@ class TicketsController extends Controller
         $ticket->usuarioCriador = $usuario;
         $ticket->categoria = $doctrine->getRepository('AppBundle:Categoria')->find($idCategoria);
 
-        $em = $doctrine->getManager();
-        $em->persist($ticket);
-        $em->flush();
+        $erros = $validador->validate($ticket);
 
-        $this->addFlash('success', 'Ticket cadastrado com sucesso');
+        if (count($erros) > 0) {
+            foreach ($erros as $erro) {
+                $this->addFlash('danger', $erro->getMessage());
+            }
+        } else {
+            $em = $doctrine->getManager();
+            $em->persist($ticket);
+            $em->flush();
+
+            $this->addFlash('success', 'Ticket cadastrado com sucesso');
+        }
 
         return $this->redirectToRoute('cadastrar_ticket');
     }
