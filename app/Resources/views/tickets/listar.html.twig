@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block titulo %}Tickets{% endblock %}
+
+{% block conteudo %}
+    <div class="row">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div id="tabela-tickets">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Título</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Data/Hora</th>
+                                <th>Usuário</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in tickets %}
+                            <tr>
+                                <td>{{ ticket.id }}</td>
+                                <td>{{ ticket.titulo }}</td>
+                                <td>{{ ticket.prioridade }}</td>
+                                <td><span class="label bg-red">{{ ticket.status }}</span></td>
+                                <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
+                                <td>{{ ticket.usuarioCriador.nome }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $('#tabela-tickets table').DataTable();
+    </script>
+{% endblock %}

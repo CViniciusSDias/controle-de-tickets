@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Ticket;
+use AppBundle\Entity\Usuario;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -42,6 +43,7 @@ class TicketsController extends Controller
             /** Se o ticket passar na validação, salva no BD e recarrega a página */
             if (count($erros) === 0) {
                 $em = $this->getDoctrine()->getManager();
+                $ticket->usuarioCriador = $em->getPartialReference(Usuario::class, ['id' => 1]);
                 $em->persist($ticket);
                 $em->flush();
 
@@ -58,6 +60,17 @@ class TicketsController extends Controller
         return $this->render('tickets/cadastrar.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/tickets", name="listar_tickets")
+     * @return Response
+     */
+    public function listarAction(): Response
+    {
+        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
+            ->findBy([], ['dataHora' => 'DESC']);
+        return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
     /**
