@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\{
-    CheckboxType, NumberType, SubmitType, TextareaType, TextType
+    CheckboxType, IntegerType, SubmitType, TextareaType, TextType
 };
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -82,7 +82,7 @@ class TicketsController extends Controller
         $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
         $form = $this->createFormBuilder($ticket)
             ->add('aberto', CheckboxType::class, ['required' => false])
-            ->add('prioridade', NumberType::class)
+            ->add('prioridade', IntegerType::class)
             ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
             ->getForm();
         $form->handleRequest($request);
