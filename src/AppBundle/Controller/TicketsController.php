@@ -2,12 +2,13 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\Ticket;
-use AppBundle\Entity\Usuario;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\{Ticket, Usuario};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\{SubmitType, TextareaType, TextType};
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\{
+    CheckboxType, NumberType, SubmitType, TextareaType, TextType
+};
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
@@ -71,6 +72,43 @@ class TicketsController extends Controller
         $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
             ->findBy([], ['dataHora' => 'DESC']);
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
+    }
+
+    /**
+     * @Route("/tickets/{id}", name="gerenciar_ticket")
+     */
+    public function gerenciarAction(Request $request, int $id): Response
+    {
+        $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
+        $form = $this->createFormBuilder($ticket)
+            ->add('aberto', CheckboxType::class, ['required' => false])
+            ->add('prioridade', NumberType::class)
+            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $ticket = $form->getData();
+            $validador = $this->get('validator');
+            $erros = $validador->validate($ticket);
+
+            if (count($erros) === 0) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($ticket);
+                $em->flush();
+
+                $this->addFlash('success', 'Ticket alterado com sucesso');
+
+                return $this->redirect($request->getUri());
+            } else {
+                foreach ($erros as $erro) {
+                    $this->addFlash('danger', $erro->getMessage());
+                }
+            }
+        }
+
+
+        return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
     }
 
     /**

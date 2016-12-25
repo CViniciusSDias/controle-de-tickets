@@ -26,7 +26,11 @@
                         <tbody>
                             {% for ticket in tickets %}
                             <tr>
-                                <td>{{ ticket.id }}</td>
+                                <td>
+                                    <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}">
+                                        {{ ticket.id }}
+                                    </a>
+                                </td>
                                 <td>{{ ticket.titulo }}</td>
                                 <td>{{ ticket.prioridade }}</td>
                                 <td><span class="label bg-red">{{ ticket.status }}</span></td>

@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/plugins/iCheck/all.css') }}">
+{% endblock %}
+
+{% block titulo %} Editar Ticket {% endblock %}
+{% block subtitulo %}{{ ticket.titulo }}{% endblock %}
+
+{% block conteudo %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="box box-primary box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">Gerenciar ticket "{{ ticket.titulo }}"</h3>
+                </div>
+
+                <div class="box-body">
+                    {{ form_start(form) }}
+                        <div class="form-group">
+                            {{ form_label(form.aberto, 'Aberto') }}
+                            <br>
+                            {{ form_widget(form.aberto, {'attr': {'class': 'flat-red'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.prioridade, 'Prioridade') }}
+                            {{ form_widget(form.prioridade, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+
+                <div class="box-footer">
+                    {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{ asset('node_modules/admin-lte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script>
+        $('.flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green'
+        });
+    </script>
+{% endblock %}
