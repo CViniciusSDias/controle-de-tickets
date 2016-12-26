@@ -21,15 +21,14 @@
                                 <th>Status</th>
                                 <th>Data/Hora</th>
                                 <th>Usuário</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for ticket in tickets %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}">
-                                        {{ ticket.id }}
-                                    </a>
+                                    {{ ticket.id }}
                                 </td>
                                 <td>{{ ticket.titulo }}</td>
                                 <td>{{ ticket.prioridade }}</td>
@@ -40,6 +39,11 @@
                                 </td>
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
                                 <td>{{ ticket.usuarioCriador.nome }}</td>
+                                <td>
+                                    <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
