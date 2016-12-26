@@ -33,7 +33,11 @@
                                 </td>
                                 <td>{{ ticket.titulo }}</td>
                                 <td>{{ ticket.prioridade }}</td>
-                                <td><span class="label bg-red">{{ ticket.status }}</span></td>
+                                <td>
+                                    <span class="label bg-{{ ticket.aberto ? 'red' : 'green' }}">
+                                        {{ ticket.status }}
+                                    </span>
+                                </td>
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
                                 <td>{{ ticket.usuarioCriador.nome }}</td>
                             </tr>
