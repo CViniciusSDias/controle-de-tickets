@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Categoria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 class CategoriasControllerController extends Controller
@@ -32,5 +34,20 @@ class CategoriasControllerController extends Controller
         $this->addFlash('success', 'Categoria removida com sucesso');
 
         return $this->redirectToRoute('listar_categorias');
+    }
+
+    /**
+     * @Route("/categorias/nova", name="adicionar_categoria")
+     * @param Request $request
+     * @return Response
+     */
+    public function adicionarAction(Request $request): Response
+    {
+        $categoria = new Categoria();
+        $form = $this->createFormBuilder($categoria)
+            ->add('nome', TextType::class)
+            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
+            ->getForm();
+        return new Response();
     }
 }
