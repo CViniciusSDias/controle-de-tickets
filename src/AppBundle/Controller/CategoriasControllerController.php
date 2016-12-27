@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Categoria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
@@ -22,7 +23,14 @@ class CategoriasControllerController extends Controller
      */
     public function removerAction(Request $request): Response
     {
+        $idCategoria = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $categoria = $em->getPartialReference(Categoria::class, ['id' => $idCategoria]);
+        $em->remove($categoria);
+        $em->flush();
 
-        return new Response();
+        $this->addFlash('success', 'Categoria removida com sucesso');
+
+        return $this->redirectToRoute('listar_categorias');
     }
 }
