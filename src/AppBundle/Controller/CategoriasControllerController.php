@@ -14,10 +14,32 @@ class CategoriasControllerController extends Controller
     /**
      * @Route("/categorias", name="listar_categorias")
      */
-    public function listarAction(): Response
+    public function listarAction(Request $request): Response
     {
         $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')->findBy([], ['nome' => 'asc']);
-        return $this->render('categorias/listar.html.twig', ['categorias' => $categorias]);
+
+        $categoria = new Categoria();
+        $form = $this->createFormBuilder($categoria)
+            ->add('nome', TextType::class)
+            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $categoria = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($categoria);
+            $em->flush();
+
+            $this->addFlash('success', 'Categoria adicionada com sucesso');
+            return $this->redirect($request->getUri());
+        }
+
+        return $this->render(
+            'categorias/listar.html.twig',
+            ['categorias' => $categorias, 'form' => $form->createView()]
+        );
     }
 
     /**
@@ -34,20 +56,5 @@ class CategoriasControllerController extends Controller
         $this->addFlash('success', 'Categoria removida com sucesso');
 
         return $this->redirectToRoute('listar_categorias');
-    }
-
-    /**
-     * @Route("/categorias/nova", name="adicionar_categoria")
-     * @param Request $request
-     * @return Response
-     */
-    public function adicionarAction(Request $request): Response
-    {
-        $categoria = new Categoria();
-        $form = $this->createFormBuilder($categoria)
-            ->add('nome', TextType::class)
-            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-            ->getForm();
-        return new Response();
     }
 }
