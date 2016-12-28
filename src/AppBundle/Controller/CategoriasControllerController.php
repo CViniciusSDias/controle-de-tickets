@@ -12,11 +12,16 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 class CategoriasControllerController extends Controller
 {
     /**
+     * Ação de listagem de categorias, e formulário para adição de uma nova.
+     * Caso a requisição seja post, salva a categoria no banco de dados
+     * @param Request $request
+     * @return Response
      * @Route("/categorias", name="listar_categorias")
      */
     public function listarAction(Request $request): Response
     {
-        $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')->findBy([], ['nome' => 'asc']);
+        $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')
+            ->findBy([], ['nome' => 'asc']);
 
         $categoria = new Categoria();
         $form = $this->createFormBuilder($categoria)
@@ -28,12 +33,20 @@ class CategoriasControllerController extends Controller
 
         if ($form->isSubmitted()) {
             $categoria = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($categoria);
-            $em->flush();
+            $validador = $this->get('validator');
+            $erros = $validador->validate($categoria);
 
-            $this->addFlash('success', 'Categoria adicionada com sucesso');
-            return $this->redirect($request->getUri());
+            if (count($erros) === 0) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($categoria);
+                $em->flush();
+                $this->addFlash('success', 'Categoria adicionada com sucesso');
+                return $this->redirect($request->getUri());
+            }
+
+            foreach ($erros as $erro) {
+                $this->addFlash('danger', $erro->getMessage());
+            }
         }
 
         return $this->render(
@@ -43,6 +56,9 @@ class CategoriasControllerController extends Controller
     }
 
     /**
+     * Ação que remove a categoria passada por parâmetro (POST)
+     * @param Request $request Requisição http necessariamente com o parâmetro 'id'
+     * @return Response
      * @Route("/categorias/remover", name="remover_categoria")
      */
     public function removerAction(Request $request): Response

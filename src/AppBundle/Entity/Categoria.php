@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Categoria
@@ -25,6 +26,7 @@ class Categoria
      * @var string
      *
      * @ORM\Column(name="nome", type="string", length=128, unique=true)
+     * @Assert\Length(min=5, minMessage="O nome deve conter pelo menos 5 caracteres")
      */
     private $nome;
 
