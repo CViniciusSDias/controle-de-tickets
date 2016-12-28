@@ -59,6 +59,11 @@
     <script src="{{ asset('node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
     <script>
-        $('#tabela-tickets table').DataTable();
+        $('#tabela-tickets table').DataTable({
+            "order": [
+                [4, "desc"],
+                [1, "asc"]
+            ]
+        });
     </script>
 {% endblock %}

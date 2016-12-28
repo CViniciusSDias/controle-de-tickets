@@ -70,7 +70,7 @@ class TicketsController extends Controller
     public function listarAction(): Response
     {
         $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy([], ['dataHora' => 'DESC']);
+            ->findAll();
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
