@@ -35,14 +35,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="{{ asset('img/usuario.png') }}" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Usuário Logado</span>
+                                <span class="hidden-xs">{{ app.user.nome }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
                                     <img src="{{ asset('img/usuario.png') }}" class="img-circle" alt="User Image">
                                     <p>
-                                        Usuário logado
-                                        <small>email.do.usuario@empresa-dele.com</small>
+                                        {{ app.user.nome }}
+                                        <small>{{ app.user.email }}</small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -51,7 +51,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sair</a>
+                                        <a href="{{ path('logout') }}" class="btn btn-default btn-flat">Sair</a>
                                     </div>
                                 </li>
                             </ul>

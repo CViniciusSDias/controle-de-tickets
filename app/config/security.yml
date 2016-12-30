@@ -6,6 +6,10 @@ security:
     providers:
         in_memory:
             memory: ~
+        bd_provider:
+            entity:
+                class: AppBundle:Usuario
+                property: email
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -14,11 +18,21 @@ security:
             security: false
 
         main:
-            anonymous: ~
+            # anonymous: ~
             # activate different ways to authenticate
 
-            # http_basic: ~
+            http_basic: ~
             # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+            provider: bd_provider
+
+            logout:
+                path:   /logout
+                target: /tickets
+
+    encoders:
+        AppBundle\Entity\Usuario:
+            algorithm: bcrypt
