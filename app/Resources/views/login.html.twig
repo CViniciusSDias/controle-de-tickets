@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Sistema de Controle de Tickets - Login</title>
+    {% block css %}
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/dist/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/dist/css/skins/skin-black.css') }}">
+    {% endblock %}
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>ZER0</b> Tickets
+        </div>
+
+        <div class="login-box-body">
+            <p class="login-box-msg">Faça login para começar</p>
+
+            {% if erro %}
+            <div class="callout callout-danger">
+                {{ erro.messageKey|trans(erro.messageData, 'security') }}
+            </div>
+            {% endif %}
+
+            <form action="{{ 'login' }}" method="post">
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" placeholder="Email" name="_username">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" placeholder="Password" name="_password">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+            </form>
+
+            <br>
+            <a href="#">Esqueci minha senha</a><br>
+        </div>
+    </div>
+
+    {% block js %}
+    <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('node_modules/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('node_modules/admin-lte/dist/js/app.min.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

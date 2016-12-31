@@ -18,21 +18,25 @@ security:
             security: false
 
         main:
-            # anonymous: ~
-            # activate different ways to authenticate
+            anonymous: ~
 
-            http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            form_login:
+                login_path: login
+                check_path: login
 
             provider: bd_provider
 
             logout:
                 path:   /logout
-                target: /tickets
+                target: /login
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
 
     encoders:
         AppBundle\Entity\Usuario:
             algorithm: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
