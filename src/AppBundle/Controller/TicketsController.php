@@ -44,7 +44,7 @@ class TicketsController extends Controller
             /** Se o ticket passar na validação, salva no BD e recarrega a página */
             if (count($erros) === 0) {
                 $em = $this->getDoctrine()->getManager();
-                $ticket->usuarioCriador = $em->getPartialReference(Usuario::class, ['id' => 1]);
+                $ticket->usuarioCriador = $this->getUser();
                 $em->persist($ticket);
                 $em->flush();
 
@@ -106,7 +106,6 @@ class TicketsController extends Controller
                 }
             }
         }
-
 
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
     }

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Usuario
@@ -47,14 +48,15 @@ class Usuario implements UserInterface, \Serializable
     private $senha;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Grupo")
-     * @ORM\JoinTable(
-     *     name="grupos_usuarios",
-     *     joinColumns={@ORM\JoinColumn(name="usuario_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="grupo_id", referencedColumnName="id")}
+     * @var string
+     * @ORM\Column(
+     *     name="tipo",
+     *     type="string",
+     *     columnDefinition="ENUM('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"
      * )
+     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
      */
-    private $grupos;
+    private $tipo;
 
     public function __construct()
     {
@@ -63,7 +65,7 @@ class Usuario implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return array($this->tipo);
     }
 
     public function getPassword()
