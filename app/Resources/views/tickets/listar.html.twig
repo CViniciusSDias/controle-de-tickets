@@ -21,7 +21,9 @@
                                 <th>Status</th>
                                 <th>Data/Hora</th>
                                 <th>Usuário</th>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <th></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -39,11 +41,13 @@
                                 </td>
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
                                 <td>{{ ticket.usuarioCriador.nome }}</td>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
