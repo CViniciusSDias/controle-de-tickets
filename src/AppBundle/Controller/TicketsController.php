@@ -16,6 +16,7 @@ class TicketsController extends Controller
 {
     /**
      * Raiz do projeto
+     *
      * @Route("/")
      * @return Response
      */
@@ -35,13 +36,13 @@ class TicketsController extends Controller
         $form = $this->criarForm($ticket);
         $form->handleRequest($request);
 
-        /** Caso seja uma requisição post, e o formulário já tenha sido enviado */
+        /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
         if ($form->isSubmitted()) {
             $ticket = $form->getData();
             $validador = $this->get('validator');
             $erros = $validador->validate($ticket);
 
-            /** Se o ticket passar na validação, salva no BD e recarrega a página */
+            // Se o ticket passar na validação, salva no BD e recarrega a página
             if (count($erros) === 0) {
                 $em = $this->getDoctrine()->getManager();
                 $ticket->usuarioCriador = $this->getUser();
@@ -112,6 +113,7 @@ class TicketsController extends Controller
 
     /**
      * Factory Method do formulário para inserção de ticket
+     *
      * @param Ticket $ticket
      * @return FormInterface
      */
