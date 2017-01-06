@@ -41,7 +41,8 @@ class CategoriasControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
         $this->assertGreaterThan(
             0,
-            $crawler->filter('div.callout-danger:contains("O nome deve conter pelo menos 5 caracteres")')->count()
+            $crawler->filter('div.callout-danger:contains("O nome deve conter pelo menos 5 caracteres")')
+                ->count()
         );
     }
 
