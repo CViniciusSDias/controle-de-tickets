@@ -23,8 +23,8 @@
                     <h3 class="box-title">Novo Ticket</h3>
                 </div>
 
-                <div class="box-body">
-                    {{ form_start(form) }}
+                {{ form_start(form) }}
+                    <div class="box-body">
                         <div class="form-group">
                             {{ form_label(form.titulo, 'Título') }}
                             {{ form_widget(form.titulo, {'attr': {'class': 'form-control'}}) }}
