@@ -31,12 +31,6 @@ class Categoria
      */
     private $nome;
 
-    public function __construct()
-    {
-        $this->nome = '';
-    }
-
-
     /**
      * Get id
      *
@@ -69,7 +63,7 @@ class Categoria
      *
      * @return string
      */
-    public function getNome(): string
+    public function getNome(): ?string
     {
         return $this->nome;
     }

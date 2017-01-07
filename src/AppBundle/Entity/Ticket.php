@@ -93,9 +93,6 @@ class Ticket
         $this->aberto = true;
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
-        $this->titulo = '';
-        $this->descricao = '';
-        $this->categoria = new Categoria();
     }
 
     public function getStatus(): string
@@ -134,7 +131,7 @@ class Ticket
      *
      * @return string
      */
-    public function getTitulo(): string
+    public function getTitulo(): ?string
     {
         return $this->titulo;
     }
@@ -157,7 +154,7 @@ class Ticket
      *
      * @return string
      */
-    public function getDescricao(): string
+    public function getDescricao(): ?string
     {
         return $this->descricao;
     }
@@ -322,7 +319,7 @@ class Ticket
      *
      * @return Categoria
      */
-    public function getCategoria(): Categoria
+    public function getCategoria(): ?Categoria
     {
         return $this->categoria;
     }
