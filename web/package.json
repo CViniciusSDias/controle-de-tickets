@@ -1,11 +1,25 @@
 {
-  "name": "controle-de-tickets",
-  "version": "1.0.0",
-  "description": "Sistema de controle de tickets de suporte",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "controle-de-tickets",
+    "version": "1.0.0",
+    "description": "Sistema para controle de tickets de suporte",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CViniciusSDias/controle-de-tickets.git"
+    },
+    "author": "Vinicius Dias",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CViniciusSDias/controle-de-tickets/issues"
+    },
+    "homepage": "https://github.com/CViniciusSDias/controle-de-tickets#readme",
+    "dependencies": {
+        "moment": "^2.17.1",
+        "admin-lte": "*",
+        "jquery": "*",
+        "bootstrap": "*"
+    }
 }
