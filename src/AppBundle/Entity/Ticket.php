@@ -230,6 +230,18 @@ class Ticket
     }
 
     /**
+     * Set previsaoResposta a partir de uma string
+     *
+     * @param string $dataHora
+     * @return Ticket
+     */
+    public function setResposta(string $dataHora): self
+    {
+        $this->previsaoResposta = new DateTime($dataHora);
+        return $this;
+    }
+
+    /**
      * Set previsaoResposta
      *
      * @param \DateTime $previsaoResposta

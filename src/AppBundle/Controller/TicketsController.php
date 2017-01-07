@@ -87,6 +87,7 @@ class TicketsController extends Controller
             $form = $this->createFormBuilder($ticket)
                 ->add('aberto', CheckboxType::class, ['required' => false])
                 ->add('prioridade', IntegerType::class)
+                ->add('resposta', TextType::class)
                 ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
                 ->getForm();
             $form->handleRequest($request);
