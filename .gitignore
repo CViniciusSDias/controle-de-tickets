@@ -15,4 +15,4 @@
 /vendor/
 /web/bundles/
 /web/node_modules/*
-/.idea/workspace.xml
+/.idea/*
