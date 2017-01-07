@@ -64,24 +64,33 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
-                <li>
-                    <a href="{{ path('cadastrar_ticket') }}">
-                        <i class="fa fa-link"></i> <span>Abrir Ticket</span>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-ticket"></i>
+                        <span>Gerenciar Tickets</span>
+                        <i class="fa fa-angle-left pull-right"></i>
                     </a>
-                </li>
-                <li>
-                    <a href="{{ path('listar_tickets') }}">
-                        <i class="fa fa-link"></i> <span>Visualizar Tickets</span>
-                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{ path('cadastrar_ticket') }}">
+                                <i class="fa fa-plus-circle"></i> <span>Abrir Ticket</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listar_tickets') }}">
+                                <i class="fa fa-list"></i> <span>Visualizar Tickets</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{ path('listar_usuarios') }}">
-                        <i class="fa fa-link"></i> <span>Gerenciar Usuários</span>
+                        <i class="fa fa-user"></i> <span>Gerenciar Usuários</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ path('listar_categorias') }}">
-                        <i class="fa fa-link"></i> <span>Gerenciar Categorias</span>
+                        <i class="fa fa-list-alt"></i> <span>Gerenciar Categorias</span>
                     </a>
                 </li>
             </ul>
@@ -121,6 +130,13 @@
     <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/dist/js/app.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('node_modules/admin-lte/plugins/fastclick/fastclick.min.js') }}"></script>
+    <script>
+        $('.treeview > a').on('click', e => {
+            e.preventDefault();
+            $(e.currentTarget).parent().toggleClass('active');
+        });
+    </script>
     {% endblock %}
 </body>
 </html>
