@@ -1,3 +1,11 @@
-.nova-categoria label, .nova-categoria input {
+html, body {
+    height: 100%;
+}
+.nova-categoria label,
+.nova-categoria input {
     margin-right: 1em;
+}
+
+#gerenciar-ticket {
+    margin-top: 2em;
 }

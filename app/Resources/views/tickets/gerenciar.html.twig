@@ -3,13 +3,14 @@
 {% block css %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/plugins/iCheck/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}">
 {% endblock %}
 
 {% block titulo %} Editar Ticket {% endblock %}
 {% block subtitulo %}{{ ticket.titulo }}{% endblock %}
 
 {% block conteudo %}
-    <div class="row">
+    <div class="row" id="gerenciar-ticket">
         <div class="col-md-6 col-md-offset-3">
             <div class="box box-primary box-solid">
                 <div class="box-header">
@@ -30,8 +31,13 @@
                         </div>
 
                         <div class="form-group">
-                            {{ form_label(form.previsaoResposta, 'Previsão de Resposta') }}
-                            {{ form_widget(form.previsaoResposta, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_label(form.resposta, 'Previsão de Resposta') }}
+                            <div class='input-group date' id='previsao-resposta'>
+                                {{ form_widget(form.resposta, {'attr': {'class': 'form-control'}}) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     {{ form_end(form) }}
                 </div>
@@ -47,9 +53,16 @@
 {% block js %}
     {{ parent() }}
     <script src="{{ asset('node_modules/admin-lte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('node_modules/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('node_modules/moment/locale/pt-br.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
     <script>
         $('.flat-red').iCheck({
             checkboxClass: 'icheckbox_flat-green'
+        });
+
+        $('#previsao-resposta').datetimepicker({
+            locale: 'pt-br'
         });
     </script>
 {% endblock %}

@@ -237,8 +237,16 @@ class Ticket
      */
     public function setResposta(string $dataHora): self
     {
-        $this->previsaoResposta = new DateTime($dataHora);
+        $this->previsaoResposta = DateTime::createFromFormat('d/m/Y H:i', $dataHora);
         return $this;
+    }
+
+    public function getResposta(): ?string
+    {
+        if (is_null($this->previsaoResposta))
+            return null;
+
+        return $this->previsaoResposta->format('d/m/Y H:i:s');
     }
 
     /**
