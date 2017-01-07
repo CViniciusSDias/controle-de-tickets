@@ -23,30 +23,34 @@ class CategoriasController extends Controller
         $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')
             ->findBy([], ['nome' => 'asc']);
 
-        $categoria = new Categoria();
-        $form = $this->createFormBuilder($categoria)
-            ->add('nome', TextType::class)
-            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-            ->getForm();
+        try {
+            $categoria = new Categoria();
+            $form = $this->createFormBuilder($categoria)
+                ->add('nome', TextType::class)
+                ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
+                ->getForm();
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $categoria = $form->getData();
-            $validador = $this->get('validator');
-            $erros = $validador->validate($categoria);
+            if ($form->isSubmitted()) {
+                $categoria = $form->getData();
+                $validador = $this->get('validator');
+                $erros = $validador->validate($categoria);
 
-            if (count($erros) === 0) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($categoria);
-                $em->flush();
-                $this->addFlash('success', 'Categoria adicionada com sucesso');
-                return $this->redirect($request->getUri());
+                if (count($erros) === 0) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($categoria);
+                    $em->flush();
+                    $this->addFlash('success', 'Categoria adicionada com sucesso');
+                    return $this->redirect($request->getUri());
+                }
+
+                foreach ($erros as $erro) {
+                    $this->addFlash('danger', $erro->getMessage());
+                }
             }
-
-            foreach ($erros as $erro) {
-                $this->addFlash('danger', $erro->getMessage());
-            }
+        } catch (\InvalidArgumentException $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
 
         return $this->render(
