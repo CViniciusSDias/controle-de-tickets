@@ -248,7 +248,7 @@ class Ticket
      *
      * @return \DateTime
      */
-    public function getPrevisaoResposta(): DateTime
+    public function getPrevisaoResposta(): ?DateTime
     {
         return $this->previsaoResposta;
     }
