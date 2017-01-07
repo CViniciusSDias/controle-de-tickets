@@ -11,7 +11,7 @@ trait ModelTrait
         if (method_exists($this, $metodo))
             return $this->$metodo($valor);
 
-        throw new DomainException('Propriedade inválida');
+        throw new DomainException('Propriedade ' . __CLASS__ . "::$propriedade inválida");
     }
 
     public function __get($propriedade)
@@ -20,6 +20,6 @@ trait ModelTrait
         if (method_exists($this, $metodo))
             return $this->$metodo();
 
-        throw new DomainException('Propriedade inválida');
+        throw new DomainException('Propriedade' . __CLASS__ . "::$propriedade inválida");
     }
 }
