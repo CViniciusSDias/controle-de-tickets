@@ -43,8 +43,12 @@
                                 <td>{{ ticket.usuarioCriador.nome }}</td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <td>
-                                    <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default">
-                                        <i class="fa fa-edit"></i>
+                                    <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
+                                      title="Gerenciar Ticket">
+                                        <i class="fa fa-cogs"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-default" title="Assumir Responsabilidade">
+                                        <i class="fa fa-handshake-o"></i>
                                     </a>
                                 </td>
                                 {% endif %}
