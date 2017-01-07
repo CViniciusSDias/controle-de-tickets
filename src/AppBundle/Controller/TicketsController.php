@@ -32,31 +32,33 @@ class TicketsController extends Controller
      */
     public function cadastrarAction(Request $request): Response
     {
-        $ticket = new Ticket();
-        $form = $this->criarForm($ticket);
-        $form->handleRequest($request);
+        try {
+            $ticket = new Ticket();
+            $form = $this->criarForm($ticket);
+            $form->handleRequest($request);
 
-        /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
-        if ($form->isSubmitted()) {
-            $ticket = $form->getData();
-            $validador = $this->get('validator');
-            $erros = $validador->validate($ticket);
+            /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
+            if ($form->isSubmitted()) {
+                $ticket = $form->getData();
+                $validador = $this->get('validator');
+                $erros = $validador->validate($ticket);
 
-            // Se o ticket passar na validação, salva no BD e recarrega a página
-            if (count($erros) === 0) {
-                $em = $this->getDoctrine()->getManager();
-                $ticket->usuarioCriador = $this->getUser();
-                $em->persist($ticket);
-                $em->flush();
+                if (count($erros) > 0) {
+                    $this->adicionaErrosAoEscopoFlash($erros);
+                } else {
+                    // Se o ticket passar na validação, salva no BD e recarrega a página
+                    $em = $this->getDoctrine()->getManager();
+                    $ticket->usuarioCriador = $this->getUser();
+                    $em->persist($ticket);
+                    $em->flush();
 
-                $this->addFlash('success', 'Ticket cadastrado com sucesso');
+                    $this->addFlash('success', 'Ticket cadastrado com sucesso');
 
-                return $this->redirect($request->getUri());
-            } else {
-                foreach ($erros as $erro) {
-                    $this->addFlash('danger', $erro->getMessage());
+                    return $this->redirect($request->getUri());
                 }
             }
+        } catch (\InvalidArgumentException $e) {
+            $this->adicionaErrosAoEscopoFlash(array($e));
         }
 
         return $this->render('tickets/cadastrar.html.twig', [
@@ -80,35 +82,45 @@ class TicketsController extends Controller
      */
     public function gerenciarAction(Request $request, int $id): Response
     {
-        $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
-        $form = $this->createFormBuilder($ticket)
-            ->add('aberto', CheckboxType::class, ['required' => false])
-            ->add('prioridade', IntegerType::class)
-            ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-            ->getForm();
-        $form->handleRequest($request);
+        try {
+            $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
+            $form = $this->createFormBuilder($ticket)
+                ->add('aberto', CheckboxType::class, ['required' => false])
+                ->add('prioridade', IntegerType::class)
+                ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
+                ->getForm();
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $ticket = $form->getData();
-            $validador = $this->get('validator');
-            $erros = $validador->validate($ticket);
+            if ($form->isSubmitted()) {
+                $ticket = $form->getData();
+                $validador = $this->get('validator');
+                $erros = $validador->validate($ticket);
 
-            if (count($erros) === 0) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($ticket);
-                $em->flush();
+                if (count($erros) > 0) {
+                    $this->adicionaErrosAoEscopoFlash($erros);
+                } else {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($ticket);
+                    $em->flush();
 
-                $this->addFlash('success', 'Ticket alterado com sucesso');
+                    $this->addFlash('success', 'Ticket alterado com sucesso');
 
-                return $this->redirect($request->getUri());
-            } else {
-                foreach ($erros as $erro) {
-                    $this->addFlash('danger', $erro->getMessage());
+                    return $this->redirect($request->getUri());
                 }
             }
+        } catch (\InvalidArgumentException $e) {
+            // Caso haja erros de validação nas entidades
+            $this->adicionaErrosAoEscopoFlash(array($e));
         }
 
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
+    }
+
+    private function adicionaErrosAoEscopoFlash(array $erros)
+    {
+        foreach ($erros as $erro) {
+            $this->addFlash('danger', $erro->getMessage());
+        }
     }
 
     /**
