@@ -143,7 +143,7 @@ class Usuario implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getNome(): string
+    public function getNome(): ?string
     {
         return $this->nome;
     }
@@ -169,7 +169,7 @@ class Usuario implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -223,7 +223,7 @@ class Usuario implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getSenha()
+    public function getSenha(): ?string
     {
         return $this->senha;
     }
