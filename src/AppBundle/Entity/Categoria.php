@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use InvalidArgumentException;
 
 /**
  * Categoria
@@ -36,7 +37,7 @@ class Categoria
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -48,8 +49,11 @@ class Categoria
      *
      * @return Categoria
      */
-    public function setNome($nome)
+    public function setNome(string $nome): self
     {
+        if ($nome < 5)
+            throw new InvalidArgumentException('O nome deve conter pelo menos 5 caracteres');
+
         $this->nome = $nome;
 
         return $this;
@@ -60,9 +64,8 @@ class Categoria
      *
      * @return string
      */
-    public function getNome()
+    public function getNome(): string
     {
         return $this->nome;
     }
 }
-
