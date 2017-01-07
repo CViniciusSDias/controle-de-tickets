@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use InvalidArgumentException;
+use DateTime;
 
 /**
  * Usuario
@@ -58,6 +59,17 @@ class Usuario implements UserInterface, \Serializable
      */
     private $tipo;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="data_cadastro", type="datetime")
+     */
+    private $dataCadastro;
+
+    public function __construct()
+    {
+        $this->dataCadastro = new DateTime();
+    }
+
     public function getRoles()
     {
         return array($this->tipo);
@@ -79,7 +91,9 @@ class Usuario implements UserInterface, \Serializable
     }
 
     public function eraseCredentials()
-    {}
+    {
+        $this->senha = '';
+    }
 
     /** @see \Serializable::serialize() */
     public function serialize()
@@ -193,5 +207,38 @@ class Usuario implements UserInterface, \Serializable
     public function getTipo(): string
     {
         return $this->tipo;
+    }
+
+    /**
+     * Get senha
+     *
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * Set dataCadastro
+     *
+     * @param \DateTime $dataCadastro
+     * @return Usuario
+     */
+    public function setDataCadastro(DateTime $dataCadastro): self
+    {
+        $this->dataCadastro = $dataCadastro;
+
+        return $this;
+    }
+
+    /**
+     * Get dataCadastro
+     *
+     * @return \DateTime
+     */
+    public function getDataCadastro(): DateTime
+    {
+        return $this->dataCadastro;
     }
 }
