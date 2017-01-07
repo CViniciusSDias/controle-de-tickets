@@ -210,6 +210,7 @@ class Usuario implements UserInterface, \Serializable
     public function getTipo(): string
     {
         $tipos = [
+            '' => '',
             'ROLE_USER' => 'Usuário',
             'ROLE_ADMIN' => 'Suporte',
             'ROLE_SUPER_ADMIN' => 'Administrador'

@@ -27,6 +27,11 @@
                         {{ form_label(form.senha, 'Senha') }}
                         {{ form_widget(form.senha, {'attr': {'class': 'form-control'}}) }}
                     </div>
+
+                    <div class="form-group">
+                        {{ form_label(form.tipo, 'Tipo') }}
+                        {{ form_widget(form.tipo, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
                 <div class="box-footer">
                     {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}

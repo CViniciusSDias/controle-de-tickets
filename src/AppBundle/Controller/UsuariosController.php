@@ -5,7 +5,7 @@ use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\{
-    EmailType, PasswordType, SubmitType, TextType
+    ChoiceType, EmailType, PasswordType, SubmitType, TextType
 };
 use Symfony\Component\HttpFoundation\{Request, Response};
 
@@ -34,6 +34,14 @@ class UsuariosController extends Controller
             ->add('email', EmailType::class)
             ->add('senha', PasswordType::class)
             ->add('salvar', SubmitType::class)
+            ->add('tipo', ChoiceType::class, [
+                'choices' => [
+                    'Tipo' => '',
+                    'Usuário' => 'ROLE_USER',
+                    'Suporte' => 'ROLE_ADMIN',
+                    'Administrador' => 'ROLE_SUPER_ADMIN'
+                ]
+            ])
             ->getForm();
         $form->handleRequest($request);
 
