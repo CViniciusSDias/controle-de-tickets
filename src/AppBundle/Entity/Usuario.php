@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use InvalidArgumentException;
 
 /**
  * Usuario
@@ -58,11 +58,6 @@ class Usuario implements UserInterface, \Serializable
      */
     private $tipo;
 
-    public function __construct()
-    {
-        $this->grupos = new ArrayCollection();
-    }
-
     public function getRoles()
     {
         return array($this->tipo);
@@ -102,5 +97,101 @@ class Usuario implements UserInterface, \Serializable
     {
         list ($this->id, $this->email, $this->senha, $this->nome) = unserialize($serialized);
     }
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nome
+     *
+     * @param string $nome
+     * @return Usuario
+     */
+    public function setNome(string $nome): self
+    {
+        $this->nome = $nome;
+
+        return $this;
+    }
+
+    /**
+     * Get nome
+     *
+     * @return string
+     */
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Usuario
+     */
+    public function setEmail(string $email): self
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+            throw new InvalidArgumentException('E-mail inválido');
+
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set senha
+     *
+     * @param string $senha
+     * @return Usuario
+     */
+    public function setSenha(string $senha): self
+    {
+        $this->senha = $senha;
+
+        return $this;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return Usuario
+     */
+    public function setTipo(string $tipo): self
+    {
+        if (!in_array($tipo, array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')))
+            throw new InvalidArgumentException('Tipo inválido. Deve ser ROLE_USER, ROLE_ADMIN ou ROLE_SUPER_ADMIN');
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string
+     */
+    public function getTipo(): string
+    {
+        return $this->tipo;
+    }
+}
