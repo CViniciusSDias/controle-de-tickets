@@ -31,6 +31,11 @@ class Categoria
      */
     private $nome;
 
+    public function __construct()
+    {
+        $this->nome = '';
+    }
+
 
     /**
      * Get id

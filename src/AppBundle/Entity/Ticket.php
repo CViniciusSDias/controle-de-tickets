@@ -93,6 +93,9 @@ class Ticket
         $this->aberto = true;
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
+        $this->titulo = '';
+        $this->descricao = '';
+        $this->categoria = new Categoria();
     }
 
     public function getStatus(): string
