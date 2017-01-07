@@ -106,7 +106,10 @@ class Usuario implements UserInterface, \Serializable
         ));
     }
 
-    /** @see \Serializable::unserialize() */
+    /**
+     * @see \Serializable::unserialize()
+     * @param string $serialized String serializada contendo as informações do usuário
+     */
     public function unserialize($serialized)
     {
         list ($this->id, $this->email, $this->senha, $this->nome) = unserialize($serialized);
