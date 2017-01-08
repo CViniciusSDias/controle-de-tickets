@@ -73,24 +73,43 @@
                     <ul class="treeview-menu">
                         <li>
                             <a href="{{ path('cadastrar_ticket') }}">
-                                <i class="fa fa-plus-circle"></i> <span>Abrir Ticket</span>
+                                <i class="fa fa-plus-circle"></i>
+                                <span>Abrir Ticket</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('listar_tickets') }}">
-                                <i class="fa fa-list"></i> <span>Visualizar Tickets</span>
+                                <i class="fa fa-list"></i>
+                                <span>Visualizar Tickets</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>Gerenciar Usuários</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{ path('cadastrar_usuario') }}">
+                                <i class="fa fa-user-plus"></i>
+                                <span>Cadastrar Usuário</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listar_usuarios') }}">
+                                <i class="fa fa-list"></i>
+                                <span>Visualizar Usuários</span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ path('listar_usuarios') }}">
-                        <i class="fa fa-user"></i> <span>Gerenciar Usuários</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ path('listar_categorias') }}">
-                        <i class="fa fa-list-alt"></i> <span>Gerenciar Categorias</span>
+                        <i class="fa fa-list-alt"></i>
+                        <span>Gerenciar Categorias</span>
                     </a>
                 </li>
             </ul>
