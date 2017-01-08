@@ -55,7 +55,7 @@ class Usuario implements UserInterface, \Serializable
      *     type="string",
      *     columnDefinition="ENUM('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"
      * )
-     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, strict=true)
      */
     private $tipo;
 
@@ -91,9 +91,7 @@ class Usuario implements UserInterface, \Serializable
     }
 
     public function eraseCredentials()
-    {
-        $this->senha = '';
-    }
+    {}
 
     /** @see \Serializable::serialize() */
     public function serialize()
