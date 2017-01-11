@@ -2,7 +2,6 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\{Ticket, Usuario};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -67,6 +66,21 @@ class TicketsController extends Controller
     }
 
     /**
+     * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
+     * @return Response
+     */
+    public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ticket->setAtendenteResponsavel($this->getUser());
+        $em->persist($ticket);
+        $em->flush();
+
+        $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
      * @Route("/tickets", name="listar_tickets")
      * @return Response
      */
@@ -100,21 +114,6 @@ class TicketsController extends Controller
     }
 
     /**
-     * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
-     * @return Response
-     */
-    public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $ticket->setAtendenteResponsavel($this->getUser());
-        $em->persist($ticket);
-        $em->flush();
-
-        $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
-        return $this->redirect($request->headers->get('referer'));
-    }
-
-    /**
      * @Route("/tickets/meus", name="listar_tickets_atendente")
      * @return Response
      */
@@ -138,6 +137,7 @@ class TicketsController extends Controller
 
     /**
      * @Route("/tickets/{id}", name="gerenciar_ticket")
+     * @return Response
      */
     public function gerenciarAction(Request $request, int $id): Response
     {
