@@ -163,7 +163,6 @@ class TicketsController extends Controller
                     $em->flush();
 
                     $this->addFlash('success', 'Ticket alterado com sucesso');
-
                     return $this->redirect($request->getUri());
                 }
 
@@ -171,7 +170,7 @@ class TicketsController extends Controller
             }
         } catch (\InvalidArgumentException $e) {
             // Caso haja erros de validação nas entidades
-            $this->adicionaErrosAoEscopoFlash(array($e));
+            $this->adicionaErrosAoEscopoFlash([$e]);
         }
 
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
