@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @inheritdoc
+     */
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        if (is_null($orderBy))
+            $orderBy = ['dataHora' => 'desc'];
+        return parent::findBy($criteria, $orderBy, $limit, $offset);
+    }
 }
