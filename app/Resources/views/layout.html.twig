@@ -61,6 +61,7 @@
                 </div>
             </nav>
         </header>
+
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
@@ -79,37 +80,41 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('meus_tickets') }}">
-                                <i class="fa fa-list"></i>
-                                <span>Tickets abertos por mim</span>
-                            </a>
-                        </li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <li>
-                            <a href="{{ path('listar_tickets') }}">
+                            <a href="#">
                                 <i class="fa fa-list"></i>
                                 <span>Visualizar Tickets</span>
+                                <i class="fa fa-angle-left pull-right"></i>
                             </a>
+                            <ul class="treeview-menu">
+                                <li>
+                                    <a href="{{ path('meus_tickets') }}">
+                                        <span>Tickets abertos por mim</span>
+                                    </a>
+                                </li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a href="{{ path('listar_tickets') }}">
+                                            <span>Todos os Tickets</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listar_tickets_abertos') }}">
+                                            <span>Tickets Abertos</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listar_tickets_fechados') }}">
+                                            <span>Tickets Fechados</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listar_tickets_atendente') }}">
+                                            <span>Sob Minha Responsabilidade</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
                         </li>
-                        <li>
-                            <a href="{{ path('listar_tickets_abertos') }}">
-                                <i class="fa fa-list"></i>
-                                <span>Visualizar Tickets Abertos</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('listar_tickets_fechados') }}">
-                                <i class="fa fa-list"></i>
-                                <span>Visualizar Tickets Fechados</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('listar_tickets_atendente') }}">
-                                <i class="fa fa-list"></i>
-                                <span>Sob Minha Responsabilidade</span>
-                            </a>
-                        </li>
-                        {% endif %}
                     </ul>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -183,7 +188,7 @@
     <script src="{{ asset('node_modules/admin-lte/plugins/fastclick/fastclick.min.js') }}"></script>
     <script>
         /* Faz com que o menu multinivel funcione */
-        $('.treeview > a').on('click', e => {
+        $('.treeview a[href="#"]').on('click', e => {
             e.preventDefault();
             $(e.currentTarget).parent().toggleClass('active');
         });
