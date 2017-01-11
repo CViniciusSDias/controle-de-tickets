@@ -1,10 +1,5 @@
 {% extends 'layout.html.twig' %}
 
-{% block css %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.css') }}">
-{% endblock %}
-
 {% block titulo %}Tickets{% endblock %}
 
 {% block conteudo %}
@@ -12,7 +7,7 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div id="tabela-tickets">
-                    <table class="table table-bordered table-striped">
+                    <table class="data-table table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -60,18 +55,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block js %}
-    {{ parent() }}
-    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
-    <script>
-        $('#tabela-tickets table').DataTable({
-            "order": [
-                [4, "desc"],
-                [1, "asc"]
-            ]
-        });
-    </script>
 {% endblock %}

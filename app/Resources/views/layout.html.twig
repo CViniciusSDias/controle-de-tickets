@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/dist/css/skins/skin-black.css') }}">
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.css') }}">
     {% endblock %}
 </head>
 <body class="skin-black sidebar-mini">
@@ -186,11 +187,18 @@
     <script src="{{ asset('node_modules/admin-lte/dist/js/app.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/plugins/fastclick/fastclick.min.js') }}"></script>
+    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
     <script>
         /* Faz com que o menu multinivel funcione */
         $('.treeview a[href="#"]').on('click', e => {
             e.preventDefault();
             $(e.currentTarget).parent().toggleClass('active');
+        });
+
+        $('.data-table').DataTable({
+            "aaSorting": []
         });
     </script>
     {% endblock %}
