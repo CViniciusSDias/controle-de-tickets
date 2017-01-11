@@ -156,6 +156,7 @@
     <script src="{{ asset('node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('node_modules/admin-lte/plugins/fastclick/fastclick.min.js') }}"></script>
     <script>
+        /* Faz com que o menu multinivel funcione */
         $('.treeview > a').on('click', e => {
             e.preventDefault();
             $(e.currentTarget).parent().toggleClass('active');
