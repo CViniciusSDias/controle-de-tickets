@@ -64,7 +64,8 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
-                <li class="treeview">
+
+                <li class="treeview {{ not is_granted('ROLE_ADMIN') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-ticket"></i>
                         <span>Gerenciar Tickets</span>
@@ -85,6 +86,7 @@
                         </li>
                     </ul>
                 </li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-users"></i>
@@ -106,12 +108,15 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{ path('listar_categorias') }}">
                         <i class="fa fa-list-alt"></i>
                         <span>Gerenciar Categorias</span>
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </aside>
         <section class="content-wrapper">
