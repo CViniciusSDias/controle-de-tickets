@@ -78,6 +78,54 @@ class TicketsController extends Controller
     }
 
     /**
+     * @Route("/tickets/abertos", name="listar_tickets_abertos")
+     * @return Response
+     */
+    public function listarAbertosAction(): Response
+    {
+        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
+            ->findBy(['aberto' => true]);
+        return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
+    }
+
+    /**
+     * @Route("/tickets/fechados", name="listar_tickets_fechados")
+     * @return Response
+     */
+    public function listarFechadosAction(): Response
+    {
+        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
+            ->findBy(['aberto' => false]);
+        return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
+    }
+
+    /**
+     * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
+     * @return Response
+     */
+    public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ticket->setAtendenteResponsavel($this->getUser());
+        $em->persist($ticket);
+        $em->flush();
+
+        $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @Route("/tickets/meus", name="listar_tickets_atendente")
+     * @return Response
+     */
+    public function listarTicketsDoAtendenteAction(): Response
+    {
+        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
+            ->findBy(['atendenteResponsavel' => $this->getUser()]);
+        return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
+    }
+
+    /**
      * @Route("/tickets/{id}", name="gerenciar_ticket")
      */
     public function gerenciarAction(Request $request, int $id): Response

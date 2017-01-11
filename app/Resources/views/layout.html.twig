@@ -84,6 +84,24 @@
                                 <span>Visualizar Tickets</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ path('listar_tickets_abertos') }}">
+                                <i class="fa fa-list"></i>
+                                <span>Visualizar Tickets Abertos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listar_tickets_fechados') }}">
+                                <i class="fa fa-list"></i>
+                                <span>Visualizar Tickets Fechados</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listar_tickets_atendente') }}">
+                                <i class="fa fa-list"></i>
+                                <span>Sob Minha Responsabilidade</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
