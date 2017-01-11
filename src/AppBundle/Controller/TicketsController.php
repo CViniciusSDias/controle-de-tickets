@@ -157,9 +157,7 @@ class TicketsController extends Controller
                 $validador = $this->get('validator');
                 $erros = $validador->validate($ticket);
 
-                if (count($erros) > 0) {
-                    $this->adicionaErrosAoEscopoFlash($erros);
-                } else {
+                if (count($erros) === 0) {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($ticket);
                     $em->flush();
@@ -168,6 +166,8 @@ class TicketsController extends Controller
 
                     return $this->redirect($request->getUri());
                 }
+
+                $this->adicionaErrosAoEscopoFlash($erros);
             }
         } catch (\InvalidArgumentException $e) {
             // Caso haja erros de validação nas entidades
