@@ -126,6 +126,17 @@ class TicketsController extends Controller
     }
 
     /**
+     * @Route("/tickets/usuario", name="meus_tickets")
+     * @return Response
+     */
+    public function listarTicketsAbertosPeloUsuario(): Response
+    {
+        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
+            ->findBy(['usuarioCriador' => $this->getUser()]);
+        return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
+    }
+
+    /**
      * @Route("/tickets/{id}", name="gerenciar_ticket")
      */
     public function gerenciarAction(Request $request, int $id): Response

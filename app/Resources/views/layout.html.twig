@@ -79,6 +79,13 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ path('meus_tickets') }}">
+                                <i class="fa fa-list"></i>
+                                <span>Tickets abertos por mim</span>
+                            </a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li>
                             <a href="{{ path('listar_tickets') }}">
                                 <i class="fa fa-list"></i>
                                 <span>Visualizar Tickets</span>
@@ -102,6 +109,7 @@
                                 <span>Sob Minha Responsabilidade</span>
                             </a>
                         </li>
+                        {% endif %}
                     </ul>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
