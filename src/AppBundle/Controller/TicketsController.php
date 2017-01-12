@@ -3,14 +3,9 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Ticket;
-use AppBundle\Forms\CriarTicketType;
-use AppBundle\Forms\GerenciarTicketType;
+use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\Extension\Core\Type\{
-    CheckboxType, IntegerType, SubmitType, TextType
-};
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 class TicketsController extends Controller
@@ -41,8 +36,7 @@ class TicketsController extends Controller
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
             if ($form->isSubmitted()) {
                 $ticket = $form->getData();
-                $validador = $this->get('validator');
-                $erros = $validador->validate($ticket);
+                $erros = $this->get('validator')->validate($ticket);
 
                 if (count($erros) > 0) {
                     $this->adicionaErrosAoEscopoFlash($erros);
