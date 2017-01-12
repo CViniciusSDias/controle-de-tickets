@@ -3,12 +3,12 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Ticket;
+use AppBundle\Forms\CriarTicketType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\{
-    CheckboxType, IntegerType, SubmitType, TextareaType, TextType
+    CheckboxType, IntegerType, SubmitType, TextType
 };
 use Symfony\Component\HttpFoundation\{Request, Response};
 
@@ -32,9 +32,9 @@ class TicketsController extends Controller
      */
     public function cadastrarAction(Request $request): Response
     {
+        $ticket = new Ticket();
+        $form = $this->criarForm($ticket);
         try {
-            $ticket = new Ticket();
-            $form = $this->criarForm($ticket);
             $form->handleRequest($request);
 
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
@@ -191,14 +191,6 @@ class TicketsController extends Controller
      */
     private function criarForm(Ticket $ticket): FormInterface
     {
-        return $this->createFormBuilder($ticket)
-            ->add('titulo', TextType::class)
-            ->add('descricao', TextareaType::class, ['required' => false])
-            ->add('categoria', EntityType::class, [
-                'class' => 'AppBundle:Categoria',
-                'choice_label' => 'nome',
-                'placeholder' => 'Selecione'
-            ])->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-            ->getForm();
+        return $this->createForm(CriarTicketType::class, $ticket);
     }
 }

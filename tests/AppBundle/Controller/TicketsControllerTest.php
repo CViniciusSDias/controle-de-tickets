@@ -20,9 +20,9 @@ class TicketsControllerTest extends WebTestCase
     public function testAbrirTicketComTituloComMenosDe8Caracteres()
     {
         $crawler = static::$cliente->request('GET', '/tickets/novo');
-        $form = $crawler->selectButton('form[salvar]')->form();
-        $form['form[titulo]'] = 'titulo';
-        $form['form[categoria]'] = 1;
+        $form = $crawler->selectButton('criar_ticket[salvar]')->form();
+        $form['criar_ticket[titulo]'] = 'titulo';
+        $form['criar_ticket[categoria]'] = 1;
         $crawler = static::$cliente->submit($form);
 
         $this->assertGreaterThan(
