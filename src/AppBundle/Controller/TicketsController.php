@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\Ticket;
 use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -166,7 +165,10 @@ class TicketsController extends Controller
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
     }
 
-    private function adicionaErrosAoEscopoFlash(array $erros)
+    /**
+     * @param array $erros Array contendo os erros a serem adicionados ao escopo flash
+     */
+    private function adicionaErrosAoEscopoFlash(array $erros): void
     {
         foreach ($erros as $erro) {
             $this->addFlash('danger', $erro->getMessage());
