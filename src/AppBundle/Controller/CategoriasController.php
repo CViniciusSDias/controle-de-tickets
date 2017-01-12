@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Categoria;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -65,10 +66,14 @@ class CategoriasController extends Controller
         $idCategoria = $request->request->get('id');
         $em = $this->getDoctrine()->getManager();
         $categoria = $em->getPartialReference(Categoria::class, ['id' => $idCategoria]);
-        $em->remove($categoria);
-        $em->flush();
+        try {
+            $em->remove($categoria);
+            $em->flush();
 
-        $this->addFlash('success', 'Categoria removida com sucesso');
+            $this->addFlash('success', 'Categoria removida com sucesso');
+        } catch (ForeignKeyConstraintViolationException $e) {
+            $this->addFlash('danger', 'A categoria selecionada possui tickets relacionados a ela.');
+        }
 
         return $this->redirectToRoute('listar_categorias');
     }
