@@ -48,9 +48,9 @@ class TicketsControllerTest extends WebTestCase
         $link = $crawler->filter('tbody tr:first-child a')->link();
 
         $crawler = static::$cliente->request('GET', $link->getUri());
-        $form = $crawler->selectButton('form[salvar]')->form();
+        $form = $crawler->selectButton('gerenciar_ticket[salvar]')->form();
 
-        $form['form[prioridade]'] = $prioridade;
+        $form['gerenciar_ticket[prioridade]'] = $prioridade;
         $crawler = static::$cliente->submit($form);
 
 

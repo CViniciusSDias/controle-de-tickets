@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Ticket;
 use AppBundle\Forms\CriarTicketType;
+use AppBundle\Forms\GerenciarTicketType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormInterface;
@@ -144,12 +145,7 @@ class TicketsController extends Controller
     {
         try {
             $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
-            $form = $this->createFormBuilder($ticket)
-                ->add('aberto', CheckboxType::class, ['required' => false])
-                ->add('prioridade', IntegerType::class)
-                ->add('resposta', TextType::class)
-                ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-                ->getForm();
+            $form = $this->createForm(GerenciarTicketType::class, $ticket);
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
