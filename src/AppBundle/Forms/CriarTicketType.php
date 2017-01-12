@@ -12,7 +12,6 @@ class CriarTicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder
             ->add('titulo', TextType::class)
             ->add('descricao', TextareaType::class, ['required' => false])

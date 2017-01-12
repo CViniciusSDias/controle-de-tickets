@@ -32,8 +32,8 @@ class TicketsController extends Controller
      */
     public function cadastrarAction(Request $request): Response
     {
-        $ticket = new Ticket();
-        $form = $this->criarForm($ticket);
+        $form = $this->createForm(CriarTicketType::class, new Ticket());
+
         try {
             $form->handleRequest($request);
 
@@ -181,16 +181,5 @@ class TicketsController extends Controller
         foreach ($erros as $erro) {
             $this->addFlash('danger', $erro->getMessage());
         }
-    }
-
-    /**
-     * Factory Method do formulário para inserção de ticket
-     *
-     * @param Ticket $ticket
-     * @return FormInterface
-     */
-    private function criarForm(Ticket $ticket): FormInterface
-    {
-        return $this->createForm(CriarTicketType::class, $ticket);
     }
 }
