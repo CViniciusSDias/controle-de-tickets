@@ -36,8 +36,8 @@ class CategoriasControllerTest extends WebTestCase
     {
         $this->login();
         $crawler = $this->client->request('GET', '/categorias');
-        $form = $crawler->selectButton('form[salvar]')->form();
-        $form['form[nome]'] = 'a';
+        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
+        $form['criar_categoria[nome]'] = 'a';
         $crawler = $this->client->submit($form);
         $this->assertGreaterThan(
             0,

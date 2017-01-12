@@ -22,14 +22,9 @@ class CategoriasController extends Controller
     {
         $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')
             ->findBy([], ['nome' => 'asc']);
+        $form = $this->createForm(CriarCategoriaType::class, new Categoria());
 
         try {
-            $categoria = new Categoria();
-            $form = $this->createFormBuilder($categoria)
-                ->add('nome', TextType::class)
-                ->add('salvar', SubmitType::class, ['label' => 'Salvar'])
-                ->getForm();
-
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
