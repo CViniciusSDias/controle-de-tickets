@@ -30,11 +30,11 @@ class UsuariosControllerTest extends WebTestCase
     {
         $crawler = static::$cliente->request('GET', '/usuarios/novo');
 
-        $form = $crawler->selectButton('form[salvar]')->form();
-        $form['form[nome]']  = 'Nome usuário';
-        $form['form[email]'] = 'email inválido';
-        $form['form[senha]'] = 'Senha usuário';
-        $form['form[tipo]']  = 'ROLE_USER';
+        $form = $crawler->selectButton('criar_usuario[salvar]')->form();
+        $form['criar_usuario[nome]']  = 'Nome usuário';
+        $form['criar_usuario[email]'] = 'email inválido';
+        $form['criar_usuario[senha]'] = 'Senha usuário';
+        $form['criar_usuario[tipo]']  = 'ROLE_USER';
 
         $crawler = static::$cliente->submit($form);
         $this->assertEquals(
@@ -51,11 +51,11 @@ class UsuariosControllerTest extends WebTestCase
     {
         $crawler = static::$cliente->request('GET', '/usuarios/novo');
 
-        $form = $crawler->selectButton('form[salvar]')->form();
-        $form['form[nome]']  = 'Nome usuário';
-        $form['form[email]'] = 'email@valido.com';
-        $form['form[senha]'] = 'Senha usuário';
-        $form['form[tipo]']  = 'tipo inválido';
+        $form = $crawler->selectButton('criar_usuario[salvar]')->form();
+        $form['criar_usuario[nome]']  = 'Nome usuário';
+        $form['criar_usuario[email]'] = 'email@valido.com';
+        $form['criar_usuario[senha]'] = 'Senha usuário';
+        $form['criar_usuario[tipo]']  = 'tipo inválido';
 
         // Deve lançar uma exceção, pois o tipo é inválido
         static::$cliente->submit($form);
