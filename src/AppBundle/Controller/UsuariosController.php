@@ -5,9 +5,6 @@ use AppBundle\Entity\Usuario;
 use AppBundle\Forms\CriarUsuarioType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, EmailType, PasswordType, SubmitType, TextType
-};
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 class UsuariosController extends Controller
