@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
+    <property name="srcDir" value="src" />
+
+    <target name="build" depends="test,phpmd">
+        <echo msg="Build" />
+    </target>
+
+    <target name="test">
+        <phpunit printsummary="true" haltonfailure="true" configuration="phpunit.xml.dist"
+             pharlocation="/usr/local/bin/phpunit">
+            <batchtest>
+                <fileset dir="./tests">
+                    <include name="**/**/*Test.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+    </target>
+
+    <target name="phpmd">
+        <phpmd rulesets="cleancode,codesize,controversial,design,naming,unusedcode">
+            <fileset dir="${srcDir}">
+                <include name="AppBundle/**/*.php" />
+                <exclude name="AppBundle/Entity/*.php" /> <!-- Null return type do PHP 7.1 ainda não suportado -->
+            </fileset>
+
+            <formatter type="html" outfile="docs/pmd.html"/>
+        </phpmd>
+    </target>
+</project>

@@ -32,7 +32,11 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "phing/phing": "*",
+        "phpmd/phpmd" : "@stable",
+        "squizlabs/php_codesniffer": "2.*",
+        "sebastian/phpcpd": "*"
     },
     "scripts": {
         "symfony-scripts": [
