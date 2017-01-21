@@ -2,7 +2,7 @@
 <project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
     <property name="srcDir" value="src" />
 
-    <target name="build" depends="test,phpmd">
+    <target name="build" depends="test,phpmd,phpcs">
         <echo msg="Build" />
     </target>
 
@@ -26,5 +26,14 @@
 
             <formatter type="html" outfile="docs/pmd.html"/>
         </phpmd>
+    </target>
+
+    <target name="phpcs">
+        <phpcodesniffer standard="PSR2">
+            <fileset dir="${srcDir}">
+                <include name="AppBundle/**/*.php" />
+            </fileset>
+            <formatter type="full" outfile="docs/phpcs" />
+        </phpcodesniffer>
     </target>
 </project>

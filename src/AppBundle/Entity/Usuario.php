@@ -91,7 +91,8 @@ class Usuario implements UserInterface, \Serializable
     }
 
     public function eraseCredentials()
-    {}
+    {
+    }
 
     /** @see \Serializable::serialize() */
     public function serialize()
@@ -154,8 +155,9 @@ class Usuario implements UserInterface, \Serializable
      */
     public function setEmail(string $email): self
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('E-mail inválido');
+        }
 
         $this->email = $email;
 
@@ -193,8 +195,9 @@ class Usuario implements UserInterface, \Serializable
      */
     public function setTipo(string $tipo): self
     {
-        if (!in_array($tipo, array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')))
+        if (!in_array($tipo, array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))) {
             throw new InvalidArgumentException('Tipo inválido. Deve ser ROLE_USER, ROLE_ADMIN ou ROLE_SUPER_ADMIN');
+        }
         $this->tipo = $tipo;
 
         return $this;

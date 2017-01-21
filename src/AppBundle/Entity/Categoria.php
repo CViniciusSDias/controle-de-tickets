@@ -50,8 +50,9 @@ class Categoria
      */
     public function setNome(string $nome): self
     {
-        if (strlen($nome) < 5)
+        if (strlen($nome) < 5) {
             throw new InvalidArgumentException('O nome deve conter pelo menos 5 caracteres');
+        }
 
         $this->nome = $nome;
 

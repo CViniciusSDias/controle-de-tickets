@@ -118,8 +118,9 @@ class Ticket
      */
     public function setTitulo(string $titulo): self
     {
-        if (strlen($titulo) < 8)
+        if (strlen($titulo) < 8) {
             throw new \InvalidArgumentException('O título deve conter pelo menos 8 caracteres');
+        }
 
         $this->titulo = $titulo;
 
@@ -189,8 +190,9 @@ class Ticket
      */
     public function setPrioridade(int $prioridade): self
     {
-        if ($prioridade < 0 || $prioridade > 5)
+        if ($prioridade < 0 || $prioridade > 5) {
             throw new InvalidArgumentException('A prioridade deve ser entre 0 e 5');
+        }
 
         $this->prioridade = $prioridade;
 
@@ -243,8 +245,9 @@ class Ticket
 
     public function getResposta(): ?string
     {
-        if (is_null($this->previsaoResposta))
+        if (is_null($this->previsaoResposta)) {
             return null;
+        }
 
         return $this->previsaoResposta->format('d/m/Y H:i:s');
     }
