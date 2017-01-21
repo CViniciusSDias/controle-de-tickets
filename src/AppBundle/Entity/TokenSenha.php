@@ -13,6 +13,8 @@ use DateTime;
  */
 class TokenSenha
 {
+    use ModelTrait;
+
     /**
      * @var int
      *
@@ -42,6 +44,18 @@ class TokenSenha
      * @ORM\ManyToOne(targetEntity="Usuario")
      */
     private $usuario;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="ativo", type="boolean")
+     */
+    private $ativo;
+
+    public function __construct()
+    {
+        $this->ativo = true;
+    }
 
 
     /**
@@ -100,6 +114,36 @@ class TokenSenha
     public function getExpiracao(): ?DateTime
     {
         return $this->expiracao;
+    }
+
+    /**
+     * Desativa o token
+     */
+    public function desativar(): void
+    {
+        $this->ativo = false;
+    }
+
+    /**
+     * Verifica se o token ainda está ativo
+     *
+     * @return bool
+     */
+    public function isAtivo(): bool
+    {
+        return $this->expiracao->getTimestamp() < (new DateTime())->getTimestamp() && $this->ativo;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param Usuario $usuario
+     * @return TokenSenha
+     */
+    public function setUsuario(Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+        return $this;
     }
 }
 

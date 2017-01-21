@@ -1,0 +1,16 @@
+{% extends 'seguranca/layout.html.twig' %}
+
+{% block conteudo %}
+    <div class="login-box-body">
+        <p class="login-box-msg">Digite seu e-mail</p>
+
+        <form action="{{ path('enviar-recuperacao') }}" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" class="form-control" placeholder="Email" name="email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Recuperar Senha</button>
+        </form>
+    </div>
+{% endblock %}

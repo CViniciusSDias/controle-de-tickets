@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -25,31 +25,16 @@
             <b>ZER0</b> Tickets
         </div>
 
-        <div class="login-box-body">
-            <p class="login-box-msg">Faça login para começar</p>
-
-            {% if erro %}
-            <div class="callout callout-danger">
-                {{ erro.messageKey|trans(erro.messageData, 'security') }}
-            </div>
-            {% endif %}
-
-            <form action="{{ 'login' }}" method="post">
-                <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email" name="_username">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" name="_password">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
-            </form>
-
-            <br>
-            <a href="#">Esqueci minha senha</a><br>
-        </div>
+        {% if app.request.hasPreviousSession %}
+            {% for tipo, mensagens in app.session.flashBag.all() %}
+                {% for msg in mensagens %}
+                    <div class="callout callout-{{ tipo }}">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% block conteudo %}{% endblock %}
     </div>
 
     {% block js %}

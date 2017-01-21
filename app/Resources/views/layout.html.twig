@@ -160,16 +160,19 @@
             </header>
 
             <article class="content">
-                {% if app.session.flashBag.peek('danger') %}
-                    {% set temErro = true %}
-                {% endif %}
-                {% for tipo, mensagens in app.session.flashBag.all() %}
-                    {% for msg in mensagens %}
-                    <div class="callout callout-{{ tipo }}">
-                        {{ msg }}
-                    </div>
+                {% if app.request.hasPreviousSession %}
+                    {% if app.session.flashBag.peek('danger') %}
+                        {% set temErro = true %}
+                    {% endif %}
+
+                    {% for tipo, mensagens in app.session.flashBag.all() %}
+                        {% for msg in mensagens %}
+                        <div class="callout callout-{{ tipo }}">
+                            {{ msg }}
+                        </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                {% endif %}
                 {% block conteudo %}{% endblock %}
             </article>
         </section>
