@@ -27,7 +27,7 @@
                 <exclude name="AppBundle/Entity/*.php" /> <!-- Null return type do PHP 7.1 ainda não suportado -->
             </fileset>
 
-            <formatter type="html" outfile="docs/pmd.html"/>
+            <formatter type="text" outfile="docs/pmd.txt"/>
         </phpmd>
     </target>
 

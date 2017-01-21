@@ -16,3 +16,4 @@
 /web/bundles/
 /web/node_modules/*
 /.idea/*
+/docs/*
