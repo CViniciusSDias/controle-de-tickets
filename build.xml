@@ -2,7 +2,7 @@
 <project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
     <property name="srcDir" value="src" />
 
-    <target name="build" depends="lint,test,phpmd,phpcs">
+    <target name="build" depends="lint,phpmd,phpcs,test">
     </target>
 
     <target name="push" depends="build">
