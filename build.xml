@@ -3,7 +3,10 @@
     <property name="srcDir" value="src" />
 
     <target name="build" depends="lint,test,phpmd,phpcs">
-        <echo msg="Build" />
+    </target>
+
+    <target name="push" depends="build">
+        <gitpush repository="." />
     </target>
 
     <target name="test">
