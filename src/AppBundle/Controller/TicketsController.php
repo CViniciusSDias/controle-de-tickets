@@ -37,19 +37,19 @@ class TicketsController extends Controller
                 $ticket = $form->getData();
                 $erros = $this->get('validator')->validate($ticket);
 
-                if (count($erros) > 0) {
-                    $this->adicionaErrosAoEscopoFlash($erros);
-                } else {
+                if (count($erros) === 0) {
                     // Se o ticket passar na validação, salva no BD e recarrega a página
-                    $em = $this->getDoctrine()->getManager();
+                    $manager = $this->getDoctrine()->getManager();
                     $ticket->usuarioCriador = $this->getUser();
-                    $em->persist($ticket);
-                    $em->flush();
+                    $manager->persist($ticket);
+                    $manager->flush();
 
                     $this->addFlash('success', 'Ticket cadastrado com sucesso');
 
                     return $this->redirect($request->getUri());
                 }
+
+                $this->adicionaErrosAoEscopoFlash($erros);
             }
         } catch (\InvalidArgumentException $e) {
             $this->adicionaErrosAoEscopoFlash(array($e));
@@ -66,10 +66,10 @@ class TicketsController extends Controller
      */
     public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $ticket->setAtendenteResponsavel($this->getUser());
-        $em->persist($ticket);
-        $em->flush();
+        $manager->persist($ticket);
+        $manager->flush();
 
         $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
         return $this->redirect($request->headers->get('referer'));
@@ -134,10 +134,9 @@ class TicketsController extends Controller
      * @Route("/tickets/{id}", name="gerenciar_ticket")
      * @return Response
      */
-    public function gerenciarAction(Request $request, int $id): Response
+    public function gerenciarAction(Ticket $ticket, Request $request): Response
     {
         try {
-            $ticket = $this->getDoctrine()->getRepository('AppBundle:Ticket')->find($id);
             $form = $this->createForm(GerenciarTicketType::class, $ticket);
             $form->handleRequest($request);
 
@@ -147,9 +146,9 @@ class TicketsController extends Controller
                 $erros = $validador->validate($ticket);
 
                 if (count($erros) === 0) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($ticket);
-                    $em->flush();
+                    $manager = $this->getDoctrine()->getManager();
+                    $manager->persist($ticket);
+                    $manager->flush();
 
                     $this->addFlash('success', 'Ticket alterado com sucesso');
                     return $this->redirect($request->getUri());

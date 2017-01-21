@@ -33,7 +33,8 @@
             <fileset dir="${srcDir}">
                 <include name="AppBundle/**/*.php" />
             </fileset>
-            <formatter type="full" outfile="docs/phpcs" />
+
+            <formatter type="full" outfile="docs/phpcs.txt" />
         </phpcodesniffer>
     </target>
 

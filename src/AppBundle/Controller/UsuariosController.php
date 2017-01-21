@@ -40,9 +40,9 @@ class UsuariosController extends Controller
                 if (count($erros) > 0) {
                     throw new \InvalidArgumentException($erros[0]->getMessage());
                 }
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($usuario);
-                $em->flush();
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($usuario);
+                $manager->flush();
                 $this->addFlash('success', "Usuário {$usuario->getNome()} adicionado com sucesso");
 
                 return $this->redirect($request->getUri());

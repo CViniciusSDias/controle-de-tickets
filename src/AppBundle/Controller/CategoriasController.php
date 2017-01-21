@@ -33,9 +33,9 @@ class CategoriasController extends Controller
                 $erros = $validador->validate($categoria);
 
                 if (count($erros) === 0) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($categoria);
-                    $em->flush();
+                    $manager = $this->getDoctrine()->getManager();
+                    $manager->persist($categoria);
+                    $manager->flush();
                     $this->addFlash('success', 'Categoria adicionada com sucesso');
                     return $this->redirect($request->getUri());
                 }
@@ -63,11 +63,11 @@ class CategoriasController extends Controller
     public function removerAction(Request $request): Response
     {
         $idCategoria = $request->request->get('id');
-        $em = $this->getDoctrine()->getManager();
-        $categoria = $em->getPartialReference(Categoria::class, ['id' => $idCategoria]);
+        $manager = $this->getDoctrine()->getManager();
+        $categoria = $manager->getPartialReference(Categoria::class, ['id' => $idCategoria]);
         try {
-            $em->remove($categoria);
-            $em->flush();
+            $manager->remove($categoria);
+            $manager->flush();
 
             $this->addFlash('success', 'Categoria removida com sucesso');
         } catch (ForeignKeyConstraintViolationException $e) {

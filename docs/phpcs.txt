@@ -1,0 +1,74 @@
+
+FILE: ...ntos/controle-de-tickets/src/AppBundle/Forms/CriarTicketType.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 7 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...tos/controle-de-tickets/src/AppBundle/Forms/CriarUsuarioType.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 6 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...s/controle-de-tickets/src/AppBundle/Forms/CriarCategoriaType.php
+----------------------------------------------------------------------
+FOUND 2 ERRORS AFFECTING 2 LINES
+----------------------------------------------------------------------
+ 4 | ERROR | [x] There must be one USE keyword per declaration
+ 5 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: .../controle-de-tickets/src/AppBundle/Forms/GerenciarTicketType.php
+----------------------------------------------------------------------
+FOUND 2 ERRORS AFFECTING 2 LINES
+----------------------------------------------------------------------
+ 4 | ERROR | [x] There must be one USE keyword per declaration
+ 5 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...ole-de-tickets/src/AppBundle/Controller/CategoriasController.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 10 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...ntrole-de-tickets/src/AppBundle/Controller/TicketsController.php
+----------------------------------------------------------------------
+FOUND 2 ERRORS AFFECTING 2 LINES
+----------------------------------------------------------------------
+ 5 | ERROR | [x] There must be one USE keyword per declaration
+ 8 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...trole-de-tickets/src/AppBundle/Controller/UsuariosController.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 8 | ERROR | [x] There must be one USE keyword per declaration
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
