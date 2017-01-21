@@ -8,7 +8,7 @@ security:
             memory: ~
         bd_provider:
             entity:
-                class: AppBundle:Usuario#
+                class: AppBundle:Usuario
                 property: email
 
     firewalls:
@@ -31,6 +31,7 @@ security:
                 target: /login
 
     access_control:
+        - { path: ^/recuperar-senha/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(login|esqueci-a-senha|enviar-recuperacao), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/usuarios, roles: ROLE_SUPER_ADMIN }
         - { path: ^/categorias, roles: ROLE_ADMIN }

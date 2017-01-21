@@ -30,6 +30,17 @@ PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
 ----------------------------------------------------------------------
 
 
+FILE: ...s/controle-de-tickets/src/AppBundle/Forms/RedefinirSenhaType.php
+----------------------------------------------------------------------
+FOUND 2 ERRORS AFFECTING 2 LINES
+----------------------------------------------------------------------
+  5 | ERROR | [x] There must be one USE keyword per declaration
+ 30 | ERROR | [x] Expected 1 newline at end of file; 0 found
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
 FILE: .../controle-de-tickets/src/AppBundle/Forms/GerenciarTicketType.php
 ----------------------------------------------------------------------
 FOUND 2 ERRORS AFFECTING 2 LINES
@@ -38,6 +49,38 @@ FOUND 2 ERRORS AFFECTING 2 LINES
  5 | ERROR | [x] There must be one USE keyword per declaration
 ----------------------------------------------------------------------
 PHPCBF CAN FIX THE 2 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...ole-de-tickets/src/AppBundle/Entity/MensagemRecuperacaoSenha.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 17 | ERROR | [x] Expected 1 newline at end of file; 0 found
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...cumentos/controle-de-tickets/src/AppBundle/Entity/TokenSenha.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 148 | ERROR | [x] Expected 1 blank line at end of file; 2 found
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+
+FILE: ...controle-de-tickets/src/AppBundle/Controller/LoginController.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AND 1 WARNING AFFECTING 2 LINES
+----------------------------------------------------------------------
+  8 | ERROR   | [x] There must be one USE keyword per declaration
+ 79 | WARNING | [ ] Line exceeds 120 characters; contains 133
+    |         |     characters
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
 ----------------------------------------------------------------------
 
 

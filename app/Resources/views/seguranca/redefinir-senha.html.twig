@@ -1,0 +1,9 @@
+{% extends 'seguranca/layout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block conteudo %}
+    <div class="login-box-body">
+        <p class="login-box-msg">Redefinição de Senha</p>
+        {{ form(form) }}
+    </div>
+{% endblock %}

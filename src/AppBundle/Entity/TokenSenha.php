@@ -57,17 +57,6 @@ class TokenSenha
         $this->ativo = true;
     }
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
      * Set token
      *
@@ -107,16 +96,6 @@ class TokenSenha
     }
 
     /**
-     * Get expiracao
-     *
-     * @return DateTime
-     */
-    public function getExpiracao(): ?DateTime
-    {
-        return $this->expiracao;
-    }
-
-    /**
      * Desativa o token
      */
     public function desativar(): void
@@ -131,7 +110,7 @@ class TokenSenha
      */
     public function isAtivo(): bool
     {
-        return $this->expiracao->getTimestamp() < (new DateTime())->getTimestamp() && $this->ativo;
+        return $this->expiracao->getTimestamp() > (new DateTime())->getTimestamp() && $this->ativo;
     }
 
     /**
@@ -143,7 +122,17 @@ class TokenSenha
     public function setUsuario(Usuario $usuario): self
     {
         $this->usuario = $usuario;
+
         return $this;
     }
-}
 
+    /**
+     * Get usuario
+     *
+     * @return Usuario|null
+     */
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+}
