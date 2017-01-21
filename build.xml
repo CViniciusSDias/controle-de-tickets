@@ -2,7 +2,7 @@
 <project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
     <property name="srcDir" value="src" />
 
-    <target name="build" depends="test,phpmd,phpcs">
+    <target name="build" depends="lint,test,phpmd,phpcs">
         <echo msg="Build" />
     </target>
 
@@ -35,5 +35,13 @@
             </fileset>
             <formatter type="full" outfile="docs/phpcs" />
         </phpcodesniffer>
+    </target>
+
+    <target name="lint">
+        <phplint haltonfailure="true">
+            <fileset dir="${srcDir}">
+                <include name="AppBundle/**/*.php" />
+            </fileset>
+        </phplint>
     </target>
 </project>

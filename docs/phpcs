@@ -1,14 +1,4 @@
 
-FILE: ...ontrole-de-tickets/src/AppBundle/Repository/TicketRepository.php
-----------------------------------------------------------------------
-FOUND 1 ERROR AFFECTING 1 LINE
-----------------------------------------------------------------------
- 18 | ERROR | [x] Inline control structures are not allowed
-----------------------------------------------------------------------
-PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
-----------------------------------------------------------------------
-
-
 FILE: ...ntos/controle-de-tickets/src/AppBundle/Forms/CriarTicketType.php
 ----------------------------------------------------------------------
 FOUND 1 ERROR AFFECTING 1 LINE
