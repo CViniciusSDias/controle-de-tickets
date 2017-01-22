@@ -1,4 +1,5 @@
 {% extends 'layout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block titulo %}Cadastrar{% endblock %}
 {% block subtitulo %}Usuário{% endblock %}
@@ -13,25 +14,10 @@
 
                 {{ form_start(form) }}
                 <div class="box-body">
-                    <div class="form-group">
-                        {{ form_label(form.nome, 'Nome') }}
-                        {{ form_widget(form.nome, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_label(form.email, 'E-mail') }}
-                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_label(form.senha, 'Senha') }}
-                        {{ form_widget(form.senha, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_label(form.tipo, 'Tipo') }}
-                        {{ form_widget(form.tipo, {'attr': {'class': 'form-control'}}) }}
-                    </div>
+                    {{ form_row(form.nome) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.senha) }}
+                    {{ form_row(form.tipo) }}
                 </div>
                 <div class="box-footer">
                     {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
