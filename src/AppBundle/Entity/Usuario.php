@@ -252,4 +252,9 @@ class Usuario implements UserInterface, \Serializable
     {
         return $this->dataCadastro;
     }
+
+    public function __toString(): ?string
+    {
+        return $this->nome;
+    }
 }
