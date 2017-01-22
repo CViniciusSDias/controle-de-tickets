@@ -318,7 +318,7 @@ class Ticket
      *
      * @return Usuario
      */
-    public function getAtendenteResponsavel(): Usuario
+    public function getAtendenteResponsavel(): ?Usuario
     {
         return $this->atendenteResponsavel;
     }

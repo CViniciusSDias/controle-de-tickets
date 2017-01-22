@@ -15,7 +15,8 @@
                                 <th>Prioridade</th>
                                 <th>Status</th>
                                 <th>Data/Hora</th>
-                                <th>Usuário</th>
+                                <th>Criador</th>
+                                <th>Responsável</th>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <th></th>
                                 {% endif %}
@@ -35,7 +36,8 @@
                                     </span>
                                 </td>
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
-                                <td>{{ ticket.usuarioCriador.nome }}</td>
+                                <td>{{ ticket.usuarioCriador }}</td>
+                                <td>{{ ticket.atendenteResponsavel ?? '' }}</td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
