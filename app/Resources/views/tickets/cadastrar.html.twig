@@ -1,4 +1,5 @@
 {% extends 'layout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block titulo %}Cadastrar{% endblock %}
 {% block subtitulo %}Ticket{% endblock %}
@@ -25,21 +26,11 @@
 
                 {{ form_start(form) }}
                     <div class="box-body">
-                        <div class="form-group">
-                            {{ form_label(form.titulo, 'Título') }}
-                            {{ form_widget(form.titulo, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form_label(form.descricao, 'Descrição') }}
-                            {{ form_widget(form.descricao, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form_label(form.categoria, 'Categoria') }}
-                            {{ form_widget(form.categoria, {'attr': {'class': 'form-control'}}) }}
-                        </div>
+                        {{ form_row(form.titulo) }}
+                        {{ form_row(form.descricao) }}
+                        {{ form_row(form.categoria) }}
                     </div>
+
                     <div class="box-footer">
                         {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
                     </div>
