@@ -2,7 +2,7 @@
 <project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
     <property name="srcDir" value="src" />
 
-    <target name="build" depends="lint,phpmd,phpcs,test">
+    <target name="build" depends="lint,phpmd,phpcs,phpcpd,test">
     </target>
 
     <target name="push" depends="build">
@@ -47,5 +47,14 @@
                 <include name="AppBundle/**/*.php" />
             </fileset>
         </phplint>
+    </target>
+
+    <target name="phpcpd">
+        <phpcpd minLines="3" minTokens="30">
+            <fileset dir="${srcDir}">
+                <include name="AppBundle/**/*.php" />
+            </fileset>
+            <formatter type="pmd" outfile="docs/pmd-cpd.xml" />
+        </phpcpd>
     </target>
 </project>
