@@ -14,7 +14,7 @@
                                 <th>E-mail</th>
                                 <th>Tipo</th>
                                 <th>Data de Cadastro</th>
-                                <th></th>
+                                <th colspan="2"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -22,9 +22,9 @@
                             <tr>
                                 <td>{{ usuario.nome }}</td>
                                 <td>{{ usuario.email }}</td>
-                                <td>{{ usuario.tipo }}</td>
+                                <td>{{ usuario.nomeTipo }}</td>
                                 <td>{{ usuario.dataCadastro|date('d/m/Y H:i') }}</td>
-                                <td>
+                                <td width="30">
                                     <form action="{{ path('remover_usuario') }}" method="post"
                                           onsubmit="return confirm('Deseja excluir {{ usuario.nome }}?');">
                                         <input type="hidden" name="id" value="{{ usuario.id }}">
@@ -32,6 +32,11 @@
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </form>
+                                </td>
+                                <td width="30">
+                                    <a href="{{ path('editar_usuario', {'id': usuario.id}) }}" class="btn btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}

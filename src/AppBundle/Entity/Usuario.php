@@ -208,7 +208,17 @@ class Usuario implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getTipo(): string
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Retorna o nome do tipo (Usuário, Suporte ou Administrador)
+     *
+     * @return string
+     */
+    public function getNomeTipo(): string
     {
         $tipos = [
             '' => '',

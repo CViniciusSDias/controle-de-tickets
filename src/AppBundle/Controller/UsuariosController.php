@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Usuario;
 use AppBundle\Forms\CriarUsuarioType;
+use AppBundle\Forms\EditarTipoUsuarioType;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -80,5 +81,25 @@ class UsuariosController extends Controller
         }
 
         return $this->redirectToRoute('listar_usuarios');
+    }
+
+    /**
+     * @Route("/usuarios/editar/{id}", name="editar_usuario")
+     * @param Usuario $usuario
+     * @param Request $request
+     * @return Response
+     */
+    public function editarAction(Usuario $usuario, Request $request): Response
+    {
+        $form = $this->createForm(EditarTipoUsuarioType::class, $usuario);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            // Atualiza o usuário com seu novo tipo
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Tipo do usúario alterado com sucesso');
+            return $this->redirectToRoute('listar_usuarios');
+        }
+        return $this->render('usuarios/editar-tipo.html.twig', ['usuario' => $usuario, 'form' => $form->createView()]);
     }
 }

@@ -7,26 +7,14 @@ use Symfony\Component\Form\Extension\Core\Type\{
     TextType, EmailType, PasswordType, SubmitType, ChoiceType
 };
 
-class CriarUsuarioType extends AbstractType
+class CriarUsuarioType extends EditarTipoUsuarioType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
         $builder
             ->add('nome', TextType::class)
             ->add('email', EmailType::class)
-            ->add('senha', PasswordType::class)
-            ->add('salvar', SubmitType::class)
-            ->add(
-                'tipo',
-                ChoiceType::class,
-                [
-                    'choices' => [
-                        'Tipo' => '',
-                        'Usuário' => 'ROLE_USER',
-                        'Suporte' => 'ROLE_ADMIN',
-                        'Administrador' => 'ROLE_SUPER_ADMIN'
-                    ]
-                ]
-            );
+            ->add('senha', PasswordType::class);
     }
 }
