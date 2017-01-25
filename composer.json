@@ -33,10 +33,10 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "phing/phing": "*",
-        "phpmd/phpmd" : "@stable",
-        "squizlabs/php_codesniffer": "2.*",
-        "sebastian/phpcpd": "*"
+        "phing/phing": "^2.16.0",
+        "phpmd/phpmd" : "^2.6.0",
+        "squizlabs/php_codesniffer": "^2.7.1",
+        "sebastian/phpcpd": "^2.0.0"
     },
     "scripts": {
         "symfony-scripts": [
