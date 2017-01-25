@@ -60,4 +60,24 @@ class TicketsControllerTest extends WebTestCase
                 ->count()
         );
     }
+
+    public function testListarTicketsAbertos()
+    {
+        $crawler = static::$cliente->request('GET', '/tickets/abertos');
+        $spans = $crawler->filter('tbody tr td > span.label');
+
+        foreach ($spans as $spanLabel) {
+            $this->assertEquals('aberto', trim($spanLabel->textContent));
+        }
+    }
+
+    public function testListarTicketsFechados()
+    {
+        $crawler = static::$cliente->request('GET', '/tickets/fechados');
+        $spans = $crawler->filter('tbody tr td > span.label');
+
+        foreach ($spans as $spanLabel) {
+            $this->assertEquals('fechado', trim($spanLabel->textContent));
+        }
+    }
 }
