@@ -56,6 +56,7 @@ class CategoriasController extends Controller
 
     /**
      * Ação que remove a categoria passada por parâmetro (POST)
+     *
      * @param Request $request Requisição http necessariamente com o parâmetro 'id'
      * @return Response
      * @Route("/categorias/remover", name="remover_categoria")
