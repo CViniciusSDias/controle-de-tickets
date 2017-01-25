@@ -87,11 +87,6 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li>
-                                    <a href="{{ path('meus_tickets') }}">
-                                        <span>Tickets abertos por mim</span>
-                                    </a>
-                                </li>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <li>
                                         <a href="{{ path('listar_tickets') }}">
@@ -114,6 +109,11 @@
                                         </a>
                                     </li>
                                 {% endif %}
+                                <li>
+                                    <a href="{{ path('meus_tickets') }}">
+                                        <span>Tickets abertos por mim</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -151,6 +151,7 @@
                 {% endif %}
             </ul>
         </aside>
+
         <section class="content-wrapper">
             <header class="content-header">
                 <h1>
@@ -176,6 +177,7 @@
                 {% block conteudo %}{% endblock %}
             </article>
         </section>
+
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
                 GPL
