@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+{% form_theme formSenha 'bootstrap_3_layout.html.twig' %}
+
+{% block titulo %}Perfil{% endblock %}
+{% block subtitulo %}{{ app.user.nome }}{% endblock %}
+
+{% block conteudo %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle"
+                         src="{{ asset('img/usuario.png') }}" alt="Ícone de usuário">
+
+                    <h3 class="profile-username text-center">{{ app.user.nome }}</h3>
+
+                    <p class="text-muted text-center">{{ app.user.email }}</p>
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Tickets abertos por você</b> <a class="pull-right">{{ numTicketsAbertos }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Tickets sob sua responsabilidade</b> <a class="pull-right">{{ numTicketsResponsavel }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Cadastrado em</b> <a class="pull-right">{{ app.user.dataCadastro|date('d/m/Y H:i') }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#senha" data-toggle="tab">Editar Senha</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="senha">
+                        {{ form(formSenha) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

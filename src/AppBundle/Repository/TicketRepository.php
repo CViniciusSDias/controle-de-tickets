@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Usuario;
+
 /**
  * TicketRepository
  *
@@ -19,5 +21,25 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             $orderBy = ['dataHora' => 'desc'];
         }
         return parent::findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
+     * @param Usuario $u
+     * @return int
+     */
+    public function ticketsAbertosPor(Usuario $u): int
+    {
+        return intval($this->getEntityManager()
+            ->createQuery('SELECT COUNT(t) FROM AppBundle:Ticket t WHERE t.usuarioCriador = ?1')
+            ->setParameter(1, $u)
+            ->getResult()[0][1]);
+    }
+
+    public function ticketsSobResponsabilidade(Usuario $u): int
+    {
+        return intval($this->getEntityManager()
+            ->createQuery('SELECT COUNT(t) FROM AppBundle:Ticket t WHERE t.atendenteResponsavel = ?1')
+            ->setParameter(1, $u)
+            ->getResult()[0][1]);
     }
 }
