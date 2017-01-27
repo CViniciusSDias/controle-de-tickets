@@ -20,7 +20,11 @@ class PerfilController extends Controller
         $ticketDao = $this->getDoctrine()->getRepository('AppBundle:Ticket');
         $numTicketsAbertos = $ticketDao->ticketsAbertosPor($usuario);
         $numTicketsResponsavel = $ticketDao->ticketsSobResponsabilidade($usuario);
-        $formDados = $this->createForm(EditarDadosPerfilType::class, $usuario)->createView();
+        $formDados = $this->createForm(
+            EditarDadosPerfilType::class,
+            $usuario,
+            ['action' => $this->generateUrl('alterar_dados_perfil')]
+        )->createView();
         $formSenha = $this->createForm(
             EditarSenhaPerfilType::class,
             new RedefinicaoDeSenha(),
@@ -36,6 +40,8 @@ class PerfilController extends Controller
     /**
      * @Route("/alterar-senha", name="alterar_senha")
      * @Method("POST")
+     * @param Request $request
+     * @return Response
      */
     public function alterarSenha(Request $request): Response
     {
@@ -66,6 +72,44 @@ class PerfilController extends Controller
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Senha alterada com sucesso');
+        } catch (\Exception $e) {
+            if (!empty($e->getMessage())) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        } finally {
+            return $this->redirectToRoute('perfil');
+        }
+    }
+
+    /**
+     * @Route("/perfil/alterar", name="alterar_dados_perfil")
+     * @Method("POST")
+     * @param Request $request
+     * @return Response
+     */
+    public function alterarDados(Request $request): Response
+    {
+        try {
+            $usuario = $this->getUser();
+            $form = $this->createForm(EditarDadosPerfilType::class, $usuario);
+            $form->handleRequest($request);
+
+            if (!$form->isSubmitted()) {
+                throw new \Exception();
+            }
+
+            $erros = $this->get('validator')->validate($form);
+
+            if (count($erros) > 0) {
+                foreach ($erros as $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+                throw new \Exception();
+            }
+            $usuario = $form->getData();
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Informações alteradas com sucesso');
         } catch (\Exception $e) {
             if (!empty($e->getMessage())) {
                 $this->addFlash('danger', $e->getMessage());

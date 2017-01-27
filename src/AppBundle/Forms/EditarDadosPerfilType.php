@@ -16,6 +16,6 @@ class EditarDadosPerfilType extends AbstractType
         $builder
             ->add('nome', TextType::class)
             ->add('email', EmailType::class)
-            ->add('salvar', SubmitType::class, ['label' => 'Salvar']);
+            ->add('salvar', SubmitType::class, ['label' => 'Salvar', 'attr' => ['class' => 'btn btn-primary']]);
     }
 }

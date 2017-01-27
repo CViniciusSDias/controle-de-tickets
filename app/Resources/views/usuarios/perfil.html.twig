@@ -1,5 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% form_theme formSenha 'bootstrap_3_layout.html.twig' %}
+{% form_theme formDados 'bootstrap_3_layout.html.twig' %}
 
 {% block titulo %}Perfil{% endblock %}
 {% block subtitulo %}{{ app.user.nome }}{% endblock %}
@@ -34,11 +35,15 @@
         <div class="col-md-8">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#senha" data-toggle="tab">Editar Senha</a></li>
+                    <li class="active"><a href="#dados" data-toggle="tab">Editar informações</a></li>
+                    <li><a href="#senha" data-toggle="tab">Editar Senha</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="senha">
+                    <div class="tab-pane active" id="dados">
+                        {{ form(formDados) }}
+                    </div>
+                    <div class="tab-pane" id="senha">
                         {{ form(formSenha) }}
                     </div>
                 </div>
