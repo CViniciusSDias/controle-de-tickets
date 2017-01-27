@@ -2,7 +2,7 @@
 <project name="ControleDeTickets" default="build" basedir="." description="Sistema para controle de tickets de suporte">
     <property name="srcDir" value="src" />
 
-    <target name="build" depends="lint,phpmd,phpcs,phpcpd,phpdepend,test">
+    <target name="build" depends="lint,phpmd,phpcs,phpcpd,phpdepend,test,sami">
     </target>
 
     <target name="push" depends="build">
@@ -68,5 +68,9 @@
             <logger type="overview-pyramid" outfile="docs/php-depend/overview-pyramid.svg"/>
             <logger type="summary-xml" outfile="docs/php-depend/summary.xml"/>
         </phpdepend>
+    </target>
+
+    <target name="sami">
+        <exec command="sami update sami.php" />
     </target>
 </project>
