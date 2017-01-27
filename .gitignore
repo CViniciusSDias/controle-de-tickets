@@ -17,3 +17,4 @@
 /web/node_modules/*
 /.idea/*
 /docs/*
+/cache/
