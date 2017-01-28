@@ -10,9 +10,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 abstract class AuthWebTestCase extends WebTestCase
 {
     /**
-     * @param string $firewallName
-     * @param array $options
-     * @param array $server
      * @return Client
      */
     protected function createClientWithAuthentication()
