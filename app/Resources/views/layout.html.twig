@@ -196,12 +196,13 @@
     <script src="{{ asset('node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
 
     <script>
-        /* Faz com que o menu multinivel funcione */
+        /// Faz com que o menu multinivel funcione
         $('.treeview a[href="#"]').on('click', e => {
             e.preventDefault();
             $(e.currentTarget).parent().toggleClass('active');
         });
 
+        // Adiciona o componente DataTable às tabelas com a classe data-table
         $('.data-table').DataTable({
             "aaSorting": []
         });
