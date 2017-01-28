@@ -11,6 +11,8 @@ use DateTime;
 /**
  * Usuario
  *
+ * @author Vinicius Dias
+ * @package AppBundle\Entity
  * @ORM\Table(name="usuario")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UsuarioRepository")
  */

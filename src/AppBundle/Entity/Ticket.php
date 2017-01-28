@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Ticket
  *
+ * @author Vinicius Dias
+ * @package AppBundle\Entity
  * @ORM\Table(name="ticket")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TicketRepository")
  */

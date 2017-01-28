@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -7,8 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use InvalidArgumentException;
 
 /**
- * Categoria
+ * Categoria de um ticket
  *
+ * @package AppBundle\Entity
  * @ORM\Table(name="categoria")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoriaRepository")
  */
@@ -69,6 +69,11 @@ class Categoria
         return $this->nome;
     }
 
+    /**
+     * Retorna o nome da categoria caso o objeto seja acessado como string
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->nome;

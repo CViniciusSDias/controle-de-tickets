@@ -9,10 +9,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
+/**
+ * Controller para Usuários
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Controller
+ */
 class UsuariosController extends Controller
 {
     /**
+     * Exibe a listagem de todos os usuários
+     *
      * @Route("/usuarios", name="listar_usuarios")
+     * @return Response
      */
     public function listarAction(): Response
     {
@@ -22,6 +31,8 @@ class UsuariosController extends Controller
     }
 
     /**
+     * Exibe o formulário de cadastro de usuário e cria um novo usuário com seus dados
+     *
      * @Route("/usuarios/novo", name="cadastrar_usuario")
      * @param Request $request
      * @return Response
@@ -57,7 +68,7 @@ class UsuariosController extends Controller
     }
 
     /**
-     * Ação que remove o usuário passado por parâmetro (POST)
+     * Remove o usuário passado por parâmetro (POST)
      *
      * @param Request $request Requisição http necessariamente com o parâmetro 'id'
      * @return Response
@@ -84,6 +95,8 @@ class UsuariosController extends Controller
     }
 
     /**
+     * Exibe o form de edição do tipo do usuário, e o altera com o dado enviado na requisição
+     *
      * @Route("/usuarios/editar/{id}", name="editar_usuario")
      * @param Usuario $usuario
      * @param Request $request

@@ -3,6 +3,12 @@ namespace AppBundle\Entity;
 
 use DomainException;
 
+/**
+ * Trait que possibilita que os getters e setters sejam chamados como forma de propriedades públicas
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Entity
+ */
 trait ModelTrait
 {
     public function __set($propriedade, $valor)

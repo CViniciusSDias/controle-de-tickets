@@ -15,12 +15,21 @@ use DateInterval;
 use Exception;
 use TypeError;
 
+/**
+ * Controller para rotas referentes ao login, como o login em si, formulário de redefinição de senha, etc.
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Controller
+ */
 class LoginController extends Controller
 {
     /**
+     * Exibe o fomrulário de login e trata seu envio para autenticar o usuário
+     *
      * @Route("/login", name="login")
+     * @return Response
      */
-    public function loginAction()
+    public function loginAction(): Response
     {
         $auth = $this->get('security.authentication_utils');
         $erro = $auth->getLastAuthenticationError();
@@ -29,18 +38,25 @@ class LoginController extends Controller
     }
 
     /**
+     * Exibe o formulário para o usuário digitar seu e-mail informando que esqueceu sua senha
+     *
      * @Route("/esqueci-a-senha", name="esqueci-a-senha")
+     * @return Response
      */
-    public function esqueciASenhaAction()
+    public function esqueciASenhaAction(): Response
     {
         return $this->render('seguranca/esqueci-a-senha.html.twig');
     }
 
     /**
+     * Envia um e-mail com o link para redefinição de senha do usuário
+     *
      * @Route("/enviar-recuperacao", name="enviar-recuperacao")
      * @Method("POST")
+     * @param Request $request Requisição contendo o e-mail do usuário
+     * @return Response
      */
-    public function enviarRecuperacaoAction(Request $request)
+    public function enviarRecuperacaoAction(Request $request): Response
     {
         $email = $request->request->get('email');
 
@@ -52,7 +68,10 @@ class LoginController extends Controller
             $doctrine = $this->getDoctrine();
 
             $token = new TokenSenha();
-            $token->setToken(sha1(time()))->setExpiracao((new DateTime())->add(new DateInterval('P1D')))
+            $token
+                ->setToken(sha1(time()))
+                ->setExpiracao((new DateTime())
+                ->add(new DateInterval('P1D')))
                 ->setUsuario($doctrine->getRepository('AppBundle:Usuario')->findOneBy(['email' => $email]));
 
             $manager = $doctrine->getManager();
@@ -90,7 +109,12 @@ class LoginController extends Controller
     }
 
     /**
+     * Exibe o formulário para redefinir a senha após verificar a validade do ticket e invalidá-lo
+     *
      * @Route("/recuperar-senha/{token}", name="recuperar_senha")
+     * @param string $token Token gerado para redefinição de senha
+     * @param Request $request
+     * @return Response
      */
     public function redefinirSenhaAction(string $token, Request $request): Response
     {

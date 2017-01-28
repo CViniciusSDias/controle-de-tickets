@@ -8,13 +8,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\{Route, Method};
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * Controller de Perfil do usuário
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Controller
+ */
 class PerfilController extends Controller
 {
     /**
+     * Exibe a tela com informaçẽos do perfil do usuário
+     *
      * @Route("/perfil", name="perfil")
      * @Method("GET")
+     * @return Response
      */
-    public function perfilAction()
+    public function perfilAction(): Response
     {
         $usuario = $this->getUser();
         $ticketDao = $this->getDoctrine()->getRepository('AppBundle:Ticket');
@@ -38,6 +47,8 @@ class PerfilController extends Controller
     }
 
     /**
+     * Tenta alterar a senha do usuário, caso todos os dados estejam corretos
+     *
      * @Route("/alterar-senha", name="alterar_senha")
      * @Method("POST")
      * @param Request $request
@@ -82,6 +93,8 @@ class PerfilController extends Controller
     }
 
     /**
+     * Altera os dados do usuário como nome e e-mail
+     *
      * @Route("/perfil/alterar", name="alterar_dados_perfil")
      * @Method("POST")
      * @param Request $request

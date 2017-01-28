@@ -6,6 +6,12 @@ use Symfony\Component\Form\Extension\Core\Type\{
     CheckboxType, IntegerType, TextType, SubmitType
 };
 
+/**
+ * Formulário de gestão do ticket
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class GerenciarTicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

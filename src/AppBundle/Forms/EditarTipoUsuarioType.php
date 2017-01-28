@@ -5,6 +5,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\{SubmitType, ChoiceType};
 
+/**
+ * Formulário de edição do tipo do usuário
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class EditarTipoUsuarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

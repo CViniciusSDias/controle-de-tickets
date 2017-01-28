@@ -1,6 +1,12 @@
 <?php
 namespace AppBundle\Entity;
 
+/**
+ * Classe que representa uma redefinição de senha
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Entity
+ */
 class RedefinicaoDeSenha
 {
     private $senhaAtual;

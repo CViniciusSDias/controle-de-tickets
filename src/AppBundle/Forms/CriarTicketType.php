@@ -8,6 +8,12 @@ use Symfony\Component\Form\Extension\Core\Type\{
     SubmitType, TextareaType, TextType
 };
 
+/**
+ * Formulário de abertura de novo ticket
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class CriarTicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

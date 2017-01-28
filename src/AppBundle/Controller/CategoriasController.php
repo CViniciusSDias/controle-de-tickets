@@ -1,26 +1,34 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Categoria;
 use AppBundle\Forms\CriarCategoriaType;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
+/**
+ * Controller para Categorias
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Controller
+ */
 class CategoriasController extends Controller
 {
     /**
      * Ação de listagem de categorias, e formulário para adição de uma nova.
      * Caso a requisição seja post, salva a categoria no banco de dados
+     *
+     * @Route("/categorias", name="listar_categorias")
      * @param Request $request
      * @return Response
-     * @Route("/categorias", name="listar_categorias")
      */
     public function listarAction(Request $request): Response
     {
-        $categorias = $this->getDoctrine()->getRepository('AppBundle:Categoria')
+        $doctrine = $this->getDoctrine();
+        $categorias = $doctrine->getRepository('AppBundle:Categoria')
             ->findBy([], ['nome' => 'asc']);
         $form = $this->createForm(CriarCategoriaType::class, new Categoria());
 
@@ -33,7 +41,7 @@ class CategoriasController extends Controller
                 $erros = $validador->validate($categoria);
 
                 if (count($erros) === 0) {
-                    $manager = $this->getDoctrine()->getManager();
+                    $manager = $doctrine->getManager();
                     $manager->persist($categoria);
                     $manager->flush();
                     $this->addFlash('success', 'Categoria adicionada com sucesso');
@@ -57,9 +65,9 @@ class CategoriasController extends Controller
     /**
      * Ação que remove a categoria passada por parâmetro (POST)
      *
+     * @Route("/categorias/remover", name="remover_categoria")
      * @param Request $request Requisição http necessariamente com o parâmetro 'id'
      * @return Response
-     * @Route("/categorias/remover", name="remover_categoria")
      */
     public function removerAction(Request $request): Response
     {

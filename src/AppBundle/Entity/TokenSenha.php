@@ -6,8 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
 /**
- * TokenSenha
+ * Token de redefinição de senha
  *
+ * @author Vinicius Dias
+ * @package AppBundle\Entity
  * @ORM\Table(name="token_senha")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TokenSenhaRepository")
  */

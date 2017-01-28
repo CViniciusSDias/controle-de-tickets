@@ -7,6 +7,12 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Formulário de redefinição de senha
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class RedefinirSenhaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

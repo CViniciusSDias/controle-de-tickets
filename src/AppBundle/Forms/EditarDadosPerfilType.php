@@ -7,6 +7,12 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Formulário de edição dos dados do usuário como nome e e-mail
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class EditarDadosPerfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

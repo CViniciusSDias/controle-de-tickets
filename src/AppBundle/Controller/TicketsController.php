@@ -8,13 +8,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * Controller para Tickets
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Controller
+ */
 class TicketsController extends Controller
 {
     /**
      * Raiz do projeto
      *
      * @Route("/")
-     * @return Response
+     * @return Response Redireciona o usuário para a tela de abertura de um novo ticket
      */
     public function indexAction(): Response
     {
@@ -22,6 +28,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe o formulário de abertura de ticket e cria um novo ticket com as informações enviadas por este formulário.
+     *
      * @Route("/tickets/novo", name="cadastrar_ticket")
      * @param Request $request
      * @return Response
@@ -62,7 +70,11 @@ class TicketsController extends Controller
     }
 
     /**
+     * Faz com que o usuário logado passe a ser o responsável pelo ticket passado na rota
+     *
      * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
+     * @param Ticket $ticket
+     * @param Request $request
      * @return Response
      */
     public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
@@ -77,6 +89,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe todos os tickets ordenados por data
+     *
      * @Route("/tickets", name="listar_tickets")
      * @return Response
      */
@@ -88,6 +102,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe os tickets abertos ordenados por data
+     *
      * @Route("/tickets/abertos", name="listar_tickets_abertos")
      * @return Response
      */
@@ -99,6 +115,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe os tickets fechados ordenados por data
+     *
      * @Route("/tickets/fechados", name="listar_tickets_fechados")
      * @return Response
      */
@@ -110,6 +128,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe os tickets sob responsabilidade do usuário logado ordenados por data
+     *
      * @Route("/tickets/meus", name="listar_tickets_atendente")
      * @return Response
      */
@@ -121,6 +141,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe os tickets abertos pelo usuário logado ordenados por data
+     *
      * @Route("/tickets/usuario", name="meus_tickets")
      * @return Response
      */
@@ -132,7 +154,11 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe o formulário de gestão do ticket e altera seus dados com o envio do formulário
+     *
      * @Route("/tickets/{id}", name="gerenciar_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
      * @return Response
      */
     public function gerenciarAction(Ticket $ticket, Request $request): Response
@@ -166,6 +192,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Exibe todos os dados do ticket passado na rota
+     *
      * @Route("/tickets/ver/{id}", name="visualizar_ticket")
      * @param Ticket $ticket
      * @return Response
@@ -186,7 +214,9 @@ class TicketsController extends Controller
     }
 
     /**
-     * @param array $erros Array contendo os erros a serem adicionados ao escopo flash
+     * Adiciona os erros passados por parâmetro no escopo flash da sessão
+     *
+     * @param array $erros
      */
     private function adicionaErrosAoEscopoFlash(array $erros): void
     {
@@ -196,6 +226,8 @@ class TicketsController extends Controller
     }
 
     /**
+     * Baseado em uma requisição, tenta voltar para a rota anterior. Caso não exista, volta para a listagem de tickets.
+     *
      * @param Request $request
      * @return Response
      */

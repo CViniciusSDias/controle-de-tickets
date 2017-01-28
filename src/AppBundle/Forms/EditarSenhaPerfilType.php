@@ -7,6 +7,12 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Formulário de edição de senha do usuário
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Forms
+ */
 class EditarSenhaPerfilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
