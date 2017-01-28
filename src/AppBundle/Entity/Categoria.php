@@ -68,4 +68,9 @@ class Categoria
     {
         return $this->nome;
     }
+
+    public function __toString()
+    {
+        return $this->nome;
+    }
 }

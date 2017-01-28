@@ -26,7 +26,13 @@
                             {% for ticket in tickets %}
                             <tr>
                                 <td>
-                                    {{ ticket.id }}
+                                    {% if app.user.podeVer(ticket) %}
+                                    <a href="{{ path('visualizar_ticket', {'id': ticket.id}) }}">
+                                    {% endif %}
+                                        {{ ticket.id }}
+                                    {% if app.user.podeVer(ticket) %}
+                                    </a>
+                                    {% endif %}
                                 </td>
                                 <td>{{ ticket.titulo }}</td>
                                 <td>{{ ticket.prioridade }}</td>

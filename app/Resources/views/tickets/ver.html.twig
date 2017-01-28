@@ -1,0 +1,70 @@
+{% extends 'layout.html.twig' %}
+
+{% block titulo %}Visualizar Ticket{% endblock %}
+{% block subtitulo %}#{{ ticket.id }}{% endblock %}
+
+{% block conteudo %}
+<section class="invoice">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="page-header">
+                <i class="fa fa-ticket"></i> {{ ticket.titulo }}
+                <small class="pull-right">Criado em: {{ ticket.dataHora|date('d/m/Y H:i') }}</small>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <h3>Título</h3>
+                <p>{{ ticket.titulo }}</p>
+            </div>
+
+            <div>
+                <h3>Categoria</h3>
+                <p>{{ ticket.categoria }}</p>
+            </div>
+
+            <div>
+                <h3>Descrição</h3>
+                <p>{{ ticket.descricao }}</p>
+            </div>
+
+            <div>
+                <h3>Aberto</h3>
+                <p>{{ ticket.aberto ? 'SIM' : 'NÃO' }}</p>
+            </div>
+
+            {% if app.user == ticket.atendenteResponsavel %}
+            <div>
+                <h3>Prioridade</h3>
+                <p>{{ ticket.prioridade }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <h3>Criado por</h3>
+                <p>{{ ticket.usuarioCriador }}</p>
+            </div>
+
+            <div>
+                <h3>Data/Hora da criação</h3>
+                <p>{{ ticket.dataHora|date('d/m/Y H:i') }}</p>
+            </div>
+
+            <div>
+                <h3>Atendente Responsável</h3>
+                <p>{{ ticket.atendenteResponsavel }}</p>
+            </div>
+
+            <div>
+                <h3>Previsão de Resposta</h3>
+                <p>{{ ticket.previsaoResposta|date('d/m/Y H:i') }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

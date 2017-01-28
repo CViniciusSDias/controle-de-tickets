@@ -6,6 +6,7 @@ use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TicketsController extends Controller
 {
@@ -72,7 +73,7 @@ class TicketsController extends Controller
         $manager->flush();
 
         $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
-        return $this->redirect($request->headers->get('referer'));
+        return $this->voltar($request);
     }
 
     /**
@@ -165,6 +166,26 @@ class TicketsController extends Controller
     }
 
     /**
+     * @Route("/tickets/ver/{id}", name="visualizar_ticket")
+     * @param Ticket $ticket
+     * @return Response
+     */
+    public function visualizarTicketAction(Ticket $ticket, Request $request): Response
+    {
+        try {
+            if (!$this->getUser()->podeVer($ticket)) {
+                throw $this->createAccessDeniedException('Você não tem permissão para visualizar este ticket.');
+            }
+
+            return $this->render('tickets/ver.html.twig', compact('ticket'));
+        } catch (AccessDeniedException $e) {
+            $this->addFlash('danger', $e->getMessage());
+
+            return $this->voltar($request);
+        }
+    }
+
+    /**
      * @param array $erros Array contendo os erros a serem adicionados ao escopo flash
      */
     private function adicionaErrosAoEscopoFlash(array $erros): void
@@ -172,5 +193,18 @@ class TicketsController extends Controller
         foreach ($erros as $erro) {
             $this->addFlash('danger', $erro->getMessage());
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function voltar(Request $request): Response
+    {
+        $anterior = $request->headers->get('referer');
+        if (empty($anterior)) {
+            return $this->redirectToRoute('listar_tickets');
+        }
+        return $this->redirect($anterior);
     }
 }

@@ -263,6 +263,17 @@ class Usuario implements UserInterface, \Serializable
         return $this->dataCadastro;
     }
 
+    /**
+     * Informa se o usuário tem acesso ao ticket em questão.
+     *
+     * @param Ticket $ticket
+     * @return bool
+     */
+    public function podeVer(Ticket $ticket): bool
+    {
+        return $ticket->getAtendenteResponsavel() == $this || $ticket->getUsuarioCriador() == $this;
+    }
+
     public function __toString(): ?string
     {
         return $this->nome;
