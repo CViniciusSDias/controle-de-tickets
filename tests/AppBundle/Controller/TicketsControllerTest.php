@@ -1,29 +1,25 @@
 <?php
-namespace tests\AppBundle\Controller;
+namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Link;
 
-class TicketsControllerTest extends WebTestCase
+class TicketsControllerTest extends AuthWebTestCase
 {
     /** @var Client */
-    private static $cliente;
+    private $cliente;
 
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        static::$cliente = static::createClient();
-        $login = new LoginControllerTest();
-        $login->login(static::$cliente);
+        $this->cliente = $this->createClientWithAuthentication('main');
     }
 
     public function testAbrirTicketComTituloComMenosDe8Caracteres()
     {
-        $crawler = static::$cliente->request('GET', '/tickets/novo');
+        $crawler = $this->cliente->request('GET', '/tickets/novo');
         $form = $crawler->selectButton('criar_ticket[salvar]')->form();
         $form['criar_ticket[titulo]'] = 'titulo';
         $form['criar_ticket[categoria]'] = 1;
-        $crawler = static::$cliente->submit($form);
+        $crawler = $this->cliente->submit($form);
 
         $this->assertGreaterThan(
             0,
@@ -44,14 +40,14 @@ class TicketsControllerTest extends WebTestCase
 
     public function preencheForm(int $prioridade)
     {
-        $crawler = static::$cliente->request('GET', '/tickets');
+        $crawler = $this->cliente->request('GET', '/tickets');
         $link = $crawler->filter('tbody tr:first-child a')->link();
 
-        $crawler = static::$cliente->request('GET', $link->getUri());
+        $crawler = $this->cliente->request('GET', $link->getUri());
         $form = $crawler->selectButton('gerenciar_ticket[salvar]')->form();
 
         $form['gerenciar_ticket[prioridade]'] = $prioridade;
-        $crawler = static::$cliente->submit($form);
+        $crawler = $this->cliente->submit($form);
 
 
         $this->assertGreaterThan(
@@ -63,7 +59,7 @@ class TicketsControllerTest extends WebTestCase
 
     public function testListarTicketsAbertos()
     {
-        $crawler = static::$cliente->request('GET', '/tickets/abertos');
+        $crawler = $this->cliente->request('GET', '/tickets/abertos');
         $spans = $crawler->filter('tbody tr td > span.label');
 
         foreach ($spans as $spanLabel) {
@@ -73,7 +69,7 @@ class TicketsControllerTest extends WebTestCase
 
     public function testListarTicketsFechados()
     {
-        $crawler = static::$cliente->request('GET', '/tickets/fechados');
+        $crawler = $this->cliente->request('GET', '/tickets/fechados');
         $spans = $crawler->filter('tbody tr td > span.label');
 
         foreach ($spans as $spanLabel) {
