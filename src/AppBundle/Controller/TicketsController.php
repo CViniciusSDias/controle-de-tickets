@@ -28,7 +28,8 @@ class TicketsController extends Controller
     }
 
     /**
-     * Exibe o formulário de abertura de ticket e cria um novo ticket com as informações enviadas por este formulário.
+     * Exibe o formulário de abertura de ticket e cria um novo ticket
+     * com as informações enviadas por este formulário.
      *
      * @Route("/tickets/novo", name="cadastrar_ticket")
      * @param Request $request
@@ -226,7 +227,8 @@ class TicketsController extends Controller
     }
 
     /**
-     * Baseado em uma requisição, tenta voltar para a rota anterior. Caso não exista, volta para a listagem de tickets.
+     * Baseado em uma requisição, tenta voltar para a rota anterior. Caso não exista,
+     * volta para a listagem de tickets.
      *
      * @param Request $request
      * @return Response
