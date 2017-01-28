@@ -7,7 +7,7 @@ class UsuariosControllerTest extends AuthWebTestCase
 
     public function setUp()
     {
-        $this->cliente = $this->createClientWithAuthentication('main');
+        $this->cliente = $this->createClientWithAuthentication();
     }
 
     public function testListaUsuarios()

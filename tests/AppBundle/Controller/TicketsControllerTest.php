@@ -10,7 +10,7 @@ class TicketsControllerTest extends AuthWebTestCase
 
     public function setUp()
     {
-        $this->cliente = $this->createClientWithAuthentication('main');
+        $this->cliente = $this->createClientWithAuthentication();
     }
 
     public function testAbrirTicketComTituloComMenosDe8Caracteres()

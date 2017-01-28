@@ -15,14 +15,15 @@ abstract class AuthWebTestCase extends WebTestCase
      * @param array $server
      * @return Client
      */
-    protected function createClientWithAuthentication($firewallName, array $options = array(), array $server = array())
+    protected function createClientWithAuthentication()
     {
         /* @var $client Client */
-        $client = static::createClient($options, $server);
+        $client = static::createClient();
 
         /* @var $user UserInterface */
         $user = $client->getContainer()->get('doctrine')->getRepository('AppBundle:Usuario')->find(5);
 
+        $firewallName = 'main';
         $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
         $session = $client->getContainer()->get('session');
         $session->set('_security_' . $firewallName, serialize($token));

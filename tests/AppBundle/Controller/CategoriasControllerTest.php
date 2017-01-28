@@ -10,7 +10,7 @@ class CategoriasControllerTest extends AuthWebTestCase
 
     public function setUp()
     {
-        $this->client = $this->createClientWithAuthentication('main');
+        $this->client = $this->createClientWithAuthentication();
     }
 
     public function testNaoLogado()
