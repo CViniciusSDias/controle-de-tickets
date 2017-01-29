@@ -118,11 +118,9 @@ class LoginController extends Controller
                 $erros = $validator->validate($form);
 
                 if (count($erros) === 0) {
-                    $encoder = $this->container->get('security.password_encoder');
                     /** @var Usuario $usuario */
-                    $usuario = $token->getUsuario();
-                    $novaSenha = $encoder->encodePassword($usuario, $form->get('novaSenha')->getData());
-                    $usuario->setSenha($novaSenha);
+                    $usuario = $token->getUsuario()->setSenha($form->get('novaSenha')->getData());
+                    $this->get('app.redefinidor_senha')->codificar($usuario);
                     $token->desativar();
 
                     $manager->flush();
