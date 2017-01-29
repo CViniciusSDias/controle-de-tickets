@@ -23,4 +23,9 @@ class RedefinidorDeSenha
         $novaSenha = $this->encoder->encodePassword($usuario, $redefinicao->getNovaSenha());
         $usuario->setSenha($novaSenha);
     }
+
+    public function codificar(Usuario $usuario)
+    {
+        $usuario->setSenha($this->encoder->encodePassword($usuario, $usuario->getSenha()));
+    }
 }

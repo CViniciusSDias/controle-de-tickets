@@ -46,8 +46,7 @@ class UsuariosController extends Controller
 
             if ($form->isSubmitted()) {
                 $usuario = $form->getData();
-                $encoder = $this->container->get('security.password_encoder');
-                $usuario->setSenha($encoder->encodePassword($usuario, $usuario->getSenha()));
+                $this->get('app.redefinidor_senha')->codificar($usuario);
                 $validador = $this->get('validator');
                 $erros = $validador->validate($usuario);
                 if (count($erros) > 0) {
