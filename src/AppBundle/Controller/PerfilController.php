@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\{RedefinicaoDeSenha,Usuario};
 use AppBundle\Forms\{EditarDadosPerfilType, EditarSenhaPerfilType};
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\{Route, Method};
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -64,14 +65,8 @@ class PerfilController extends Controller
                 throw new \Exception();
             }
 
-            $erros = $this->get('validator')->validate($form);
-
-            if (count($erros) > 0) {
-                foreach ($erros as $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-                throw new \Exception();
-            }
+            // Lança uma exceção em caso de erro de validação
+            $this->valida($form);
             /** @var RedefinicaoDeSenha $redefinicao */
             $redefinicao = $form->getData();
             /** @var Usuario $usuarioLogado */
@@ -108,14 +103,8 @@ class PerfilController extends Controller
                 throw new \Exception();
             }
 
-            $erros = $this->get('validator')->validate($form);
-
-            if (count($erros) > 0) {
-                foreach ($erros as $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-                throw new \Exception();
-            }
+            // Lança uma exceção em caso de erro de validação
+            $this->valida($form);
             $usuario = $form->getData();
             $this->getDoctrine()->getManager()->flush();
 
@@ -126,6 +115,22 @@ class PerfilController extends Controller
             }
         } finally {
             return $this->redirectToRoute('perfil');
+        }
+    }
+
+    /**
+     * @param $form
+     * @throws \Exception
+     */
+    public function valida(Form $form): void
+    {
+        $erros = $this->get('validator')->validate($form);
+
+        if (count($erros) > 0) {
+            foreach ($erros as $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+            throw new \Exception();
         }
     }
 }
