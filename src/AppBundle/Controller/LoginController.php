@@ -9,9 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use DateTime;
-use DateInterval;
 use Exception;
 use TypeError;
 
@@ -66,29 +63,12 @@ class LoginController extends Controller
             }
 
             $doctrine = $this->getDoctrine();
-
-            $token = new TokenSenha();
-            $token
-                ->setToken(sha1(time()))
-                ->setExpiracao((new DateTime())
-                ->add(new DateInterval('P1D')))
-                ->setUsuario($doctrine->getRepository('AppBundle:Usuario')->findOneBy(['email' => $email]));
-
+            $token = $this->get('app.token_generator')->generateToken($email);
             $manager = $doctrine->getManager();
             $manager->persist($token);
             $manager->flush();
 
-            $link = $this->generateUrl(
-                'recuperar_senha',
-                ['token' => $token->getToken()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-            $mensagem = MensagemRecuperacaoSenha::newInstance()
-                ->setFrom('recuperacao@zer0.w.pw')
-                ->setTo($email)
-                ->setBody($this->renderView('seguranca/email-recuperacao.html.twig', ['link' => $link]));
-
-            $this->get('mailer')->send($mensagem);
+            $this->get('app.email_recuperacao_senha')->sendMail($token, $email);
         } catch (Exception $e) {
             $this->addFlash('danger', $e->getMessage());
 
@@ -98,8 +78,8 @@ class LoginController extends Controller
         }
 
         /*
-         Caso o usuário digite um e-mail errado, não se deve informar que o e-mail não existe, pois abre uma brecha
-         de segurança.
+         Caso o usuário digite um e-mail errado, não se deve informar que o e-mail
+         não existe, pois abre uma brecha de segurança.
         */
         $this->addFlash(
             'success',

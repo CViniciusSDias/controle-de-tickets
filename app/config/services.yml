@@ -7,3 +7,9 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.token_generator:
+        class: AppBundle\Service\TokenGenerator
+        arguments: ["@doctrine"]
+    app.email_recuperacao_senha:
+        class: AppBundle\Service\EmailRecuperacaoSenha
+        arguments: ["@mailer", "@router", "@templating"]
