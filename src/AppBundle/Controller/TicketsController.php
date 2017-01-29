@@ -233,7 +233,7 @@ class TicketsController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function voltar(Request $request): Response
+    private function voltar(Request $request): Response
     {
         $anterior = $request->headers->get('referer');
         if (empty($anterior)) {
