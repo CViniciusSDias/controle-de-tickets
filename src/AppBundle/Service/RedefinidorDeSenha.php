@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Service;
 
-
 use AppBundle\Entity\{Usuario, RedefinicaoDeSenha};
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
