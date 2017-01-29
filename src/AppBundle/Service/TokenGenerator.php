@@ -6,10 +6,21 @@ use DateTime;
 use DateInterval;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+/**
+ * Classe geradora de Token para recuperação de senha
+ *
+ * @author Vinicius Dias
+ * @package AppBundle\Service
+ */
 class TokenGenerator
 {
     private $doctrine;
 
+    /**
+     * Construtor
+     *
+     * @param RegistryInterface $doctrine
+     */
     public function __construct(RegistryInterface $doctrine)
     {
         $this->doctrine = $doctrine;
