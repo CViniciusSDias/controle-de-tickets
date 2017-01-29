@@ -22,7 +22,7 @@ class EditarSenhaPerfilType extends AbstractType
             ->add('senhaAtual', PasswordType::class)
             ->add('novaSenha', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'As senhas devem ser coincidir',
+                'invalid_message' => 'As senhas devem coincidir',
                 'required' => true,
                 'first_options'  => ['label' => 'Digite sua nova senha'],
                 'second_options' => ['label' => 'Repita sua nova senha'],

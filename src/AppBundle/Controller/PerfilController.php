@@ -67,19 +67,16 @@ class PerfilController extends Controller
             $erros = $this->get('validator')->validate($form);
 
             if (count($erros) > 0) {
+                foreach ($erros as $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
                 throw new \Exception();
             }
             /** @var RedefinicaoDeSenha $redefinicao */
             $redefinicao = $form->getData();
-            $encoder = $this->get('security.password_encoder');
             /** @var Usuario $usuarioLogado */
             $usuarioLogado = $this->getUser();
-            if (!$encoder->isPasswordValid($usuarioLogado, $redefinicao->getSenhaAtual())) {
-                throw new \Exception('Digite corretamente a senha atual');
-            }
-
-            $novaSenha = $encoder->encodePassword($usuarioLogado, $redefinicao->getNovaSenha());
-            $usuarioLogado->setSenha($novaSenha);
+            $this->get('app.redefinidor_senha')->redefinir($usuarioLogado, $redefinicao);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Senha alterada com sucesso');

@@ -13,3 +13,6 @@ services:
     app.email_recuperacao_senha:
         class: AppBundle\Service\EmailRecuperacaoSenha
         arguments: ["@mailer", "@router", "@templating"]
+    app.redefinidor_senha:
+        class: AppBundle\Service\RedefinidorDeSenha
+        arguments: ["@security.password_encoder"]
