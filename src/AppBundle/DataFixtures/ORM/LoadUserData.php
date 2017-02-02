@@ -8,13 +8,18 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * DataFixture de Usuário
+ *
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /** @var  ContainerInterface */
     private $container;
 
     /**
-     * Load data fixtures with the passed EntityManager
+     * Insere um usuário administrador no sistema com email 'email@example.com' e senha 'admin'
      *
      * @param ObjectManager $manager
      */
@@ -35,9 +40,9 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
-     * Sets the container.
+     * Define o container. Container se faz necessário para acessar o serviço app.redefinidor_senha
      *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     * @param ContainerInterface|null $container
      */
     public function setContainer(ContainerInterface $container = null)
     {
@@ -45,7 +50,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
-     * Get the order of this fixture
+     * Define a ordem em que a fixture deve ser executada
      *
      * @return integer
      */

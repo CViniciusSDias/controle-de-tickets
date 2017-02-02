@@ -5,10 +5,16 @@ use AppBundle\Entity\Categoria;
 use Doctrine\Common\DataFixtures\{AbstractFixture, OrderedFixtureInterface};
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * DataFixture de categoria
+ *
+ * @package AppBundle\DataFixtures\ORM
+ * @author Vinicius Dias
+ */
 class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
+     * Insere uma categoria com nome 'Testes' no banco de dados
      *
      * @param ObjectManager $manager
      */
@@ -23,7 +29,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     }
 
     /**
-     * Get the order of this fixture
+     * Define a ordem em que a fixture deve ser executada
      *
      * @return integer
      */
