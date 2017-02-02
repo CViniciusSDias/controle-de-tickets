@@ -52,11 +52,7 @@ class Usuario implements UserInterface, \Serializable
 
     /**
      * @var string
-     * @ORM\Column(
-     *     name="tipo",
-     *     type="string",
-     *     columnDefinition="ENUM('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')"
-     * )
+     * @ORM\Column(name="tipo", type="string", length=20)
      * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, strict=true)
      */
     private $tipo;

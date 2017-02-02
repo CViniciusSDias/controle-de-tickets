@@ -41,7 +41,7 @@ class TicketsControllerTest extends AuthWebTestCase
     public function preencheForm(int $prioridade)
     {
         $crawler = $this->cliente->request('GET', '/tickets');
-        $link = $crawler->filter('tbody tr:first-child a')->link();
+        $link = $crawler->filter('tbody tr:first-child td:last-child > a:first-child')->link();
 
         $crawler = $this->cliente->request('GET', $link->getUri());
         $form = $crawler->selectButton('gerenciar_ticket[salvar]')->form();

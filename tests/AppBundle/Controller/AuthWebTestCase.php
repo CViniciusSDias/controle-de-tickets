@@ -18,7 +18,11 @@ abstract class AuthWebTestCase extends WebTestCase
         $client = static::createClient();
 
         /* @var $user UserInterface */
-        $user = $client->getContainer()->get('doctrine')->getRepository('AppBundle:Usuario')->find(5);
+        $user = $client
+            ->getContainer()
+            ->get('doctrine')
+            ->getRepository('AppBundle:Usuario')
+            ->find(1);
 
         $firewallName = 'main';
         $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
