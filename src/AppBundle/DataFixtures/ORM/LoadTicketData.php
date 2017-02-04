@@ -18,14 +18,19 @@ class LoadTicketData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $ticket = new Ticket();
-        $ticket->setAberto(true)
-            ->setCategoria($this->getReference('categoria'))
+        /** @var Categoria $categoria */
+        $categoria = $this->getReference('categoria');
+        $ticketAberto = new Ticket();
+        $ticketAberto->setAberto(true)
+            ->setCategoria($categoria)
             ->setDataHora(new \DateTime())
             ->setDescricao('Teste')
             ->setTitulo('Ticket Teste')
             ->setUsuarioCriador($this->getReference('usuario'));
-        $manager->persist($ticket);
+        $manager->persist($ticketAberto);
+        $ticketFechado = clone $ticketAberto;
+        $ticketFechado->setAberto(false);
+        $manager->persist($ticketFechado);
         $manager->flush();
     }
 
