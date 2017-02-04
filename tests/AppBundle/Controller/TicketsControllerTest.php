@@ -76,4 +76,20 @@ class TicketsControllerTest extends AuthWebTestCase
             $this->assertEquals('fechado', trim($spanLabel->textContent));
         }
     }
+
+    public function testAbrirTicket()
+    {
+        $crawler = $this->cliente->request('GET', '/tickets/novo');
+        $form = $crawler->selectButton('criar_ticket[salvar]')->form();
+        $form['criar_ticket[titulo]'] = 'Título do Ticket';
+        $form['criar_ticket[categoria]'] = 1;
+        $this->cliente->submit($form);
+        $crawler = $this->cliente->followRedirect();
+
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('div.callout-success:contains("Ticket cadastrado com sucesso")')
+                ->count()
+        );
+    }
 }

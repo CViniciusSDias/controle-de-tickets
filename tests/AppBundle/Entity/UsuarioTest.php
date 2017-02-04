@@ -1,10 +1,10 @@
 <?php
 namespace tests\AppBundle\Entity;
 
-
 use AppBundle\Entity\{Usuario, Ticket};
+use PHPUnit\Framework\TestCase;
 
-class UsuarioTest extends \PHPUnit_Framework_TestCase
+class UsuarioTest extends TestCase
 {
     /** @var Usuario */
     private $usuario;

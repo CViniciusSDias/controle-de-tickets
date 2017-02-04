@@ -10,14 +10,10 @@
     </target>
 
     <target name="test">
-        <phpunit printsummary="true" haltonfailure="true" configuration="phpunit.xml.dist"
-             pharlocation="/usr/local/bin/phpunit">
-            <batchtest>
-                <fileset dir="./tests">
-                    <include name="**/**/*Test.php"/>
-                </fileset>
-            </batchtest>
-        </phpunit>
+        <!--<phpunit printsummary="true" configuration="phpunit.xml.dist"
+             pharlocation="vendor/bin/phpunit">
+        </phpunit> Erro após passar a usar o PHPUnit 6-->
+        <exec command="./vendor/bin/phpunit" passthru="true" />
     </target>
 
     <target name="phpmd">
