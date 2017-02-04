@@ -1,6 +1,7 @@
 <?php
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Entity\Categoria;
 use Symfony\Bundle\FrameworkBundle\Client;
 
 class CategoriasControllerTest extends AuthWebTestCase
@@ -37,6 +38,20 @@ class CategoriasControllerTest extends AuthWebTestCase
         $this->assertGreaterThan(
             0,
             $crawler->filter('div.callout-danger:contains("O nome deve conter pelo menos 5 caracteres")')
+                ->count()
+        );
+    }
+
+    public function testInsereCategoria()
+    {
+        $crawler = $this->client->request('GET', '/categorias');
+        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
+        $form['criar_categoria[nome]'] = 'Categoria';
+        $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('div.callout-success:contains("Categoria adicionada com sucesso")')
                 ->count()
         );
     }
