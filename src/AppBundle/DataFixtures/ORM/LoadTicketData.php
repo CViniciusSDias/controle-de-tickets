@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
 
-
 use AppBundle\Entity\Categoria;
 use AppBundle\Entity\Ticket;
 use Doctrine\Common\DataFixtures\AbstractFixture;
