@@ -11,7 +11,7 @@ use DateTime;
  * @author Vinicius Dias
  * @package AppBundle\Entity
  * @ORM\Table(name="token_senha")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TokenSenhaRepository")
+ * @ORM\Entity
  */
 class TokenSenha
 {

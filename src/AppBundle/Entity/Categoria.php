@@ -10,7 +10,7 @@ use InvalidArgumentException;
  *
  * @package AppBundle\Entity
  * @ORM\Table(name="categoria")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoriaRepository")
+ * @ORM\Entity
  */
 class Categoria
 {
