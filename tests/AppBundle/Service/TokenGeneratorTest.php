@@ -1,5 +1,5 @@
 <?php
-namespace tests\AppBundle\Service;
+namespace Tests\AppBundle\Service;
 
 use AppBundle\Entity\TokenSenha;
 use AppBundle\Entity\Usuario;

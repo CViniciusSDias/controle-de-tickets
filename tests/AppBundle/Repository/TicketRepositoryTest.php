@@ -1,5 +1,5 @@
 <?php
-namespace tests\AppBundle\Repository;
+namespace Tests\AppBundle\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

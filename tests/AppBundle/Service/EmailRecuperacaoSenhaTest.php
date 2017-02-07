@@ -1,7 +1,6 @@
 <?php
 namespace Tests\AppBundle\Service;
 
-use AppBundle\Entity\MensagemRecuperacaoSenha;
 use AppBundle\Entity\TokenSenha;
 use AppBundle\Service\EmailRecuperacaoSenha;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +27,7 @@ class EmailRecuperacaoSenhaTest extends TestCase
             ->method('send');
 
         $emailRecuperacao = new EmailRecuperacaoSenha($swiftMock, $routerMock, $twigMock);
-        /** @var TokenSenha $tokenSenhaMock */
+        /** @var TotkenSenha $tokenSenhaMock */
         $tokenSenhaMock = $this->createMock(TokenSenha::class);
         $emailRecuperacao->sendMail($tokenSenhaMock, $email);
     }
