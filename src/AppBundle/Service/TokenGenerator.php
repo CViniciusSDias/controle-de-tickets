@@ -40,8 +40,7 @@ class TokenGenerator
         $token = new TokenSenha();
         $token
             ->setToken(sha1(time()))
-            ->setExpiracao((new DateTime())
-            ->add(new DateInterval('P1D')))
+            ->setExpiracao((new DateTime())->add(new DateInterval('P1D')))
             ->setUsuario($usuario);
 
         return $token;
