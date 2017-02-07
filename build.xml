@@ -67,6 +67,7 @@
     </target>
 
     <target name="sami">
+        <exec command="rm -r docs/sami/*" />
         <exec command="sami update sami.php" />
     </target>
 </project>
