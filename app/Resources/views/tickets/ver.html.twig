@@ -32,8 +32,8 @@
             </div>
 
             <div>
-                <h3>Aberto</h3>
-                <p>{{ ticket.aberto ? 'SIM' : 'NÃO' }}</p>
+                <h3>Estado</h3>
+                <p>{{ ticket.status }}</p>
             </div>
 
             {% if app.user == ticket.atendenteResponsavel %}
@@ -55,10 +55,12 @@
                 <p>{{ ticket.dataHora|date('d/m/Y H:i') }}</p>
             </div>
 
+            {% if ticket.atendenteResponsavel %}
             <div>
                 <h3>Atendente Responsável</h3>
                 <p>{{ ticket.atendenteResponsavel }}</p>
             </div>
+            {% endif %}
 
             <div>
                 <h3>Previsão de Resposta</h3>

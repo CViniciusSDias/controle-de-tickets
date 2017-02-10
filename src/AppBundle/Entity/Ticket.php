@@ -22,7 +22,7 @@ class Ticket
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -31,7 +31,7 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo", type="string", length=128)
+     * @ORM\Column(type="string", length=128)
      * @Assert\Length(min=8, minMessage="O título deve conter pelo menos 8 caracteres")
      */
     private $titulo;
@@ -39,21 +39,21 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="descricao", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $descricao;
 
     /**
-     * @var boolean
+     * @var EstadoTicket
      *
-     * @ORM\Column(name="aberto", type="boolean")
+     * @ORM\Column(type="estado_ticket")
      */
-    private $aberto;
+    private $estado;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="prioridade", type="smallint")
+     * @ORM\Column(type="smallint")
      * @Assert\LessThan(value=6, message="A prioridade deve ser entre 0 e 5")
      * @Assert\GreaterThanOrEqual(value=0, message="A prioridade deve ser entre 0 e 5")
      */
@@ -62,14 +62,14 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dataHora", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $dataHora;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="previsaoResposta", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $previsaoResposta;
 
@@ -86,20 +86,20 @@ class Ticket
     private $atendenteResponsavel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categoria")
+     * @ORM\ManyToOne(targetEntity="Tipo")
      */
-    private $categoria;
+    private $tipo;
 
     public function __construct()
     {
-        $this->aberto = true;
+        $this->estado = new EstadoTicket(EstadoTicket::ABERTO);
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
     }
 
     public function getStatus(): string
     {
-        return $this->aberto ? 'aberto' : 'fechado';
+        return $this->estado;
     }
 
     /**
@@ -165,12 +165,12 @@ class Ticket
     /**
      * Set aberto
      *
-     * @param boolean $aberto
+     * @param EstadoTicket $estado
      * @return Ticket
      */
-    public function setAberto(bool $aberto)
+    public function setEstado(EstadoTicket $estado)
     {
-        $this->aberto = $aberto;
+        $this->estado = $estado;
 
         return $this;
     }
@@ -182,6 +182,29 @@ class Ticket
     public function getAberto(): bool
     {
         return $this->aberto;
+    }
+
+    public function getCor(): string
+    {
+        $cor = '';
+
+        $estado = $this->estado->getValue();
+        switch ($estado) {
+            case EstadoTicket::ABERTO:
+                $cor = 'red';
+                break;
+            case EstadoTicket::EM_ANDAMENTO:
+                $cor = 'orange';
+                break;
+            case EstadoTicket::AGUARDANDO_APROVACAO:
+                $cor = 'blue';
+                break;
+            case EstadoTicket::FECHADO:
+                $cor = 'green';
+                break;
+        }
+
+        return $cor;
     }
 
     /**
@@ -328,13 +351,13 @@ class Ticket
     /**
      * Set categoria
      *
-     * @param Categoria $categoria
+     * @param Tipo $tipo
      *
      * @return Ticket
      */
-    public function setCategoria(Categoria $categoria): self
+    public function setTipo(Tipo $tipo): self
     {
-        $this->categoria = $categoria;
+        $this->tipo = $tipo;
 
         return $this;
     }
@@ -342,10 +365,10 @@ class Ticket
     /**
      * Get categoria
      *
-     * @return Categoria
+     * @return Tipo
      */
-    public function getCategoria(): ?Categoria
+    public function getTipo(): ?Tipo
     {
-        return $this->categoria;
+        return $this->tipo;
     }
 }

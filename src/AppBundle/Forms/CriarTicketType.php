@@ -25,7 +25,7 @@ class CriarTicketType extends AbstractType
                 'categoria',
                 EntityType::class,
                 [
-                    'class' => 'AppBundle:Categoria',
+                    'class' => 'Tipo.php',
                     'choice_label' => 'nome',
                     'placeholder' => 'Selecione'
                 ]

@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Tipo;
 use Doctrine\Common\DataFixtures\{AbstractFixture, OrderedFixtureInterface};
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -20,7 +20,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        $categoria = new Categoria();
+        $categoria = new Tipo();
         $categoria->setNome('Testes');
         $manager->persist($categoria);
         $manager->flush();

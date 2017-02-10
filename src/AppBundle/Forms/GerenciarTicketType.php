@@ -17,7 +17,6 @@ class GerenciarTicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('aberto', CheckboxType::class, ['required' => false])
             ->add('prioridade', IntegerType::class)
             ->add('resposta', TextType::class)
             ->add('salvar', SubmitType::class, ['label' => 'Salvar']);

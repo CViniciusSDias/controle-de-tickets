@@ -1,7 +1,7 @@
 <?php
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Tipo;
 use Symfony\Bundle\FrameworkBundle\Client;
 
 class CategoriasControllerTest extends AuthWebTestCase

@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Tipo;
 use AppBundle\Entity\Ticket;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -23,7 +23,7 @@ class LoadTicketData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        /** @var Categoria $categoria */
+        /** @var Tipo $categoria */
         $categoria = $this->getReference('categoria');
         $ticketAberto = new Ticket();
         $ticketAberto->setAberto(true)

@@ -23,7 +23,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -32,34 +32,34 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="nome", type="string", length=128)
+     * @ORM\Column(type="string", length=128)
      */
     private $nome;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="senha", type="string", length=64)
+     * @ORM\Column(type="string", length=64)
      */
     private $senha;
 
     /**
      * @var string
-     * @ORM\Column(name="tipo", type="string", length=20)
+     * @ORM\Column(type="string", length=20)
      * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, strict=true)
      */
     private $tipo;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="data_cadastro", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $dataCadastro;
 

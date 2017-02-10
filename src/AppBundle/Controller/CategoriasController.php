@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Tipo;
 use AppBundle\Forms\CriarCategoriaType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
@@ -28,9 +28,9 @@ class CategoriasController extends Controller
     public function listarAction(Request $request): Response
     {
         $doctrine = $this->getDoctrine();
-        $categorias = $doctrine->getRepository('AppBundle:Categoria')
+        $categorias = $doctrine->getRepository('Tipo.php')
             ->findBy([], ['nome' => 'asc']);
-        $form = $this->createForm(CriarCategoriaType::class, new Categoria());
+        $form = $this->createForm(CriarCategoriaType::class, new Tipo());
 
         try {
             $form->handleRequest($request);
@@ -73,7 +73,7 @@ class CategoriasController extends Controller
     {
         $idCategoria = $request->request->get('id');
         $manager = $this->getDoctrine()->getManager();
-        $categoria = $manager->getPartialReference(Categoria::class, ['id' => $idCategoria]);
+        $categoria = $manager->getPartialReference(Tipo::class, ['id' => $idCategoria]);
         try {
             $manager->remove($categoria);
             $manager->flush();
