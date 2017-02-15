@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\{Request, Response};
  * @author Vinicius Dias
  * @package AppBundle\Controller
  */
-class CategoriasController extends Controller
+class TiposController extends Controller
 {
     /**
      * Ação de listagem de categorias, e formulário para adição de uma nova.

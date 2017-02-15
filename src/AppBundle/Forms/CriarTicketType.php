@@ -2,6 +2,7 @@
 namespace AppBundle\Forms;
 
 use Symfony\Component\Form\AbstractType;
+use AppBundle\Entity\Tipo;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\{
@@ -22,10 +23,10 @@ class CriarTicketType extends AbstractType
             ->add('titulo', TextType::class)
             ->add('descricao', TextareaType::class, ['required' => false])
             ->add(
-                'categoria',
+                'tipo',
                 EntityType::class,
                 [
-                    'class' => 'Tipo.php',
+                    'class' => Tipo::class,
                     'choice_label' => 'nome',
                     'placeholder' => 'Selecione'
                 ]

@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Controller;
 use AppBundle\Entity\Tipo;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-class CategoriasControllerTest extends AuthWebTestCase
+class TiposControllerTest extends AuthWebTestCase
 {
     /** @var  Client */
     private $client;
