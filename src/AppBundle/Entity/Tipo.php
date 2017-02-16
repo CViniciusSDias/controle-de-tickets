@@ -32,6 +32,31 @@ class Tipo
     private $nome;
 
     /**
+     * @var Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     */
+    private $supervisorResponsavel;
+
+    /**
+     * @return Usuario|null
+     */
+    public function getSupervisorResponsavel(): ?Usuario
+    {
+        return $this->supervisorResponsavel;
+    }
+
+    /**
+     * @param Usuario $supervisorResponsavel
+     * @return Tipo
+     */
+    public function setSupervisorResponsavel(Usuario $supervisorResponsavel): Tipo
+    {
+        $this->supervisorResponsavel = $supervisorResponsavel;
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return int

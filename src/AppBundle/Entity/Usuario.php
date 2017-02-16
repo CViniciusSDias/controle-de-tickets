@@ -53,7 +53,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @var string
      * @ORM\Column(type="string", length=20)
-     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"}, strict=true)
+     * @Assert\Choice({"ROLE_USER", "ROLE_ADMIN", "ROLE_SUPERVISOR", "ROLE_SUPER_ADMIN"}, strict=true)
      */
     private $tipo;
 
@@ -193,8 +193,10 @@ class Usuario implements UserInterface, \Serializable
      */
     public function setTipo(string $tipo): self
     {
-        if (!in_array($tipo, array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))) {
-            throw new InvalidArgumentException('Tipo inválido. Deve ser ROLE_USER, ROLE_ADMIN ou ROLE_SUPER_ADMIN');
+        if (!in_array($tipo, array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_SUPER_ADMIN'))) {
+            throw new InvalidArgumentException(
+                'Tipo inválido. Deve ser ROLE_USER, ROLE_ADMIN, ROLE_SUPERVISOR ou ROLE_SUPER_ADMIN'
+            );
         }
         $this->tipo = $tipo;
 
@@ -222,6 +224,7 @@ class Usuario implements UserInterface, \Serializable
             '' => '',
             'ROLE_USER' => 'Usuário',
             'ROLE_ADMIN' => 'Suporte',
+            'ROLE_SUPERVISOR' => 'Supervisor',
             'ROLE_SUPER_ADMIN' => 'Administrador'
         ];
 

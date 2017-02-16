@@ -2,50 +2,67 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tipo;
-use AppBundle\Forms\CriarCategoriaType;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Forms\CriarTipoType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
- * Controller para Categorias
+ * Controller para Tipos
  *
  * @author Vinicius Dias
  * @package AppBundle\Controller
  */
 class TiposController extends Controller
 {
+
     /**
-     * Ação de listagem de categorias, e formulário para adição de uma nova.
-     * Caso a requisição seja post, salva a categoria no banco de dados
+     * Ação de listagem de tipos.
      *
-     * @Route("/categorias", name="listar_categorias")
+     * @Route("/tipos", name="listar_tipos")
+     * @return Response
+     */
+    public function listarAction(): Response
+    {
+        $doctrine = $this->getDoctrine();
+        $tipos = $doctrine->getRepository('AppBundle:Tipo')
+            ->findBy([], ['nome' => 'asc']);
+
+        return $this->render(
+            'tipos/listar.html.twig',
+            ['tipos' => $tipos]
+        );
+    }
+
+    /**
+     * Ação para cadastrar um novo Tipo
+     *
+     * @Route("/tipos/novo", name="cadastrar_tipo")
      * @param Request $request
      * @return Response
      */
-    public function listarAction(Request $request): Response
+    public function cadastrarAction(Request $request): Response
     {
         $doctrine = $this->getDoctrine();
-        $categorias = $doctrine->getRepository('Tipo.php')
-            ->findBy([], ['nome' => 'asc']);
-        $form = $this->createForm(CriarCategoriaType::class, new Tipo());
+        $form = $this->createForm(CriarTipoType::class, new Tipo());
 
         try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
-                $categoria = $form->getData();
+                $tipo = $form->getData();
                 $validador = $this->get('validator');
-                $erros = $validador->validate($categoria);
+                $erros = $validador->validate($tipo);
 
                 if (count($erros) === 0) {
                     $manager = $doctrine->getManager();
-                    $manager->persist($categoria);
+                    $manager->persist($tipo);
                     $manager->flush();
-                    $this->addFlash('success', 'Categoria adicionada com sucesso');
-                    return $this->redirect($request->getUri());
+                    $this->addFlash('success', 'Tipo adicionado com sucesso');
+
+                    return $this->redirectToRoute('listar_tipos');
                 }
 
                 foreach ($erros as $erro) {
@@ -57,15 +74,15 @@ class TiposController extends Controller
         }
 
         return $this->render(
-            'categorias/listar.html.twig',
-            ['categorias' => $categorias, 'form' => $form->createView()]
+            'tipos/cadastrar.html.twig',
+            ['form' => $form->createView()]
         );
     }
 
     /**
-     * Ação que remove a categoria passada por parâmetro (POST)
+     * Ação que remove o tipo passado por parâmetro (POST)
      *
-     * @Route("/categorias/remover", name="remover_categoria")
+     * @Route("/tipos/remover", name="remover_categoria")
      * @param Request $request Requisição http necessariamente com o parâmetro 'id'
      * @return Response
      */
@@ -78,11 +95,45 @@ class TiposController extends Controller
             $manager->remove($categoria);
             $manager->flush();
 
-            $this->addFlash('success', 'Categoria removida com sucesso');
+            $this->addFlash('success', 'Tipo removido com sucesso');
         } catch (ForeignKeyConstraintViolationException $e) {
-            $this->addFlash('danger', 'A categoria selecionada possui tickets relacionados a ela.');
+            $this->addFlash('danger', 'O tipo selecionado possui tickets relacionados a ele.');
         }
 
-        return $this->redirectToRoute('listar_categorias');
+        return $this->redirectToRoute('listar_tipos');
+    }
+
+    /**
+     * Ação para editar dados de um tipo
+     *
+     * @Route("/tipos/editar/{id}", name="editar_tipo")
+     * @param Tipo $tipo
+     * @param Request $request
+     * @return Response
+     */
+    public function editaAction(Tipo $tipo, Request $request): Response
+    {
+        $form = $this->createForm(CriarTipoType::class, $tipo);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $tipo = $form->getData();
+            $validator = $this->get('validator');
+            $erros = $validator->validate($tipo);
+
+            if (count($erros) === 0) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($tipo);
+                $em->flush();
+                $this->addFlash('success', 'Tipo editado com sucesso');
+                return $this->redirectToRoute('listar_tipos');
+            }
+
+            foreach ($erros as $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->render('tipos/cadastrar.html.twig', ['form' => $form->createView()]);
     }
 }

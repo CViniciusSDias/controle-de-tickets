@@ -17,7 +17,7 @@ class TiposControllerTest extends AuthWebTestCase
     public function testNaoLogado()
     {
         $client  = static::createClient();
-        $crawler = $client->request('GET', '/categorias');
+        $crawler = $client->request('GET', '/tipos');
 
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("/login")')->count());
@@ -25,13 +25,13 @@ class TiposControllerTest extends AuthWebTestCase
 
     public function testListaCategorias()
     {
-        $crawler = $this->client->request('GET', '/categorias');
+        $crawler = $this->client->request('GET', '/tipos');
         $this->assertGreaterThan(0, $crawler->filter('h1:contains("Categorias")')->count());
     }
 
     public function testCategoriaComNomePequeno()
     {
-        $crawler = $this->client->request('GET', '/categorias');
+        $crawler = $this->client->request('GET', '/tipos');
         $form = $crawler->selectButton('criar_categoria[salvar]')->form();
         $form['criar_categoria[nome]'] = 'a';
         $crawler = $this->client->submit($form);
@@ -44,7 +44,7 @@ class TiposControllerTest extends AuthWebTestCase
 
     public function testInsereCategoria()
     {
-        $crawler = $this->client->request('GET', '/categorias');
+        $crawler = $this->client->request('GET', '/tipos');
         $form = $crawler->selectButton('criar_categoria[salvar]')->form();
         $form['criar_categoria[nome]'] = 'Categoria';
         $this->client->submit($form);

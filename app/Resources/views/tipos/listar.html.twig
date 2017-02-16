@@ -7,43 +7,36 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="box box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">Nova Categoria</h3>
+                    <a href="{{ path('cadastrar_tipo') }}" class="btn btn-primary">Novo Tipo</a>
                 </div>
-                <div class="box-body">
-                    {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-                        <div class="form-group nova-categoria">
-                            {{ form_label(form.nome, 'Nome:') }}
-                            {{ form_widget(form.nome, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
-                    {{ form_end(form) }}
-                </div>
-            </div>
-
-            <div class="box box-primary">
                 <div class="box-body">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Nome</th>
+                                <th>Responsável</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for c in categorias %}
+                            {% for tipo in tipos %}
                             <tr>
-                                <td>{{ c.id }}</td>
-                                <td>{{ c.nome }}</td>
+                                <td>{{ tipo.id }}</td>
+                                <td>{{ tipo.nome }}</td>
+                                <td>{{ tipo.supervisorResponsavel ?? 'Sem Responsável' }}</td>
                                 <td>
-                                    <form action="{{ path('remover_categoria') }}" method="post"
-                                      onsubmit="return confirm('Deseja excluir {{ c.nome }}?');">
-                                        <input type="hidden" name="id" value="{{ c.id }}">
+                                    <form action="{{ path('remover_categoria') }}" method="post" style="display: inline-block;"
+                                          onsubmit="return confirm('Deseja excluir {{ tipo.nome }}?');">
+                                        <input type="hidden" name="id" value="{{ tipo.id }}">
                                         <button class="btn btn-danger">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </form>
+                                    <a href="{{ path('editar_tipo', {'id': tipo.id}) }}" class="btn btn-primary"
+                                       title="Editar Tipo">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}

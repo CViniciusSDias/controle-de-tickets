@@ -142,11 +142,27 @@
                 </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                <li>
-                    <a href="{{ path('listar_categorias') }}">
+                <li class="treeview">
+                    <a href="#">
                         <i class="fa fa-list-alt"></i>
-                        <span>Gerenciar Categorias</span>
+                        <span>Gerenciar Tipos</span>
+                        <i class="fa fa-angle-left pull-right"></i>
                     </a>
+
+                    <ul class="treeview-menu">
+                        <li>
+                            <a href="{{ path('cadastrar_tipo') }}">
+                                <i class="fa fa-list-alt"></i>
+                                <span>Novo Tipo</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('listar_tipos') }}">
+                                <i class="fa fa-list-alt"></i>
+                                <span>Listar Tipos</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 {% endif %}
             </ul>
