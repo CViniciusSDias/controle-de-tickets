@@ -20,11 +20,9 @@ class TokenGeneratorTest extends TestCase
     {
         $usuario = new Usuario();
         $mockRepository = $this->createMock(UsuarioRepository::class);
-        $mockRepository->method('findOneBy')->willReturn($usuario);
-        $mockDoctrine = $this->createMock(RegistryInterface::class);
-        $mockDoctrine->method('getRepository')->willReturn($mockRepository);
+        $mockRepository->method('findByEmail')->willReturn($usuario);
 
-        $tokenGenerator = new TokenGenerator($mockDoctrine);
+        $tokenGenerator = new TokenGenerator($mockRepository);
         $token = $tokenGenerator->generateToken('');
 
         static::assertTrue($token instanceof TokenSenha);
