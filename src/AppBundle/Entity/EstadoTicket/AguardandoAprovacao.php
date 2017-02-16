@@ -12,7 +12,7 @@ class AguardandoAprovacao implements EstadoTicket
 
     public function __toString(): string
     {
-        return 'Aguardando Aprovação';
+        return 'Respondido';
     }
 
     public function ehAberto(): bool

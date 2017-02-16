@@ -34,7 +34,7 @@ security:
         - { path: ^/recuperar-senha/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(login|esqueci-a-senha|enviar-recuperacao), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/usuarios, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/tipos, roles: ROLE_ADMIN }
+        - { path: ^/tipos, roles: ROLE_SUPER_ADMIN }
         - { path: ^/, roles: ROLE_USER }
 
     encoders:

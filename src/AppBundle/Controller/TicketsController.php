@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\EstadoTicket\Aberto;
 use AppBundle\Entity\EstadoTicket\Fechado;
 use AppBundle\Entity\Ticket;
+use AppBundle\Entity\Usuario;
 use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -162,21 +163,30 @@ class TicketsController extends Controller
     /**
      * Exibe o formulário de gestão do ticket e altera seus dados com o envio do formulário
      *
-     * @Route("/tickets/{id}", name="gerenciar_ticket")
+     * @Route("/tickets/gerenciar/{id}", name="gerenciar_ticket")
      * @param Ticket $ticket
      * @param Request $request
      * @return Response
      */
     public function gerenciarAction(Ticket $ticket, Request $request): Response
     {
+        /** @var Usuario $usuarioLogado */
+        $usuarioLogado = $this->getUser();
+        if (!$ticket->podeSerGerenciado($usuarioLogado)) {
+            $this->addFlash('danger', 'Este ticket não pode ser gerenciado por você no momento.');
+            return $this->voltar($request);
+        }
+
+        $form = $this->createForm(GerenciarTicketType::class, $ticket);
         try {
-            $form = $this->createForm(GerenciarTicketType::class, $ticket);
+            if (!$this->isGranted('ROLE_SUPERVISOR')) {
+                $form->remove('atendenteResponsavel');
+            }
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
                 $ticket = $form->getData();
-                $validador = $this->get('validator');
-                $erros = $validador->validate($ticket);
+                $erros = $this->get('validator')->validate($ticket);
 
                 if (count($erros) === 0) {
                     $manager = $this->getDoctrine()->getManager();
@@ -233,9 +243,9 @@ class TicketsController extends Controller
         $manager->persist($ticket);
         $ticket->fechar();
         $manager->flush();
-        $this->addFlash('success', 'Seu ticket foi fechado com sucesso');
+        $this->addFlash('success', "Ticket #{$ticket->getId()} fechado com sucesso");
 
-        return $this->voltar($request);
+        return $this->redirectToRoute('listar_tickets');
     }
 
     /**

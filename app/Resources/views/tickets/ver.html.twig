@@ -68,7 +68,7 @@
     </div>
 </section>
 
-{% if ticket.estaParaAprovacao %}
+{% if ticket.estaParaAprovacao and app.user == ticket.usuarioCriador %}
 <section class="invoice">
     <div class="row">
         <div class="col-xs-6 offset-xs-3">

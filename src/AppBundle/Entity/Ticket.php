@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\EstadoTicket\{
     Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket
@@ -391,5 +392,12 @@ class Ticket
     public function reabrir(): void
     {
         $this->estado = new EmAndamento();
+    }
+
+    public function podeSerGerenciado(Usuario $usuario): bool
+    {
+        $podeGerenciar = $usuario->podeVer($this) || $usuario->ehSupervisor();
+
+        return $this->getAberto() && $podeGerenciar;
     }
 }

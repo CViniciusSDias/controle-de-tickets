@@ -34,10 +34,12 @@
                         </div>
                     </div>
 
+                    {% if form.atendenteResponsavel is defined %}
                     <div class="form-group">
                         {{ form_label(form.atendenteResponsavel, 'Atendente Responsável') }}
                         {{ form_widget(form.atendenteResponsavel, {'attr': {'class': 'form-control'}}) }}
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="box-footer">
@@ -45,7 +47,7 @@
                     {% if ticket.aberto %}
                     <a href="{{ path('fechar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
                        onclick="return confirm('Tem certeza que o ticket pode ser marcado como fechado?')">
-                        Fechar
+                        Finalizar
                     </a>
                     {% endif %}
                 </div>

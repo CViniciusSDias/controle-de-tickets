@@ -272,11 +272,26 @@ class Usuario implements UserInterface, \Serializable
      */
     public function podeVer(Ticket $ticket): bool
     {
-        return $ticket->getAtendenteResponsavel() == $this || $ticket->getUsuarioCriador() == $this;
+        return $this->ehSupervisor() || $ticket->getAtendenteResponsavel() == $this || $ticket->getUsuarioCriador() == $this;
     }
 
     public function __toString(): ?string
     {
         return $this->nome;
+    }
+
+    public function ehDeSuporte(): bool
+    {
+        return $this->getTipo() == 'ROLE_ADMIN' || $this->ehSupervisor();
+    }
+
+    public function ehSupervisor(): bool
+    {
+        return $this->getTipo() == 'ROLE_SUPERVISOR' || $this->ehAdministrador();
+    }
+
+    public function ehAdministrador(): bool
+    {
+        return $this->getTipo() == 'ROLE_SUPER_ADMIN';
     }
 }
