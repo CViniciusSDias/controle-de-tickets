@@ -1,9 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\{
-    MensagemRecuperacaoSenha, TokenSenha, Usuario
-};
+use AppBundle\Entity\Usuario;
 use AppBundle\Forms\RedefinirSenhaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{Request, Response};
