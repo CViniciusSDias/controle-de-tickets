@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Types;
 
-use AppBundle\Entity\EstadoTicket as Estado;
+use AppBundle\Entity\EstadoTicket\EstadoFactory;
+use AppBundle\Entity\EstadoTicket\EstadoTicket as Estado;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
@@ -39,7 +40,7 @@ class EstadoTicket extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return new Estado(intval($value));
+        return (new EstadoFactory())->getEstado(intval($value));
     }
 
     /**

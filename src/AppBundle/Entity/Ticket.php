@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\EstadoTicket\{
+    Aberto, EmAndamento, EstadoTicket
+};
 
 /**
  * Ticket
@@ -92,7 +95,7 @@ class Ticket
 
     public function __construct()
     {
-        $this->estado = new EstadoTicket(EstadoTicket::ABERTO);
+        $this->estado = new Aberto();
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
     }
@@ -331,7 +334,7 @@ class Ticket
     public function setAtendenteResponsavel(Usuario $atendenteResponsavel): self
     {
         $this->atendenteResponsavel = $atendenteResponsavel;
-        $this->estado = new EstadoTicket(EstadoTicket::EM_ANDAMENTO);
+        $this->estado = new EmAndamento();
 
         return $this;
     }
@@ -370,7 +373,12 @@ class Ticket
         return $this->tipo;
     }
 
-    public function fechar()
+    /**
+     * Tenta fechar o ticket atual
+     *
+     * @throws \BadMethodCallException
+     */
+    public function fechar(): void
     {
         $this->estado->fechar($this);
     }
