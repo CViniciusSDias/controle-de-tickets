@@ -112,8 +112,9 @@ class TicketsController extends Controller
      */
     public function listarAbertosAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['estado' => new Aberto()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findAbertos();
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -125,8 +126,9 @@ class TicketsController extends Controller
      */
     public function listarFechadosAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['estado' => new Fechado()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findFechados();
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -138,8 +140,9 @@ class TicketsController extends Controller
      */
     public function listarTicketsDoAtendenteAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['atendenteResponsavel' => $this->getUser()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findByAtendente($this->getUser());
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -151,8 +154,8 @@ class TicketsController extends Controller
      */
     public function listarTicketsAbertosPeloUsuario(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['usuarioCriador' => $this->getUser()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findByCriador($this->getUser());
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 

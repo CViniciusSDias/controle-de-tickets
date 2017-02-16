@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\EstadoTicket\{Aberto, Fechado};
 use AppBundle\Entity\Usuario;
 
 /**
@@ -47,5 +48,47 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->createQuery('SELECT COUNT(t) FROM AppBundle:Ticket t WHERE t.atendenteResponsavel = ?1')
             ->setParameter(1, $usuario)
             ->getResult()[0][1]);
+    }
+
+    /**
+     * Busca os tickets com o estado = 1 (aberto)
+     *
+     * @return array
+     */
+    public function findAbertos(): array
+    {
+        return $this->findBy(['estado' => new Aberto()]);
+    }
+
+    /**
+     * Busca os tickets com o estado = 4 (fechado)
+     *
+     * @return array
+     */
+    public function findFechados(): array
+    {
+        return $this->findBy(['estado' => new Fechado()]);
+    }
+
+    /**
+     * Busca os tickets sob responsabilidade do usuário informado
+     *
+     * @param Usuario $usuario
+     * @return array
+     */
+    public function findByAtendente(Usuario $usuario): array
+    {
+        return $this->findBy(['atendenteResponsavel' => $usuario]);
+    }
+
+    /**
+     * Busca os tickets abertos pelo usuário informado
+     *
+     * @param Usuario $usuario
+     * @return array
+     */
+    public function findByCriador(Usuario $usuario): array
+    {
+        return $this->findBy(['usuarioCriador' => $usuario]);
     }
 }
