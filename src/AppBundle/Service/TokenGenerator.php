@@ -2,6 +2,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\TokenSenha;
+use AppBundle\Repository\UsuarioRepository;
 use DateTime;
 use DateInterval;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -14,16 +15,16 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class TokenGenerator
 {
-    private $doctrine;
+    private $usuarioRepo;
 
     /**
      * Construtor
      *
-     * @param RegistryInterface $doctrine
+     * @param UsuarioRepository $usuarioRepo
      */
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(UsuarioRepository $usuarioRepo)
     {
-        $this->doctrine = $doctrine;
+        $this->usuarioRepo = $usuarioRepo;
     }
 
     /**
@@ -34,8 +35,7 @@ class TokenGenerator
      */
     public function generateToken(string $email): TokenSenha
     {
-        $usuarioRepository = $this->doctrine->getRepository('AppBundle:Usuario');
-        $usuario = $usuarioRepository->findByEmail($email);
+        $usuario = $this->usuarioRepo->findByEmail($email);
 
         $token = new TokenSenha();
         $token

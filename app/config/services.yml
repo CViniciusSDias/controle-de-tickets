@@ -9,10 +9,15 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.token_generator:
         class: AppBundle\Service\TokenGenerator
-        arguments: ["@doctrine"]
+        arguments: ["@app.usuario_repository"]
     app.email_recuperacao_senha:
         class: AppBundle\Service\EmailRecuperacaoSenha
         arguments: ["@mailer", "@templating"]
     app.redefinidor_senha:
         class: AppBundle\Service\RedefinidorDeSenha
         arguments: ["@security.password_encoder"]
+    app.usuario_repository:
+        class: AppBundle\Repository\UsuarioRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Usuario
