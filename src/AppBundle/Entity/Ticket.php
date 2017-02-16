@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\EstadoTicket\{
     Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket
@@ -39,13 +40,6 @@ class Ticket
      * @Assert\Length(min=8, minMessage="O título deve conter pelo menos 8 caracteres")
      */
     private $titulo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $descricao;
 
     /**
      * @var EstadoTicket
@@ -95,6 +89,13 @@ class Ticket
     private $tipo;
 
     /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="MensagemTicket", mappedBy="ticket", cascade={"all"})
+     */
+    private $mensagens;
+
+    /**
      * Inicializa um ticket aberto com a data de hoje e prioridade = 3
      */
     public function __construct()
@@ -102,6 +103,7 @@ class Ticket
         $this->estado = new Aberto();
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
+        $this->mensagens = new ArrayCollection();
     }
 
     /**
@@ -139,29 +141,6 @@ class Ticket
     public function getTitulo(): ?string
     {
         return $this->titulo;
-    }
-
-    /**
-     * Set descricao
-     *
-     * @param string $descricao
-     * @return Ticket
-     */
-    public function setDescricao(string $descricao): self
-    {
-        $this->descricao = $descricao;
-
-        return $this;
-    }
-
-    /**
-     * Get descricao
-     *
-     * @return string
-     */
-    public function getDescricao(): ?string
-    {
-        return $this->descricao;
     }
 
     /**
@@ -416,5 +395,21 @@ class Ticket
     public function podeSerGerenciado(Usuario $usuario): bool
     {
         return $this->getAberto() && $usuario->podeVer($this) && $usuario->ehDeSuporte();
+    }
+
+    /**
+     * Adiciona uma mensagem (interação) ao ticket
+     *
+     * @param MensagemTicket $mensagem
+     */
+    public function addMensagem(MensagemTicket $mensagem): void
+    {
+        $this->mensagens->add($mensagem);
+        $mensagem->setTicket($this);
+    }
+
+    public function getMensagens(): Collection
+    {
+        return $this->mensagens;
     }
 }

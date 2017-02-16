@@ -21,7 +21,7 @@ class CriarTicketType extends AbstractType
     {
         $builder
             ->add('titulo', TextType::class)
-            ->add('descricao', TextareaType::class, ['required' => false])
+            ->add('descricao', TextareaType::class, ['mapped' => false])
             ->add(
                 'tipo',
                 EntityType::class,

@@ -1,11 +1,44 @@
+/**
+ * @session Geral
+ */
 html, body {
     height: 100%;
 }
-.nova-categoria label,
-.nova-categoria input {
-    margin-right: 1em;
-}
 
+/**
+ * @session Box gerenciar ticket
+ */
 #gerenciar-ticket {
     margin-top: 2em;
+}
+
+/**
+ * @session Visualizar infos / mensagens de ticket
+ */
+.infos-ticket {
+    padding: 1.5em;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+    .infos-ticket h3 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .infos-ticket p {
+        font-size: 14px;
+    }
+
+    .infos-ticket .page-header {
+        font-size: 20px;
+    }
+
+        .infos-ticket .page-header small {
+            display: block;
+            margin-left: 25px;
+        }
+.timeline-body textarea {
+    resize: vertical;
 }

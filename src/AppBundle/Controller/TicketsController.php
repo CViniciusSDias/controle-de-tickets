@@ -1,13 +1,13 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\EstadoTicket\Aberto;
-use AppBundle\Entity\EstadoTicket\Fechado;
+use AppBundle\Entity\MensagemTicket;
 use AppBundle\Entity\Ticket;
 use AppBundle\Entity\Usuario;
 use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -47,13 +47,19 @@ class TicketsController extends Controller
 
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
             if ($form->isSubmitted()) {
+                /** @var Ticket $ticket */
                 $ticket = $form->getData();
+                $mensagem = new MensagemTicket();
+                $mensagem
+                    ->setAutor($this->getUser())
+                    ->setTexto($form['descricao']->getData());
+                $ticket->addMensagem($mensagem);
                 $erros = $this->get('validator')->validate($ticket);
 
                 if (count($erros) === 0) {
                     // Se o ticket passar na validação, salva no BD e recarrega a página
                     $manager = $this->getDoctrine()->getManager();
-                    $ticket->usuarioCriador = $this->getUser();
+                    $ticket->setUsuarioCriador($this->getUser());
                     $manager->persist($ticket);
                     $manager->flush();
 
@@ -72,25 +78,6 @@ class TicketsController extends Controller
             'form' => $form->createView()
         ]);
     }
-
-    /**
-     * Faz com que o usuário logado passe a ser o responsável pelo ticket passado na rota
-     *
-     * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
-     * @param Ticket $ticket
-     * @param Request $request
-     * @return Response
-
-    public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
-    {
-        $manager = $this->getDoctrine()->getManager();
-        $ticket->setAtendenteResponsavel($this->getUser());
-        $manager->persist($ticket);
-        $manager->flush();
-
-        $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
-        return $this->voltar($request);
-    }*/
 
     /**
      * Exibe todos os tickets ordenados por data
@@ -293,5 +280,28 @@ class TicketsController extends Controller
             return $this->redirectToRoute('listar_tickets');
         }
         return $this->redirect($anterior);
+    }
+
+    /**
+     * Envia a mensagem contida no corpo do post para o ticket
+     *
+     * @Route("/tickets/{id}/enviar-mensagem", name="enviar_mensagem")
+     * @Method("POST")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function enviarMensagemAction(Ticket $ticket, Request $request): Response
+    {
+        $textoMensagem = $request->request->get('mensagem');
+        $mensagem = new MensagemTicket();
+        $mensagem
+            ->setAutor($this->getUser())
+            ->setTexto($textoMensagem);
+        $ticket->addMensagem($mensagem);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->voltar($request);
     }
 }
