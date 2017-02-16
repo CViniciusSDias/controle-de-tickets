@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\EstadoTicket;
+use AppBundle\Entity\EstadoTicket\Fechado;
 use AppBundle\Entity\Tipo;
 use AppBundle\Entity\Ticket;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -36,7 +36,7 @@ class LoadTicketData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($ticketAberto);
 
         $ticketFechado = clone $ticketAberto;
-        $ticketFechado->setEstado(EstadoTicket::FECHADO());
+        $ticketFechado->setEstado(new Fechado());
         $manager->persist($ticketFechado);
 
         $manager->flush();

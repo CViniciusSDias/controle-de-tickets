@@ -50,7 +50,7 @@ class EstadoTicket extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value->getValue();
+        return $value->getDbValue();
     }
 
     /**

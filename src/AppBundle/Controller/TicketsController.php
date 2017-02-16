@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\EstadoTicket;
+use AppBundle\Entity\EstadoTicket\Aberto;
+use AppBundle\Entity\EstadoTicket\Fechado;
 use AppBundle\Entity\Ticket;
 use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -112,7 +113,7 @@ class TicketsController extends Controller
     public function listarAbertosAction(): Response
     {
         $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['estado' => new EstadoTicket(EstadoTicket::ABERTO)]);
+            ->findBy(['estado' => new Aberto()]);
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -125,7 +126,7 @@ class TicketsController extends Controller
     public function listarFechadosAction(): Response
     {
         $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['estado' => new EstadoTicket(EstadoTicket::FECHADO)]);
+            ->findBy(['estado' => new Fechado()]);
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
