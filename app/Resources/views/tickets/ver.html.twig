@@ -67,4 +67,20 @@
         </div>
     </div>
 </section>
+
+{% if ticket.estaParaAprovacao %}
+<section class="invoice">
+    <div class="row">
+        <div class="col-xs-6 offset-xs-3">
+            <a href="{{ path('fechar_ticket', {'id': ticket.id}) }}" class="btn btn-success btn-lg">
+                <i class="fa fa-smile-o"></i>
+            </a>
+
+            <a href="{{ path('reabrir_ticket', {'id': ticket.id}) }}" class="btn btn-danger btn-lg">
+                <i class="fa fa-frown-o"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}

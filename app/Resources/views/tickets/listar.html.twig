@@ -52,10 +52,12 @@
                                 <td>{{ ticket.atendenteResponsavel ?? 'Sem responsável' }}</td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <td>
+                                    {% if ticket.aberto %}
                                     <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
                                       title="Gerenciar Ticket">
                                         <i class="fa fa-cogs"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                                 {% endif %}
                             </tr>

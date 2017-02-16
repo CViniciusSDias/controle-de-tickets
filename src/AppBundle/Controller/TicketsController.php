@@ -221,14 +221,35 @@ class TicketsController extends Controller
      *
      * @Route("/tickets/fechar/{id}", name="fechar_ticket")
      * @param Ticket $ticket
+     * @param Request $request
      * @return Response
      */
     public function fecharTicketAction(Ticket $ticket, Request $request): Response
     {
-        $ticket->fechar();
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($ticket);
+        $ticket->fechar();
         $manager->flush();
+        $this->addFlash('success', 'Seu ticket foi fechado com sucesso');
+
+        return $this->voltar($request);
+    }
+
+    /**
+     * Reabre o ticket passado por parâmetro
+     *
+     * @Route("/tickets/reabrir/{id}", name="reabrir_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function reabrirTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($ticket);
+        $ticket->reabrir();
+        $manager->flush();
+        $this->addFlash('success', 'Seu ticket foi reaberto');
 
         return $this->voltar($request);
     }

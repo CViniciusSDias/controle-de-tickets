@@ -7,7 +7,7 @@ use DateTime;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\EstadoTicket\{
-    Aberto, EmAndamento, EstadoTicket
+    Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket
 };
 
 /**
@@ -161,7 +161,7 @@ class Ticket
     }
 
     /**
-     * Set aberto
+     * Set estado
      *
      * @param EstadoTicket $estado
      * @return Ticket
@@ -381,5 +381,15 @@ class Ticket
     public function fechar(): void
     {
         $this->estado->fechar($this);
+    }
+
+    public function estaParaAprovacao(): bool
+    {
+        return $this->estado instanceof AguardandoAprovacao;
+    }
+
+    public function reabrir(): void
+    {
+        $this->estado = new EmAndamento();
     }
 }
