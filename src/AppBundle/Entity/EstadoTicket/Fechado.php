@@ -7,7 +7,7 @@ class Fechado implements EstadoTicket
 {
     public function getCor(): string
     {
-        return 'green';
+        return 'gray';
     }
 
     public function __toString(): string
@@ -22,7 +22,7 @@ class Fechado implements EstadoTicket
 
     public function fechar(Ticket $ticket): void
     {
-        throw new \BadMethodCallException("Ticket {$ticket->getTitulo()} já fechado");
+        throw new \BadMethodCallException("Ticket #{$ticket->getId()} já fechado");
     }
 
     public function getDbValue(): int

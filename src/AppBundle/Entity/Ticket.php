@@ -94,6 +94,9 @@ class Ticket
      */
     private $tipo;
 
+    /**
+     * Inicializa um ticket aberto com a data de hoje e prioridade = 3
+     */
     public function __construct()
     {
         $this->estado = new Aberto();
@@ -104,7 +107,7 @@ class Ticket
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId(): int
     {
@@ -167,7 +170,7 @@ class Ticket
      * @param EstadoTicket $estado
      * @return Ticket
      */
-    public function setEstado(EstadoTicket $estado)
+    public function setEstado(EstadoTicket $estado): self
     {
         $this->estado = $estado;
 
@@ -384,20 +387,34 @@ class Ticket
         $this->estado->fechar($this);
     }
 
+    /**
+     * Verifica se o ticket está aguardando aprovação do usuário
+     *
+     * @return bool
+     */
     public function estaParaAprovacao(): bool
     {
         return $this->estado instanceof AguardandoAprovacao;
     }
 
+    /**
+     * Reabre um ticket, recolocando-o no estado EmAndamento
+     */
     public function reabrir(): void
     {
         $this->estado = new EmAndamento();
     }
 
+    /**
+     * Verifica se um ticket pode ser gerenciado por determinado usuário.
+     * Verdadeiro se o ticket estiver aberto e o usuário for pelo menos de suporte e tiver as devidas permissões sobre
+     * ele ( caso seja de suporte, deve ser o responsável por ele, o que não é necessário caso seja supervisor ou adm )
+     *
+     * @param Usuario $usuario
+     * @return bool
+     */
     public function podeSerGerenciado(Usuario $usuario): bool
     {
-        $podeGerenciar = $usuario->podeVer($this) || $usuario->ehSupervisor();
-
-        return $this->getAberto() && $podeGerenciar;
+        return $this->getAberto() && $usuario->podeVer($this) && $usuario->ehDeSuporte();
     }
 }

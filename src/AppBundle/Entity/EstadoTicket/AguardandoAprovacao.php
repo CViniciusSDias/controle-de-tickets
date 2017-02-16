@@ -7,9 +7,14 @@ class AguardandoAprovacao implements EstadoTicket
 {
     public function getCor(): string
     {
-        return 'blue';
+        return 'green';
     }
 
+    /**
+     * Indica para o cliente que o ticket foi respondido, fazendo com que ele confirme ou negue a solução
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return 'Respondido';
