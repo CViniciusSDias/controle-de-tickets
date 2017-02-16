@@ -18,7 +18,7 @@ class TicketsControllerTest extends AuthWebTestCase
         $crawler = $this->cliente->request('GET', '/tickets/novo');
         $form = $crawler->selectButton('criar_ticket[salvar]')->form();
         $form['criar_ticket[titulo]'] = 'titulo';
-        $form['criar_ticket[categoria]'] = 1;
+        $form['criar_ticket[tipo]'] = 1;
         $crawler = $this->cliente->submit($form);
 
         $this->assertGreaterThan(
@@ -63,7 +63,7 @@ class TicketsControllerTest extends AuthWebTestCase
         $spans = $crawler->filter('tbody tr td > span.label');
 
         foreach ($spans as $spanLabel) {
-            $this->assertEquals('aberto', trim($spanLabel->textContent));
+            $this->assertEquals('Aberto', trim($spanLabel->textContent));
         }
     }
 
@@ -73,7 +73,7 @@ class TicketsControllerTest extends AuthWebTestCase
         $spans = $crawler->filter('tbody tr td > span.label');
 
         foreach ($spans as $spanLabel) {
-            $this->assertEquals('fechado', trim($spanLabel->textContent));
+            $this->assertEquals('Fechado', trim($spanLabel->textContent));
         }
     }
 
@@ -82,7 +82,7 @@ class TicketsControllerTest extends AuthWebTestCase
         $crawler = $this->cliente->request('GET', '/tickets/novo');
         $form = $crawler->selectButton('criar_ticket[salvar]')->form();
         $form['criar_ticket[titulo]'] = 'Título do Ticket';
-        $form['criar_ticket[categoria]'] = 1;
+        $form['criar_ticket[tipo]'] = 1;
         $this->cliente->submit($form);
         $crawler = $this->cliente->followRedirect();
 

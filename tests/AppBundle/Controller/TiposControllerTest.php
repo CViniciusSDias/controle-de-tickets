@@ -31,9 +31,10 @@ class TiposControllerTest extends AuthWebTestCase
 
     public function testCategoriaComNomePequeno()
     {
-        $crawler = $this->client->request('GET', '/tipos');
-        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
-        $form['criar_categoria[nome]'] = 'a';
+        $crawler = $this->client->request('GET', '/tipos/novo');
+        $form = $crawler->selectButton('criar_tipo[salvar]')->form();
+        $form['criar_tipo[nome]'] = 'a';
+        $form['criar_tipo[supervisorResponsavel]'] = 1;
         $crawler = $this->client->submit($form);
         $this->assertGreaterThan(
             0,
@@ -42,16 +43,17 @@ class TiposControllerTest extends AuthWebTestCase
         );
     }
 
-    public function testInsereCategoria()
+    public function testInsereTipo()
     {
-        $crawler = $this->client->request('GET', '/tipos');
-        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
-        $form['criar_categoria[nome]'] = 'Categoria';
+        $crawler = $this->client->request('GET', '/tipos/novo');
+        $form = $crawler->selectButton('criar_tipo[salvar]')->form();
+        $form['criar_tipo[nome]'] = 'Categoria';
+        $form['criar_tipo[supervisorResponsavel]'] = 1;
         $this->client->submit($form);
         $crawler = $this->client->followRedirect();
         $this->assertGreaterThan(
             0,
-            $crawler->filter('div.callout-success:contains("Categoria adicionada com sucesso")')
+            $crawler->filter('div.callout-success:contains("Tipo adicionado com sucesso")')
                 ->count()
         );
     }
