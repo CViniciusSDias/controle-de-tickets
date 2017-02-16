@@ -12,7 +12,7 @@ services:
         arguments: ["@doctrine"]
     app.email_recuperacao_senha:
         class: AppBundle\Service\EmailRecuperacaoSenha
-        arguments: ["@mailer", "@router", "@templating"]
+        arguments: ["@mailer", "@templating"]
     app.redefinidor_senha:
         class: AppBundle\Service\RedefinidorDeSenha
         arguments: ["@security.password_encoder"]

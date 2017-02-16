@@ -35,7 +35,7 @@ class TokenGenerator
     public function generateToken(string $email): TokenSenha
     {
         $usuarioRepository = $this->doctrine->getRepository('AppBundle:Usuario');
-        $usuario = $usuarioRepository->findOneBy(['email' => $email]);
+        $usuario = $usuarioRepository->findByEmail($email);
 
         $token = new TokenSenha();
         $token
