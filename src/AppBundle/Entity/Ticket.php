@@ -97,11 +97,6 @@ class Ticket
         $this->dataHora = new DateTime();
     }
 
-    public function getStatus(): string
-    {
-        return $this->estado;
-    }
-
     /**
      * Get id
      *
@@ -176,35 +171,37 @@ class Ticket
     }
 
     /**
+     * Retorna o estado do ticket
+     *
+     * @return EstadoTicket
+     */
+    public function getEstado(): EstadoTicket
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Retorna o estado como string
+     *
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->estado;
+    }
+
+    /**
      * Get aberto
      * @return boolean
      */
     public function getAberto(): bool
     {
-        return $this->aberto;
+        return $this->estado->ehAberto();
     }
 
     public function getCor(): string
     {
-        $cor = '';
-
-        $estado = $this->estado->getValue();
-        switch ($estado) {
-            case EstadoTicket::ABERTO:
-                $cor = 'red';
-                break;
-            case EstadoTicket::EM_ANDAMENTO:
-                $cor = 'orange';
-                break;
-            case EstadoTicket::AGUARDANDO_APROVACAO:
-                $cor = 'blue';
-                break;
-            case EstadoTicket::FECHADO:
-                $cor = 'green';
-                break;
-        }
-
-        return $cor;
+        return $this->estado->getCor();
     }
 
     /**
@@ -334,6 +331,7 @@ class Ticket
     public function setAtendenteResponsavel(Usuario $atendenteResponsavel): self
     {
         $this->atendenteResponsavel = $atendenteResponsavel;
+        $this->estado = new EstadoTicket(EstadoTicket::EM_ANDAMENTO);
 
         return $this;
     }
@@ -370,5 +368,10 @@ class Ticket
     public function getTipo(): ?Tipo
     {
         return $this->tipo;
+    }
+
+    public function fechar()
+    {
+        $this->estado->fechar($this);
     }
 }

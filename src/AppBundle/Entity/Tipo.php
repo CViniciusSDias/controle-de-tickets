@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use InvalidArgumentException;
 
 /**
- * Categoria de um ticket
+ * Tipo de um ticket
  *
  * @package AppBundle\Entity
  * @ORM\Table(name="tipo")

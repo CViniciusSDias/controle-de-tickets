@@ -78,7 +78,7 @@ class TicketsController extends Controller
      * @param Ticket $ticket
      * @param Request $request
      * @return Response
-     */
+
     public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
     {
         $manager = $this->getDoctrine()->getManager();
@@ -88,7 +88,7 @@ class TicketsController extends Controller
 
         $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
         return $this->voltar($request);
-    }
+    }*/
 
     /**
      * Exibe todos os tickets ordenados por data
@@ -213,6 +213,23 @@ class TicketsController extends Controller
 
             return $this->voltar($request);
         }
+    }
+
+    /**
+     * Fecha o ticket passado por parâmetro
+     *
+     * @Route("/tickets/fechar/{id}", name="fechar_ticket")
+     * @param Ticket $ticket
+     * @return Response
+     */
+    public function fecharTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $ticket->fechar();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($ticket);
+        $manager->flush();
+
+        return $this->voltar($request);
     }
 
     /**

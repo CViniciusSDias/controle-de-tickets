@@ -22,8 +22,8 @@
             </div>
 
             <div>
-                <h3>Categoria</h3>
-                <p>{{ ticket.categoria }}</p>
+                <h3>Tipo</h3>
+                <p>{{ ticket.tipo }}</p>
             </div>
 
             <div>
@@ -55,12 +55,10 @@
                 <p>{{ ticket.dataHora|date('d/m/Y H:i') }}</p>
             </div>
 
-            {% if ticket.atendenteResponsavel %}
             <div>
                 <h3>Atendente Responsável</h3>
-                <p>{{ ticket.atendenteResponsavel }}</p>
+                <p>{{ ticket.atendenteResponsavel ?? 'Sem responsável' }}</p>
             </div>
-            {% endif %}
 
             <div>
                 <h3>Previsão de Resposta</h3>

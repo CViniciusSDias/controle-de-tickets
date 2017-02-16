@@ -12,7 +12,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Título</th>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <th>Prioridade</th>
+                                {% endif %}
+                                <th>Tipo</th>
                                 <th>Status</th>
                                 <th>Data/Hora</th>
                                 <th>Criador</th>
@@ -35,7 +38,10 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ ticket.titulo }}</td>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <td>{{ ticket.prioridade }}</td>
+                                {% endif %}
+                                <td>{{ ticket.tipo }}</td>
                                 <td>
                                     <span class="label bg-{{ ticket.cor }}">
                                         {{ ticket.status }}
@@ -43,15 +49,12 @@
                                 </td>
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
                                 <td>{{ ticket.usuarioCriador }}</td>
-                                <td>{{ ticket.atendenteResponsavel ?? '' }}</td>
+                                <td>{{ ticket.atendenteResponsavel ?? 'Sem responsável' }}</td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
                                       title="Gerenciar Ticket">
                                         <i class="fa fa-cogs"></i>
-                                    </a>
-                                    <a href="{{ path('assumir_responsabilidade', {'id': ticket.id}) }}" class="btn btn-default" title="Assumir Responsabilidade">
-                                        <i class="fa fa-handshake-o"></i>
                                     </a>
                                 </td>
                                 {% endif %}
