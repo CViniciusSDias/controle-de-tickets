@@ -16,7 +16,8 @@ html, body {
  * @session Visualizar infos / mensagens de ticket
  */
 .infos-ticket {
-    padding: 1.5em;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
     background: white;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, .1);

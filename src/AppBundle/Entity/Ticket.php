@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\TicketMessenger;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -382,6 +383,8 @@ class Ticket
     public function reabrir(): void
     {
         $this->estado = new EmAndamento();
+        $mensagem = (new TicketMessenger())->getMensagemTicketReaberto($this);
+        $this->addMensagem($mensagem);
     }
 
     /**

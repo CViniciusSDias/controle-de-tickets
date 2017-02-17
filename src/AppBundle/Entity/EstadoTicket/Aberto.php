@@ -1,7 +1,9 @@
 <?php
 namespace AppBundle\Entity\EstadoTicket;
 
+use AppBundle\Entity\MensagemTicket;
 use AppBundle\Entity\Ticket;
+use AppBundle\Service\TicketMessenger;
 
 class Aberto implements EstadoTicket
 {

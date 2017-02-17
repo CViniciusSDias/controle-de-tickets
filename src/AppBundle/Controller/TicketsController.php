@@ -232,7 +232,10 @@ class TicketsController extends Controller
         $manager->flush();
         $this->addFlash('success', "Ticket #{$ticket->getId()} fechado com sucesso");
 
-        return $this->redirectToRoute('listar_tickets');
+        if ($ticket->estaParaAprovacao()) {
+            return $this->redirectToRoute('listar_tickets');
+        }
+        return $this->voltar($request);
     }
 
     /**

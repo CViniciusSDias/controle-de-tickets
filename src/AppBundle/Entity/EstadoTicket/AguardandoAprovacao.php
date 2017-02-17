@@ -2,6 +2,7 @@
 namespace AppBundle\Entity\EstadoTicket;
 
 use AppBundle\Entity\Ticket;
+use AppBundle\Service\TicketMessenger;
 
 class AguardandoAprovacao implements EstadoTicket
 {
@@ -28,6 +29,8 @@ class AguardandoAprovacao implements EstadoTicket
     public function fechar(Ticket $ticket): void
     {
         $ticket->setEstado(new Fechado());
+        $mensagem = (new TicketMessenger())->getMensagemTicketFechado($ticket);
+        $ticket->addMensagem($mensagem);
     }
 
     public function getDbValue(): int

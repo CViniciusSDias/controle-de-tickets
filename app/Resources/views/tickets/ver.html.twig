@@ -23,7 +23,7 @@
                             </span>
 
                             <h3 class="timeline-header">{{ mensagem.autor }}</h3>
-                            <div class="timeline-body">{{ mensagem.texto }}</div>
+                            <div class="timeline-body">{{ mensagem.texto|nl2br }}</div>
                         </div>
                     </li>
                     {% endfor %}
@@ -105,12 +105,8 @@
                 </div>
             </div>
         </section>
-    </div>
-</div>
 
-{% if ticket.estaParaAprovacao and app.user == ticket.usuarioCriador %}
-<div class="row">
-    <div class="col-xs-4 col-xs-offset-8">
+        {% if ticket.estaParaAprovacao and app.user == ticket.usuarioCriador %}
         <div class="box box-primary text-center">
             <div class="box-header with-border">
                 <h3 class="box-title">Seu problema foi resolvido?</h3>
@@ -130,7 +126,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 {% endblock %}
