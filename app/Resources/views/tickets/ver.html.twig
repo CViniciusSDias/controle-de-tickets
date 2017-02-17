@@ -15,18 +15,26 @@
 
                     {% for mensagem in ticket.mensagens %}
                     <li>
+                        {% if mensagem.deUsuario %}
                         <i class="fa fa-envelope bg-{{ mensagem.autor == app.user ? 'blue' : 'red' }}"></i>
-                        <div class="timeline-item">
+                        {% else %}
+                        <i class="fa fa-check-square"></i>
+                        {% endif %}
+                        <div class="timeline-item {{ mensagem.deUsuario ? '' : 'msg-status' }}">
                             <span class="time">
                                 <i class="fa fa-clock-o"></i>
                                 {{ mensagem.dataHora|date('m/d/Y H:i') }}
                             </span>
 
+                            {% if mensagem.deUsuario %}
                             <h3 class="timeline-header">{{ mensagem.autor }}</h3>
+                            {% endif %}
                             <div class="timeline-body">{{ mensagem.texto|nl2br }}</div>
                         </div>
                     </li>
                     {% endfor %}
+
+                    {% if ticket.aberto %}
                     <li>
                         <i class="fa fa-paper-plane bg-green"></i>
                         <div class="timeline-item">
@@ -41,6 +49,7 @@
                             </div>
                         </div>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

@@ -1,9 +1,7 @@
 <?php
 namespace AppBundle\Entity\EstadoTicket;
 
-use AppBundle\Entity\MensagemTicket;
 use AppBundle\Entity\Ticket;
-use AppBundle\Service\TicketMessenger;
 
 class Aberto implements EstadoTicket
 {
@@ -24,7 +22,7 @@ class Aberto implements EstadoTicket
 
     public function fechar(Ticket $ticket): void
     {
-        $ticket->setEstado(new AguardandoAprovacao());
+        throw new \BadMethodCallException('Este ticket ainda não pode ser fechado');
     }
 
     public function getDbValue(): int

@@ -51,8 +51,16 @@ class MensagemTicket
      */
     private $texto;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $deUsuario;
+
     public function __construct()
     {
+        $this->deUsuario = true;
         $this->dataHora = new \DateTime();
     }
 
@@ -124,5 +132,21 @@ class MensagemTicket
     {
         $this->texto = $texto;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeUsuario(): bool
+    {
+        return $this->deUsuario;
+    }
+
+    /**
+     * @param bool $deUsuario
+     */
+    public function setDeUsuario(bool $deUsuario)
+    {
+        $this->deUsuario = $deUsuario;
     }
 }

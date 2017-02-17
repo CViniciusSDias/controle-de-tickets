@@ -33,8 +33,7 @@ class TicketMessenger
     public function getMensagemTicketReaberto(Ticket $ticket): MensagemTicket
     {
         $textoMensagem = "Ticket reaberto por {$ticket->getUsuarioCriador()}.";
-        $mensagem = $this->getMensagem($ticket, $textoMensagem);
-        $mensagem
+        $mensagem = $this->getMensagem($ticket, $textoMensagem)
             ->setAutor($ticket->getUsuarioCriador());
 
         return $mensagem;
@@ -49,8 +48,7 @@ class TicketMessenger
     public function getMensagemTicketFechado(Ticket $ticket): MensagemTicket
     {
         $textoMensagem = "Ticket fechado por {$ticket->getUsuarioCriador()}";
-        $mensagem = $this->getMensagem($ticket, $textoMensagem);
-        $mensagem
+        $mensagem = $this->getMensagem($ticket, $textoMensagem)
             ->setAutor($ticket->getUsuarioCriador());
 
         return $mensagem;
@@ -65,7 +63,8 @@ class TicketMessenger
     {
         $mensagem = new MensagemTicket();
         $mensagem
-            ->setTexto($textoMensagem);
+            ->setTexto($textoMensagem)
+            ->setDeUsuario(false);
 
         return $mensagem;
     }
