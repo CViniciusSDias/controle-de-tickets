@@ -82,6 +82,7 @@ class TicketsControllerTest extends AuthWebTestCase
         $crawler = $this->cliente->request('GET', '/tickets/novo');
         $form = $crawler->selectButton('criar_ticket[salvar]')->form();
         $form['criar_ticket[titulo]'] = 'Título do Ticket';
+        $form['criar_ticket[descricao]'] = 'Título do Ticket';
         $form['criar_ticket[tipo]'] = 1;
         $this->cliente->submit($form);
         $crawler = $this->cliente->followRedirect();
