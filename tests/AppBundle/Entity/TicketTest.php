@@ -3,6 +3,7 @@ namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\EstadoTicket\{Aberto, AguardandoAprovacao, EmAndamento, Fechado};
 use AppBundle\Entity\Ticket;
+use AppBundle\Entity\Tipo;
 use AppBundle\Entity\Usuario;
 use PHPUnit\Framework\TestCase;
 
@@ -59,5 +60,25 @@ class TicketTest extends TestCase
         $ticket = new Ticket();
         $ticket->setAtendenteResponsavel($this->usuario);
         static::assertAttributeEquals(new EmAndamento(), 'estado', $ticket);
+    }
+
+    public function testTicketAssociadoAUmTipoFicaSobResponsabilidadeDeSeuSupervisor()
+    {
+        $tipo = new Tipo();
+        $tipo->setSupervisorResponsavel(new Usuario());
+        $ticket = new Ticket();
+        $ticket->setTipo($tipo);
+
+        self::assertEquals($tipo->getSupervisorResponsavel(), $ticket->getAtendenteResponsavel());
+    }
+
+    public function testSetDataRespostaEmString()
+    {
+        $hoje = new \DateTime('today 12pm');
+        $dataString = $hoje->format('d/m/Y H:i');
+        $ticket = new Ticket();
+        $ticket->setResposta($dataString);
+
+        self::assertEquals($hoje, $ticket->getPrevisaoResposta());
     }
 }

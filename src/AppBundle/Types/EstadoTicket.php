@@ -26,7 +26,7 @@ class EstadoTicket extends Type
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
         $sql = $platform->getIntegerTypeDeclarationSQL([]);
-        $sql .= ' ' . $platform->getDefaultValueDeclarationSQL(['default' => 1, 'type' => 'Integer']);
+        $sql .= $platform->getDefaultValueDeclarationSQL(['default' => 1, 'type' => 'Integer']);
 
         return $sql;
     }
