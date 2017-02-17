@@ -20,7 +20,7 @@ class TicketTest extends TestCase
     public function testNovoTicketDeveSerAberto()
     {
         $ticket = new Ticket();
-        static::assertAttributeEquals(new Aberto(), 'estado', $ticket);
+        static::assertEquals(new Aberto(), $ticket->getEstado());
     }
 
     /**
@@ -40,7 +40,7 @@ class TicketTest extends TestCase
         $ticket->setAtendenteResponsavel($this->usuario);
         $ticket->setEstado(new EmAndamento());
         $ticket->fechar();
-        static::assertAttributeEquals(new AguardandoAprovacao(), 'estado', $ticket);
+        static::assertEquals(new AguardandoAprovacao(), $ticket->getEstado());
     }
 
     public function testTicketAguardandoAprovacaoDeveSerFechadoParaFechado()
@@ -59,7 +59,7 @@ class TicketTest extends TestCase
     {
         $ticket = new Ticket();
         $ticket->setAtendenteResponsavel($this->usuario);
-        static::assertAttributeEquals(new EmAndamento(), 'estado', $ticket);
+        static::assertEquals(new EmAndamento(), $ticket->getEstado());
     }
 
     public function testTicketAssociadoAUmTipoFicaSobResponsabilidadeDeSeuSupervisor()
@@ -69,7 +69,7 @@ class TicketTest extends TestCase
         $ticket = new Ticket();
         $ticket->setTipo($tipo);
 
-        self::assertEquals($tipo->getSupervisorResponsavel(), $ticket->getAtendenteResponsavel());
+        static::assertEquals($tipo->getSupervisorResponsavel(), $ticket->getAtendenteResponsavel());
     }
 
     public function testSetDataRespostaEmString()
@@ -79,6 +79,32 @@ class TicketTest extends TestCase
         $ticket = new Ticket();
         $ticket->setResposta($dataString);
 
-        self::assertEquals($hoje, $ticket->getPrevisaoResposta());
+        static::assertEquals($hoje, $ticket->getPrevisaoResposta());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testDefinePrioridadeInvalida()
+    {
+        $ticket = new Ticket();
+        $ticket->setPrioridade(10);
+    }
+
+    public function testDefinePrioridadeValida()
+    {
+        $ticket = new Ticket();
+        $ticket->setPrioridade(1);
+
+        static::assertEquals(1, $ticket->getPrioridade());
+    }
+
+    public function testGetRespostaFormatada()
+    {
+        $hoje = new \DateTime();
+        $ticket = new Ticket();
+        $ticket->setPrevisaoResposta($hoje);
+
+        static::assertEquals($hoje->format('d/m/Y H:i:s'), $ticket->getResposta());
     }
 }
