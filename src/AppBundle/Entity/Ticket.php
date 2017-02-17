@@ -343,6 +343,7 @@ class Ticket
     public function setTipo(Tipo $tipo): self
     {
         $this->tipo = $tipo;
+        $this->atendenteResponsavel = $tipo->getSupervisorResponsavel();
 
         return $this;
     }
