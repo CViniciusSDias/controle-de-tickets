@@ -44,7 +44,7 @@
 
                 <div class="box-footer">
                     {{ form_widget(form.salvar, {'attr': {'class': 'btn btn-primary'}}) }}
-                    {% if ticket.aberto %}
+                    {% if ticket.aberto and ticket.atendenteResponsavel == app.user %}
                     <a href="{{ path('fechar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
                        onclick="return confirm('Tem certeza que o ticket pode ser marcado como fechado?')">
                         Finalizar
