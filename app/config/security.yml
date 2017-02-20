@@ -35,7 +35,7 @@ security:
         - { path: ^/(login|esqueci-a-senha|enviar-recuperacao), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/usuarios, roles: ROLE_SUPER_ADMIN }
         - { path: ^/tipos, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/tickets/(abertos|fechados|meus), roles: ROLE_ADMIN}
+        - { path: ^/tickets(/)?(abertos|fechados|meus)?, roles: ROLE_ADMIN}
         - { path: ^/, roles: ROLE_USER }
 
     encoders:
