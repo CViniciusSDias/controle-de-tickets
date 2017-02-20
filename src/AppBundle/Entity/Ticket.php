@@ -319,6 +319,7 @@ class Ticket
     {
         $this->atendenteResponsavel = $atendenteResponsavel;
         $this->estado = new EmAndamento();
+        $this->addMensagem((new TicketMessenger())->getMensagemNovoResponsavel($this));
 
         return $this;
     }
