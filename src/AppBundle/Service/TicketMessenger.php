@@ -47,9 +47,18 @@ class TicketMessenger
      */
     public function getMensagemTicketFechado(Ticket $ticket): MensagemTicket
     {
-        $textoMensagem = "Ticket fechado por {$ticket->getUsuarioCriador()}";
+        $textoMensagem = "Ticket fechado por {$ticket->getUsuarioCriador()}.";
         $mensagem = $this->getMensagem($ticket, $textoMensagem)
             ->setAutor($ticket->getUsuarioCriador());
+
+        return $mensagem;
+    }
+
+    public function getMensagemNovoResponsavel(Ticket $ticket): MensagemTicket
+    {
+        $textoMensagem = "Ticket agora está sob responsábilidade de {$ticket->getAtendenteResponsavel()}.";
+        $mensagem = $this->getMensagem($ticket, $textoMensagem)
+            ->setAutor($ticket->getAtendenteResponsavel());
 
         return $mensagem;
     }
