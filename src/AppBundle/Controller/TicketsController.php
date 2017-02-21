@@ -258,6 +258,25 @@ class TicketsController extends Controller
     }
 
     /**
+     * Quando o usuário tentar reabrir um ticket já fechado, o mesmo deve ser clonado
+     *
+     * @Route("/tickets/clonar/{id}", name="clonar_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function clonarTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $novoTicket = clone $ticket;
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($novoTicket);
+        $manager->flush();
+        $this->addFlash('success', 'Um novo ticket foi criado com todas as informações do ticket selecionado.');
+
+        return $this->voltar($request);
+    }
+
+    /**
      * Adiciona os erros passados por parâmetro no escopo flash da sessão
      *
      * @param array $erros

@@ -10,7 +10,7 @@ use DateTime;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\EstadoTicket\{
-    Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket
+    Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket, Fechado
 };
 
 /**
@@ -413,8 +413,41 @@ class Ticket
         $mensagem->setTicket($this);
     }
 
+    /**
+     * @return Collection
+     */
     public function getMensagens(): Collection
     {
         return $this->mensagens;
+    }
+
+    /**
+     * Informa se determinado usuário pode reabrir o ticket
+     *
+     * @param Usuario $usuario
+     * @return bool
+     */
+    public function podeSerReabertoPor(Usuario $usuario): bool
+    {
+        return $this->usuarioCriador == $usuario && $this->estado instanceof Fechado;
+    }
+
+    public function __clone()
+    {
+        $this->id = null;
+        $this->atendenteResponsavel = $this->tipo->getSupervisorResponsavel();
+        $this->estado = new Aberto();
+
+        $mensagensClone = new ArrayCollection();
+        foreach ($this->getMensagens() as $mensagem) {
+            /** @var MensagemTicket $mensagemClone */
+            $mensagemClone = clone $mensagem;
+            $mensagemClone->setTicket($this);
+            $mensagensClone->add($mensagemClone);
+        }
+        $this->mensagens = $mensagensClone;
+
+        $this->addMensagem((new TicketMessenger())->getMensagemTicketReaberto($this));
+        $this->dataHora = new DateTime();
     }
 }
