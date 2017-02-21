@@ -3,8 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Service\TicketMessenger;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\{Collection, ArrayCollection};
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
@@ -439,6 +438,14 @@ class Ticket
         $this->estado = new Aberto();
         $this->previsaoResposta = null;
 
+        $this->mensagens = $this->clonarMensagens();
+
+        $this->addMensagem((new TicketMessenger())->getMensagemTicketReaberto($this));
+        $this->dataHora = new DateTime();
+    }
+
+    private function clonarMensagens(): Collection
+    {
         $mensagensClone = new ArrayCollection();
         foreach ($this->getMensagens() as $mensagem) {
             /** @var MensagemTicket $mensagemClone */
@@ -446,9 +453,6 @@ class Ticket
             $mensagemClone->setTicket($this);
             $mensagensClone->add($mensagemClone);
         }
-        $this->mensagens = $mensagensClone;
-
-        $this->addMensagem((new TicketMessenger())->getMensagemTicketReaberto($this));
-        $this->dataHora = new DateTime();
+        return $mensagensClone;
     }
 }
