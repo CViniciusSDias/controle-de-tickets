@@ -20,17 +20,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class TicketsController extends Controller
 {
     /**
-     * Raiz do projeto
-     *
-     * @Route("/")
-     * @return Response Redireciona o usuário para a tela de abertura de um novo ticket
-     */
-    public function indexAction(): Response
-    {
-        return $this->redirectToRoute('cadastrar_ticket');
-    }
-
-    /**
      * Exibe o formulário de abertura de ticket e cria um novo ticket
      * com as informações enviadas por este formulário.
      *
