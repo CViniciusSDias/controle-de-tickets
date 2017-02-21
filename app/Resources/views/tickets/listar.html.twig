@@ -20,9 +20,7 @@
                                 <th>Data/Hora</th>
                                 <th>Criador</th>
                                 <th>Responsável</th>
-                                {% if is_granted('ROLE_ADMIN') %}
                                 <th></th>
-                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -50,16 +48,18 @@
                                 <td>{{ ticket.dataHora|date('d/m/Y H:i') }}</td>
                                 <td>{{ ticket.usuarioCriador }}</td>
                                 <td>{{ ticket.atendenteResponsavel ?? 'Sem responsável' }}</td>
-                                {% if is_granted('ROLE_ADMIN') %}
                                 <td>
                                     {% if ticket.podeSerGerenciado(app.user) %}
                                     <a href="{{ path('gerenciar_ticket', {'id': ticket.id}) }}" class="btn btn-default"
                                       title="Gerenciar Ticket">
                                         <i class="fa fa-cogs"></i>
                                     </a>
+                                    {% elseif ticket.podeSerReabertoPor(app.user) %}
+                                    <a href="{{ path('clonar_ticket', {'id': ticket.id}) }}" class="btn btn-default" title="Reabrir Ticket">
+                                        <i class="fa fa-repeat fa-flip-horizontal"></i>
+                                    </a>
                                     {% endif %}
                                 </td>
-                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
