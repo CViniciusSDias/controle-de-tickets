@@ -437,6 +437,7 @@ class Ticket
         $this->id = null;
         $this->atendenteResponsavel = $this->tipo->getSupervisorResponsavel();
         $this->estado = new Aberto();
+        $this->previsaoResposta = null;
 
         $mensagensClone = new ArrayCollection();
         foreach ($this->getMensagens() as $mensagem) {
