@@ -1,14 +1,18 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\MensagemTicket;
-use AppBundle\Entity\Ticket;
-use AppBundle\Entity\Usuario;
-use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
+use AppBundle\Entity\{
+    MensagemTicket, Ticket, Usuario
+};
+use AppBundle\Forms\{
+    CriarTicketType, GerenciarTicketType
+};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{
+    Request, Response
+};
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**

@@ -5,7 +5,7 @@ use AppBundle\Entity\Usuario;
 use AppBundle\Forms\RedefinirSenhaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{Request, Response};
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
