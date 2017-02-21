@@ -437,9 +437,7 @@ class Ticket
         $this->atendenteResponsavel = $this->tipo->getSupervisorResponsavel();
         $this->estado = new Aberto();
         $this->previsaoResposta = null;
-
         $this->mensagens = $this->clonarMensagens();
-
         $this->addMensagem((new TicketMessenger())->getMensagemTicketReaberto($this));
         $this->dataHora = new DateTime();
     }
