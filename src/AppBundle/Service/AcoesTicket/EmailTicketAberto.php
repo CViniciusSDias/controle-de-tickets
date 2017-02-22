@@ -26,7 +26,7 @@ class EmailTicketAberto extends BaseEmailTicket implements AcaoAoAbrirTicket
     {
         $link = $this->router->generate('visualizar_ticket', ['id' => $ticket->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $linhas = [];
-        $linhas[] = "Prezado, {$ticket->getAtendenteResponsavel()}.";
+        $linhas[] = "Prezado {$ticket->getAtendenteResponsavel()}.";
         $linhas[] = '';
         $linhas[] = "Um novo ticket foi aberto por {$ticket->getUsuarioCriador()} e está sob sua responsabilidade.";
         $linhas[] = "Para mais informações, acesse $link";

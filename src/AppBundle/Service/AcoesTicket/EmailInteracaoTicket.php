@@ -28,7 +28,7 @@ class EmailInteracaoTicket extends BaseEmailTicket implements AcaoAoInteragir
     {
         $link = $this->router->generate('visualizar_ticket', ['id' => $ticket->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $linhas = [];
-        $linhas[] = "Prezado, $destinatario.";
+        $linhas[] = "Prezado $destinatario.";
         $linhas[] = '';
         $linhas[] = "$remetente interagiu no ticket #{$ticket->getId()}.";
         $linhas[] = "Para mais informações, acesse $link";
