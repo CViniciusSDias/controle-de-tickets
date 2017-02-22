@@ -22,6 +22,7 @@ class TicketManager
     public function addAcaoAoAbrir(AcaoAoAbrirTicket $acao)
     {
         $this->acoesAoAbrir[] = $acao;
+        return $this;
     }
 
     /**
@@ -40,6 +41,7 @@ class TicketManager
             ->setAutor($usuarioLogado)
             ->setTexto($form['descricao']->getData());
         $ticket->addMensagem($mensagem);
+        $ticket->setUsuarioCriador($usuarioLogado);
         $erros = $validator->validate($ticket);
 
         if (count($erros) > 0) {

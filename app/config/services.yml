@@ -26,3 +26,6 @@ services:
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - AppBundle\Entity\Ticket
+    app.email_ticket_aberto:
+        class: AppBundle\Service\AcoesTicket\EmailTicketAberto
+        arguments: ["@mailer", "@router"]
