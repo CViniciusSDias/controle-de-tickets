@@ -4,7 +4,6 @@ namespace AppBundle\Service\AcoesTicket;
 use AppBundle\Entity\{
     MensagemTicket, Ticket, Usuario
 };
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EmailInteracaoTicket extends BaseEmailTicket implements AcaoAoInteragir
 {
