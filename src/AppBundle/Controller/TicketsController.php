@@ -8,7 +8,6 @@ use AppBundle\Exception\AbrirTicketException;
 use AppBundle\Forms\{
     CriarTicketType, GerenciarTicketType
 };
-use AppBundle\Repository\TicketRepository;
 use AppBundle\Service\TicketManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
