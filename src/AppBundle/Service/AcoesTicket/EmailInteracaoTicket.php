@@ -10,7 +10,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class EmailInteracaoTicket implements AcaoAoInteragir
 {
     /** @var  \Swift_Mailer */
-    private $mailer;private $router;
+    private $mailer;
+    /** @var Router $router */
+    private $router;
 
     public function __construct(\Swift_Mailer $mailer, Router $router)
     {
