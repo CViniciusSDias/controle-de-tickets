@@ -29,3 +29,6 @@ services:
     app.email_ticket_aberto:
         class: AppBundle\Service\AcoesTicket\EmailTicketAberto
         arguments: ["@mailer", "@router"]
+    app.email_interacao_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailInteracaoTicket
+        arguments: ["@mailer", "@router"]
