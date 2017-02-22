@@ -233,10 +233,10 @@ class TicketsController extends Controller
      */
     public function reabrirTicketAction(Ticket $ticket, Request $request): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($ticket);
-        $ticket->reabrir();
-        $manager->flush();
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoReabrir($this->get('app.ticket_repository'));
+        $manager->reabrir($ticket);
         $this->addFlash('success', 'Seu ticket foi reaberto');
 
         return $this->voltar($request);
