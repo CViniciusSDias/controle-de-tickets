@@ -18,7 +18,7 @@ class EmailTicketAberto implements AcaoAoAbrirTicket
         $this->router = $router;
     }
 
-    public function processaAbertura(Ticket $ticket)
+    public function processaAbertura(Ticket $ticket): void
     {
         $assunto = 'Ticket aberto';
         $mensagem = $this->getMensagem($ticket);
@@ -26,7 +26,7 @@ class EmailTicketAberto implements AcaoAoAbrirTicket
         $charset = 'UTF-8';
         $mensagem = \Swift_Message::newInstance($assunto, $mensagem, $contentType, $charset);
         $mensagem
-            ->setFrom('recuperacao@zer0.w.pw')
+            ->setFrom('tickets@zer0.w.pw')
             ->setTo($ticket->getAtendenteResponsavel()->getEmail());
 
         $this->mailer->send($mensagem);
