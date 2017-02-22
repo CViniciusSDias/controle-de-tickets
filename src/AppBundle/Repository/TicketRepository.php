@@ -1,18 +1,18 @@
 <?php
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\EstadoTicket\{Aberto, Fechado};
-use AppBundle\Entity\Ticket;
-use AppBundle\Entity\Usuario;
-use AppBundle\Service\AcoesTicket\AcaoAoAbrirTicket;
-use AppBundle\Service\AcoesTicket\AcaoAoFecharTicket;
-use AppBundle\Service\AcoesTicket\AcaoAoInteragir;
+use AppBundle\Entity\{
+    EstadoTicket\Aberto, EstadoTicket\Fechado, Ticket, Usuario
+};
+use AppBundle\Service\AcoesTicket\{
+    AcaoAoAbrirTicket, AcaoAoFecharTicket, AcaoAoInteragir, AcaoAoReabrirTicket
+};
 use Doctrine\ORM\EntityRepository;
 
 /**
  * Classe Repository de Tickets.
  */
-class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket, AcaoAoInteragir, AcaoAoFecharTicket
+class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket, AcaoAoInteragir, AcaoAoFecharTicket, AcaoAoReabrirTicket
 {
     /**
      * Busca os tickets ordenados (por padrão) pelo campo dataHora de forma descendente
@@ -108,6 +108,11 @@ class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket, Ac
     }
 
     public function processaFechamento(Ticket $ticket)
+    {
+        $this->flush($ticket);
+    }
+
+    public function processaReabertura(Ticket $ticket)
     {
         $this->flush($ticket);
     }
