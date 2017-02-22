@@ -300,7 +300,9 @@ class TicketsController extends Controller
     {
         $textoMensagem = $request->request->get('mensagem');
         $manager = new TicketManager();
-        $manager->addAcaoAoInteragir($this->get('app.ticket_repository'));
+        $manager
+            ->addAcaoAoInteragir($this->get('app.ticket_repository'))
+            ->addAcaoAoInteragir($this->get('app.email_interacao_ticket'));
         $manager->interagir($ticket, $textoMensagem, $this->getUser());
 
         return $this->voltar($request);
