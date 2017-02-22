@@ -12,7 +12,9 @@ class EmailRecuperacaoSenhaTest extends TestCase
 {
     public function testEnviaEmailRecuperacao()
     {
+        /** @var TwigEngine $twigMock */
         $twigMock = $this->createMock(TwigEngine::class);
+        /** @var \Swift_Mailer $swiftMock */
         $swiftMock = $this->createMock(\Swift_Mailer::class);
 
         $email = 'carlosv775@gmail.com';
@@ -20,7 +22,7 @@ class EmailRecuperacaoSenhaTest extends TestCase
             ->expects($this->once())
             ->method('send');
 
-        $emailRecuperacao = new EmailRecuperacaoSenha($swiftMock, $twigMock);
+        $emailRecuperacao = new EmailRecuperacaoSenha($swiftMock, $twigMock, 'zer0.w.pw');
         $emailRecuperacao->sendMail('', $email);
     }
 }
