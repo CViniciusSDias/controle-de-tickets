@@ -6,18 +6,8 @@ use AppBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class EmailTicketAberto implements AcaoAoAbrirTicket
+class EmailTicketAberto extends BaseEmailTicket implements AcaoAoAbrirTicket
 {
-    /** @var  \Swift_Mailer $mailer */
-    private $mailer;
-    private $router;
-
-    public function __construct(\Swift_Mailer $mailer, Router $router)
-    {
-        $this->mailer = $mailer;
-        $this->router = $router;
-    }
-
     public function processaAbertura(Ticket $ticket): void
     {
         $assunto = 'Ticket aberto';

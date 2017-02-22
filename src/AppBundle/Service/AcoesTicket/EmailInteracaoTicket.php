@@ -4,22 +4,10 @@ namespace AppBundle\Service\AcoesTicket;
 use AppBundle\Entity\{
     MensagemTicket, Ticket, Usuario
 };
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class EmailInteracaoTicket implements AcaoAoInteragir
+class EmailInteracaoTicket extends BaseEmailTicket implements AcaoAoInteragir
 {
-    /** @var  \Swift_Mailer */
-    private $mailer;
-    /** @var Router $router */
-    private $router;
-
-    public function __construct(\Swift_Mailer $mailer, Router $router)
-    {
-        $this->mailer = $mailer;
-        $this->router = $router;
-    }
-
     public function processaInteracao(Ticket $ticket)
     {
         $remetente = $this->getRemetente($ticket);
