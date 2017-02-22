@@ -12,7 +12,7 @@ services:
         arguments: ["@app.usuario_repository"]
     app.email_recuperacao_senha:
         class: AppBundle\Service\EmailRecuperacaoSenha
-        arguments: ["@mailer", "@templating"]
+        arguments: ["@mailer", "@templating", "%dominio%"]
     app.redefinidor_senha:
         class: AppBundle\Service\RedefinidorDeSenha
         arguments: ["@security.password_encoder"]
@@ -28,13 +28,13 @@ services:
             - AppBundle\Entity\Ticket
     app.email_ticket_aberto:
         class: AppBundle\Service\AcoesTicket\EmailTicketAberto
-        arguments: ["@mailer", "@router"]
+        arguments: ["@mailer", "@router", "%dominio%"]
     app.email_interacao_ticket:
         class: AppBundle\Service\AcoesTicket\EmailInteracaoTicket
-        arguments: ["@mailer", "@router"]
+        arguments: ["@mailer", "@router", "%dominio%"]
     app.email_fechar_ticket:
         class: AppBundle\Service\AcoesTicket\EmailFecharTicket
-        arguments: ["@mailer", "@router"]
+        arguments: ["@mailer", "@router", "%dominio%"]
     app.email_reabrir_ticket:
         class: AppBundle\Service\AcoesTicket\EmailReabrirTicket
-        arguments: ["@mailer", "@router"]
+        arguments: ["@mailer", "@router", "%dominio%"]

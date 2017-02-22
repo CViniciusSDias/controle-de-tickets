@@ -13,7 +13,7 @@ class EmailReabrirTicket extends BaseEmailTicket implements AcaoAoReabrirTicket
         $charset = 'UTF-8';
         $mensagem = \Swift_Message::newInstance($assunto, $mensagem, $contentType, $charset);
         $mensagem
-            ->setFrom('tickets@zer0.w.pw')
+            ->setFrom('tickets@' . $this->dominio)
             ->setTo($ticket->getAtendenteResponsavel()->getEmail());
 
         $this->mailer->send($mensagem);

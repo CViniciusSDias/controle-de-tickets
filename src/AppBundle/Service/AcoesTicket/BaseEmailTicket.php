@@ -11,11 +11,14 @@ abstract class BaseEmailTicket
     protected $mailer;
     /** @var Router $router */
     protected $router;
+    /** @var string $dominio */
+    protected $dominio;
 
-    public function __construct(\Swift_Mailer $mailer, Router $router)
+    public function __construct(\Swift_Mailer $mailer, Router $router, string $dominio)
     {
         $this->mailer = $mailer;
         $this->router = $router;
+        $this->dominio = $dominio;
     }
 
     protected function getUrl(Ticket $ticket)

@@ -12,8 +12,12 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
  */
 class EmailRecuperacaoSenha
 {
+    /** @var \Swift_Mailer $mailer */
     private $mailer;
+    /** @var TwigEngine $twig */
     private $twig;
+    /** @var string $dominio */
+    private $dominio;
 
     /**
      * Construtor
@@ -21,10 +25,11 @@ class EmailRecuperacaoSenha
      * @param \Swift_Mailer $mailer
      * @param TwigEngine $twig
      */
-    public function __construct(\Swift_Mailer $mailer, TwigEngine $twig)
+    public function __construct(\Swift_Mailer $mailer, TwigEngine $twig, string $dominio)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
+        $this->dominio = $dominio;
     }
 
     /**
@@ -37,7 +42,7 @@ class EmailRecuperacaoSenha
     {
         /** @var \Swift_Mime_Message $mensagem */
         $mensagem = MensagemRecuperacaoSenha::newInstance()
-            ->setFrom('recuperacao@zer0.w.pw')
+            ->setFrom('recuperacao@' . $this->dominio)
             ->setTo($email)
             ->setBody($this->twig->render('seguranca/email-recuperacao.html.twig', ['link' => $link]));
 
