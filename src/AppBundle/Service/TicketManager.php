@@ -4,9 +4,10 @@ namespace AppBundle\Service;
 use AppBundle\Entity\{
     MensagemTicket, Ticket, Usuario
 };
+use AppBundle\Service\AcoesTicket\{
+    AcaoAoAbrirTicket, AcaoAoFecharTicket, AcaoAoInteragir
+};
 use AppBundle\Exception\AbrirTicketException;
-use AppBundle\Service\AcoesTicket\AcaoAoAbrirTicket;
-use AppBundle\Service\AcoesTicket\AcaoAoInteragir;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -16,10 +17,14 @@ class TicketManager
     private $acoesAoAbrir;
     /** @var AcaoAoInteragir[] $acoesAoInteragir */
     private $acoesAoInteragir;
+    /** @var AcaoAoFecharTicket[] $acoesAoFechar */
+    private $acoesAoFechar;
 
     public function __construct()
     {
         $this->acoesAoAbrir = [];
+        $this->acoesAoInteragir = [];
+        $this->acoesAoFechar = [];
     }
 
     public function addAcaoAoAbrir(AcaoAoAbrirTicket $acao): self
@@ -31,6 +36,12 @@ class TicketManager
     public function addAcaoAoInteragir(AcaoAoInteragir $acao): self
     {
         $this->acoesAoInteragir[] = $acao;
+        return $this;
+    }
+
+    public function addAcaoAoFechar($acao): self
+    {
+        $this->acoesAoFechar[] = $acao;
         return $this;
     }
 
@@ -74,6 +85,15 @@ class TicketManager
 
         foreach ($this->acoesAoInteragir as $acao) {
             $acao->processaInteracao($ticket);
+        }
+    }
+
+    public function fechar(Ticket $ticket): void
+    {
+        $ticket->fechar();
+
+        foreach ($this->acoesAoFechar as $acao) {
+            $acao->processaFechamento($ticket);
         }
     }
 }

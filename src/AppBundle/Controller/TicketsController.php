@@ -209,10 +209,12 @@ class TicketsController extends Controller
      */
     public function fecharTicketAction(Ticket $ticket, Request $request): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($ticket);
-        $ticket->fechar();
-        $manager->flush();
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoFechar($this->get('app.ticket_repository'))
+            ->addAcaoAoFechar($this->get('app.email_fechar_ticket'));
+        $manager->fechar($ticket);
+
         $this->addFlash('success', "Ticket #{$ticket->getId()} fechado com sucesso");
 
         if ($ticket->estaParaAprovacao()) {
