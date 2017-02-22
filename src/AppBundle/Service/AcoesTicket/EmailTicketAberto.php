@@ -24,7 +24,7 @@ class EmailTicketAberto extends BaseEmailTicket implements AcaoAoAbrirTicket
 
     private function getMensagem(Ticket $ticket): string
     {
-        $link = $this->router->generate('visualizar_ticket', ['id' => $ticket->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->getUrl($ticket);
         $linhas = [];
         $linhas[] = "Prezado {$ticket->getAtendenteResponsavel()}.";
         $linhas[] = '';

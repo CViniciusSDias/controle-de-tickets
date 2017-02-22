@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Service\AcoesTicket;
 
+use AppBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 abstract class BaseEmailTicket
@@ -14,5 +15,14 @@ abstract class BaseEmailTicket
     {
         $this->mailer = $mailer;
         $this->router = $router;
+    }
+
+    protected function getUrl(Ticket $ticket)
+    {
+        return $this->router->generate(
+            'visualizar_ticket',
+            ['id' => $ticket->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 }

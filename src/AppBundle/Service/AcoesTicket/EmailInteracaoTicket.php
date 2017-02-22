@@ -26,7 +26,7 @@ class EmailInteracaoTicket extends BaseEmailTicket implements AcaoAoInteragir
 
     private function getMensagem(Ticket $ticket, Usuario $remetente, Usuario $destinatario): string
     {
-        $link = $this->router->generate('visualizar_ticket', ['id' => $ticket->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->getUrl($ticket);
         $linhas = [];
         $linhas[] = "Prezado $destinatario.";
         $linhas[] = '';
