@@ -2,12 +2,15 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\EstadoTicket\{Aberto, Fechado};
+use AppBundle\Entity\Ticket;
 use AppBundle\Entity\Usuario;
+use AppBundle\Service\AcoesTicket\AcaoAoAbrirTicket;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Classe Repository de Tickets.
  */
-class TicketRepository extends \Doctrine\ORM\EntityRepository
+class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket
 {
     /**
      * Busca os tickets ordenados (por padrão) pelo campo dataHora de forma descendente
@@ -90,5 +93,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
     public function findByCriador(Usuario $usuario): array
     {
         return $this->findBy(['usuarioCriador' => $usuario]);
+    }
+
+    public function processa(Ticket $ticket)
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($ticket);
+        $entityManager->flush();
     }
 }
