@@ -35,3 +35,6 @@ services:
     app.email_fechar_ticket:
         class: AppBundle\Service\AcoesTicket\EmailFecharTicket
         arguments: ["@mailer", "@router"]
+    app.email_reabrir_ticket:
+    	class: AppBundle\Service\AcoesTicket\EmailReabrirTicket
+    	arguments: ["@swiftmailer.mailer", "@router"]

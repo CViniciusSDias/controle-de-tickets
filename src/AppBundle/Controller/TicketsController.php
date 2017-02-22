@@ -235,7 +235,8 @@ class TicketsController extends Controller
     {
         $manager = new TicketManager();
         $manager
-            ->addAcaoAoReabrir($this->get('app.ticket_repository'));
+            ->addAcaoAoReabrir($this->get('app.ticket_repository'))
+            ->addAcaoAoReabrir($this->get('app.email_reabrir_ticket'));
         $manager->reabrir($ticket);
         $this->addFlash('success', 'Seu ticket foi reaberto');
 
