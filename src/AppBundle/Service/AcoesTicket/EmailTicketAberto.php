@@ -18,7 +18,7 @@ class EmailTicketAberto implements AcaoAoAbrirTicket
         $this->router = $router;
     }
 
-    public function processa(Ticket $ticket)
+    public function processaAbertura(Ticket $ticket)
     {
         $assunto = 'Ticket aberto';
         $mensagem = $this->getMensagem($ticket);

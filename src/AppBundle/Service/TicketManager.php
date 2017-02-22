@@ -52,7 +52,7 @@ class TicketManager
         }
 
         foreach ($this->acoesAoAbrir as $acao) {
-            $acao->processa($ticket);
+            $acao->processaAbertura($ticket);
         }
         return true;
     }

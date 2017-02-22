@@ -5,5 +5,5 @@ use AppBundle\Entity\Ticket;
 
 interface AcaoAoAbrirTicket
 {
-    public function processa(Ticket $ticket);
+    public function processaAbertura(Ticket $ticket);
 }
