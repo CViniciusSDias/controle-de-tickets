@@ -5,12 +5,13 @@ use AppBundle\Entity\EstadoTicket\{Aberto, Fechado};
 use AppBundle\Entity\Ticket;
 use AppBundle\Entity\Usuario;
 use AppBundle\Service\AcoesTicket\AcaoAoAbrirTicket;
+use AppBundle\Service\AcoesTicket\AcaoAoInteragir;
 use Doctrine\ORM\EntityRepository;
 
 /**
  * Classe Repository de Tickets.
  */
-class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket
+class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket, AcaoAoInteragir
 {
     /**
      * Busca os tickets ordenados (por padrão) pelo campo dataHora de forma descendente
@@ -100,5 +101,10 @@ class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);
         $entityManager->flush();
+    }
+
+    public function processaInteracao(Ticket $ticket)
+    {
+        $this->getEntityManager()->flush();
     }
 }

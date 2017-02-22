@@ -180,7 +180,7 @@ class Ticket
      * Get aberto
      * @return boolean
      */
-    public function getAberto(): bool
+    public function isAberto(): bool
     {
         return $this->estado->ehAberto();
     }
@@ -398,7 +398,7 @@ class Ticket
      */
     public function podeSerGerenciado(Usuario $usuario): bool
     {
-        return $this->getAberto() && $usuario->podeVer($this) && $usuario->ehDeSuporte();
+        return $this->isAberto() && $usuario->podeVer($this) && $usuario->ehDeSuporte();
     }
 
     /**

@@ -6,6 +6,7 @@ use AppBundle\Entity\{
 };
 use AppBundle\Exception\AbrirTicketException;
 use AppBundle\Service\AcoesTicket\AcaoAoAbrirTicket;
+use AppBundle\Service\AcoesTicket\AcaoAoInteragir;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -13,15 +14,23 @@ class TicketManager
 {
     /** @var AcaoAoAbrirTicket[] $acoesAoAbrir */
     private $acoesAoAbrir;
+    /** @var AcaoAoInteragir[] $acoesAoInteragir */
+    private $acoesAoInteragir;
 
     public function __construct()
     {
         $this->acoesAoAbrir = [];
     }
 
-    public function addAcaoAoAbrir(AcaoAoAbrirTicket $acao)
+    public function addAcaoAoAbrir(AcaoAoAbrirTicket $acao): self
     {
         $this->acoesAoAbrir[] = $acao;
+        return $this;
+    }
+
+    public function addAcaoAoInteragir(AcaoAoInteragir $acao): self
+    {
+        $this->acoesAoInteragir[] = $acao;
         return $this;
     }
 
@@ -30,9 +39,8 @@ class TicketManager
      * @param Usuario $usuarioLogado
      * @param ValidatorInterface $validator
      * @throws AbrirTicketException
-     * @return bool
      */
-    public function abrir(Form $form, Usuario $usuarioLogado, ValidatorInterface $validator): bool
+    public function abrir(Form $form, Usuario $usuarioLogado, ValidatorInterface $validator): void
     {
         /** @var Ticket $ticket */
         $ticket = $form->getData();
@@ -54,6 +62,18 @@ class TicketManager
         foreach ($this->acoesAoAbrir as $acao) {
             $acao->processaAbertura($ticket);
         }
-        return true;
+    }
+
+    public function interagir(Ticket $ticket, string $textoMensagem, Usuario $usuarioLogado)
+    {
+        $mensagem = new MensagemTicket();
+        $mensagem
+            ->setAutor($usuarioLogado)
+            ->setTexto($textoMensagem);
+        $ticket->addMensagem($mensagem);
+
+        foreach ($this->acoesAoInteragir as $acao) {
+            $acao->processaInteracao($ticket);
+        }
     }
 }

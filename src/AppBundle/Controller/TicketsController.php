@@ -299,13 +299,9 @@ class TicketsController extends Controller
     public function enviarMensagemAction(Ticket $ticket, Request $request): Response
     {
         $textoMensagem = $request->request->get('mensagem');
-        $mensagem = new MensagemTicket();
-        $mensagem
-            ->setAutor($this->getUser())
-            ->setTexto($textoMensagem);
-        $ticket->addMensagem($mensagem);
-
-        $this->getDoctrine()->getManager()->flush();
+        $manager = new TicketManager();
+        $manager->addAcaoAoInteragir($this->get('app.ticket_repository'));
+        $manager->interagir($ticket, $textoMensagem, $this->getUser());
 
         return $this->voltar($request);
     }
