@@ -26,6 +26,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     {
         if ($this->container->getParameter('kernel.environment') === 'test') {
             $categoria = new Tipo();
+            $categoria->setSupervisorResponsavel($this->getReference('usuario'));
             $categoria->setNome('Testes');
             $manager->persist($categoria);
             $manager->flush();
@@ -41,7 +42,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 
     /**
