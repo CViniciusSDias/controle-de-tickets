@@ -21,3 +21,8 @@ services:
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - AppBundle\Entity\Usuario
+    app.ticket_repository:
+        class: AppBundle\Repository\TicketRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Ticket

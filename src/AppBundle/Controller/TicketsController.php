@@ -44,7 +44,7 @@ class TicketsController extends Controller
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
             if ($form->isSubmitted()) {
                 $ticketManager = new TicketManager();
-                $ticketManager->addAcaoAoAbrir($this->getDoctrine()->getRepository('AppBundle:Ticket'));
+                $ticketManager->addAcaoAoAbrir($this->get('app.ticket_repository'));
                 $ticketManager->abrir($form, $this->getUser(), $this->get('validator'));
 
                 $this->addFlash('success', 'Ticket cadastrado com sucesso');
