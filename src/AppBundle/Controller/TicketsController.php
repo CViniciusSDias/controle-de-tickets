@@ -4,9 +4,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\{
     MensagemTicket, Ticket, Usuario
 };
+use AppBundle\Exception\AbrirTicketException;
 use AppBundle\Forms\{
     CriarTicketType, GerenciarTicketType
 };
+use AppBundle\Service\TicketManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,31 +42,19 @@ class TicketsController extends Controller
 
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
             if ($form->isSubmitted()) {
-                /** @var Ticket $ticket */
-                $ticket = $form->getData();
-                $mensagem = new MensagemTicket();
-                $mensagem
-                    ->setAutor($this->getUser())
-                    ->setTexto($form['descricao']->getData());
-                $ticket->addMensagem($mensagem);
-                $erros = $this->get('validator')->validate($ticket);
+                $ticketManager = new TicketManager();
+                $ticketManager
+                    ->addAcaoAoAbrir($this->get('app.ticket_repository'))
+                    ->addAcaoAoAbrir($this->get('app.email_ticket_aberto'));
+                $ticketManager->abrir($form, $this->getUser(), $this->get('validator'));
 
-                if (count($erros) === 0) {
-                    // Se o ticket passar na validação, salva no BD e recarrega a página
-                    $manager = $this->getDoctrine()->getManager();
-                    $ticket->setUsuarioCriador($this->getUser());
-                    $manager->persist($ticket);
-                    $manager->flush();
-
-                    $this->addFlash('success', 'Ticket cadastrado com sucesso');
-
-                    return $this->redirect($request->getUri());
-                }
-
-                $this->adicionaErrosAoEscopoFlash($erros);
+                $this->addFlash('success', 'Ticket cadastrado com sucesso');
+                return $this->redirect($request->getUri());
             }
         } catch (\InvalidArgumentException $e) {
-            $this->adicionaErrosAoEscopoFlash(array($e));
+            $this->addErrosAoEscopoFlash([$e]);
+        } catch (AbrirTicketException $e) {
+            $this->addErrosAoEscopoFlash($e->getErros());
         }
 
         return $this->render('tickets/cadastrar.html.twig', [
@@ -177,11 +167,11 @@ class TicketsController extends Controller
                     return $this->redirect($request->getUri());
                 }
 
-                $this->adicionaErrosAoEscopoFlash($erros);
+                $this->addErrosAoEscopoFlash($erros);
             }
         } catch (\InvalidArgumentException $e) {
             // Caso haja erros de validação nas entidades
-            $this->adicionaErrosAoEscopoFlash([$e]);
+            $this->addErrosAoEscopoFlash([$e]);
         }
 
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
@@ -219,10 +209,12 @@ class TicketsController extends Controller
      */
     public function fecharTicketAction(Ticket $ticket, Request $request): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($ticket);
-        $ticket->fechar();
-        $manager->flush();
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoFechar($this->get('app.ticket_repository'))
+            ->addAcaoAoFechar($this->get('app.email_fechar_ticket'));
+        $manager->fechar($ticket);
+
         $this->addFlash('success', "Ticket #{$ticket->getId()} fechado com sucesso");
 
         if ($ticket->estaParaAprovacao()) {
@@ -272,9 +264,9 @@ class TicketsController extends Controller
     /**
      * Adiciona os erros passados por parâmetro no escopo flash da sessão
      *
-     * @param array $erros
+     * @param iterable $erros
      */
-    private function adicionaErrosAoEscopoFlash(array $erros): void
+    private function addErrosAoEscopoFlash(iterable $erros): void
     {
         foreach ($erros as $erro) {
             $this->addFlash('danger', $erro->getMessage());
@@ -309,13 +301,11 @@ class TicketsController extends Controller
     public function enviarMensagemAction(Ticket $ticket, Request $request): Response
     {
         $textoMensagem = $request->request->get('mensagem');
-        $mensagem = new MensagemTicket();
-        $mensagem
-            ->setAutor($this->getUser())
-            ->setTexto($textoMensagem);
-        $ticket->addMensagem($mensagem);
-
-        $this->getDoctrine()->getManager()->flush();
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoInteragir($this->get('app.ticket_repository'))
+            ->addAcaoAoInteragir($this->get('app.email_interacao_ticket'));
+        $manager->interagir($ticket, $textoMensagem, $this->getUser());
 
         return $this->voltar($request);
     }

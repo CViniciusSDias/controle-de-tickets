@@ -21,3 +21,17 @@ services:
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - AppBundle\Entity\Usuario
+    app.ticket_repository:
+        class: AppBundle\Repository\TicketRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Ticket
+    app.email_ticket_aberto:
+        class: AppBundle\Service\AcoesTicket\EmailTicketAberto
+        arguments: ["@mailer", "@router"]
+    app.email_interacao_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailInteracaoTicket
+        arguments: ["@mailer", "@router"]
+    app.email_fechar_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailFecharTicket
+        arguments: ["@mailer", "@router"]
