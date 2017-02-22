@@ -3,6 +3,7 @@ namespace AppBundle\Service\AcoesTicket;
 
 use AppBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class BaseEmailTicket
 {
