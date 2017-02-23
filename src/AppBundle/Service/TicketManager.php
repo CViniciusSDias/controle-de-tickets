@@ -22,6 +22,9 @@ class TicketManager
     /** @var AcaoAoReabrirTicket[] $acoesAoFechar */
     private $acoesAoReabrir;
 
+    /**
+     * Inicializa os observers
+     */
     public function __construct()
     {
         $this->acoesAoAbrir = [];
@@ -30,24 +33,48 @@ class TicketManager
         $this->acoesAoReabrir = [];
     }
 
+    /**
+     * Adiciona uma ação ao abrir um ticket
+     *
+     * @param AcaoAoAbrirTicket $acao
+     * @return TicketManager
+     */
     public function addAcaoAoAbrir(AcaoAoAbrirTicket $acao): self
     {
         $this->acoesAoAbrir[] = $acao;
         return $this;
     }
 
+    /**
+     * Adiciona uma ação ao interagir com um ticket
+     *
+     * @param AcaoAoInteragir $acao
+     * @return TicketManager
+     */
     public function addAcaoAoInteragir(AcaoAoInteragir $acao): self
     {
         $this->acoesAoInteragir[] = $acao;
         return $this;
     }
 
+    /**
+     * Adiciona uma ação ao fechar um ticket
+     *
+     * @param AcaoAoFecharTicket $acao
+     * @return TicketManager
+     */
     public function addAcaoAoFechar(AcaoAoFecharTicket $acao): self
     {
         $this->acoesAoFechar[] = $acao;
         return $this;
     }
 
+    /**
+     * Adiciona uma ação ao reabrir um ticket
+     *
+     * @param AcaoAoReabrirTicket $acao
+     * @return TicketManager
+     */
     public function addAcaoAoReabrir(AcaoAoReabrirTicket $acao): self
     {
         $this->acoesAoReabrir[] = $acao;
@@ -55,6 +82,8 @@ class TicketManager
     }
 
     /**
+     * Abre um novo ticket
+     *
      * @param Form $form
      * @param Usuario $usuarioLogado
      * @param ValidatorInterface $validator
@@ -84,6 +113,13 @@ class TicketManager
         }
     }
 
+    /**
+     * Adiciona uma interação ao ticket
+     *
+     * @param Ticket $ticket
+     * @param string $textoMensagem
+     * @param Usuario $usuarioLogado
+     */
     public function interagir(Ticket $ticket, string $textoMensagem, Usuario $usuarioLogado)
     {
         $mensagem = new MensagemTicket();
@@ -97,6 +133,11 @@ class TicketManager
         }
     }
 
+    /**
+     * Fecha um ticket
+     *
+     * @param Ticket $ticket
+     */
     public function fechar(Ticket $ticket): void
     {
         $ticket->fechar();
@@ -106,6 +147,11 @@ class TicketManager
         }
     }
 
+    /**
+     * Reabre um ticket
+     *
+     * @param Ticket $ticket
+     */
     public function reabrir(Ticket $ticket): void
     {
         $ticket->reabrir();
