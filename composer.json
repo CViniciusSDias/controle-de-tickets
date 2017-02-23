@@ -54,10 +54,6 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ],
-        "compile": [
-            "bin/console doctrine:schema:update --force",
-            "bin/console doctrine:fixtures:load"
         ]
     },
     "extra": {
