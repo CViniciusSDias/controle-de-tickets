@@ -8,6 +8,6 @@ parameters:
     mailer_transport: gmail
     mailer_host: null
     mailer_user: carlosv775@gmail.com
-    mailer_password: 476654Cv
+    mailer_password: znzsotqkxluuzfnz
     secret: ThisTokenIsNotSoSecretChangeIt
     dominio: litoralverde.com.br
