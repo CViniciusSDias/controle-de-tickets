@@ -56,7 +56,8 @@
             "@symfony-scripts"
         ],
         "compile": [
-            "cd web && npm install"
+            "bin/console doctrine:schema:update --force",
+            "bin/console doctrine:fixtures:load"
         ]
     },
     "extra": {
