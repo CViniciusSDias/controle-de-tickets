@@ -54,6 +54,9 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
+        ],
+        "compile": [
+            "cd web && npm install"
         ]
     },
     "extra": {
