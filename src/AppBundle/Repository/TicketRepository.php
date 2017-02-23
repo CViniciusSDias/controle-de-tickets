@@ -97,22 +97,22 @@ class TicketRepository extends EntityRepository implements AcaoAoAbrirTicket, Ac
         return $this->findBy(['usuarioCriador' => $usuario]);
     }
 
-    public function processaAbertura(Ticket $ticket)
+    public function processaAbertura(Ticket $ticket): void
     {
         $this->flush($ticket);
     }
 
-    public function processaInteracao(Ticket $ticket)
+    public function processaInteracao(Ticket $ticket): void
     {
         $this->getEntityManager()->flush();
     }
 
-    public function processaFechamento(Ticket $ticket)
+    public function processaFechamento(Ticket $ticket): void
     {
         $this->flush($ticket);
     }
 
-    public function processaReabertura(Ticket $ticket)
+    public function processaReabertura(Ticket $ticket): void
     {
         $this->flush($ticket);
     }

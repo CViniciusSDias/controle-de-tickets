@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Service\AcoesTicket;
 
-
 use AppBundle\Entity\Ticket;
 
 class EmailTicketAberto extends BaseEmailTicket implements AcaoAoAbrirTicket

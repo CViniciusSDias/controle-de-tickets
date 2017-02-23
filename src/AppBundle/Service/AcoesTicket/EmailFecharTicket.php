@@ -7,7 +7,7 @@ use AppBundle\Entity\{
 
 class EmailFecharTicket extends BaseEmailTicket implements AcaoAoFecharTicket
 {
-    public function processaFechamento(Ticket $ticket)
+    public function processaFechamento(Ticket $ticket): void
     {
         $ultimaMensagem = $this->getUltimaMensagem($ticket);
         $usuarioFechou = $ultimaMensagem->getAutor() == $ticket->getUsuarioCriador();

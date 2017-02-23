@@ -5,7 +5,7 @@ use AppBundle\Entity\Ticket;
 
 class EmailReabrirTicket extends BaseEmailTicket implements AcaoAoReabrirTicket
 {
-    public function processaReabertura(Ticket $ticket)
+    public function processaReabertura(Ticket $ticket): void
     {
         $assunto = 'Solução negada - Ticket reaberto';
         $mensagem = $this->getMensagem($ticket);

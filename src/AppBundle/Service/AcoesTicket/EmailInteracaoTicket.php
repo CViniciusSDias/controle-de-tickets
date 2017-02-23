@@ -7,7 +7,7 @@ use AppBundle\Entity\{
 
 class EmailInteracaoTicket extends BaseEmailTicket implements AcaoAoInteragir
 {
-    public function processaInteracao(Ticket $ticket)
+    public function processaInteracao(Ticket $ticket): void
     {
         $remetente = $this->getRemetente($ticket);
         $destinatario = $this->getDestinatario($ticket);
