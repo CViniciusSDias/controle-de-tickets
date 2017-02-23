@@ -16,7 +16,7 @@ monolog:
         nested:
             type:  stream
             path:  "php://stderr"
-            level: debug
+            level: info
         console:
             type:  console
 
