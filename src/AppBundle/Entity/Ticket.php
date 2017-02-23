@@ -2,10 +2,15 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Service\TicketMessenger;
+use Doctrine\Common\Collections\{Collection, ArrayCollection};
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\EstadoTicket\{
+    Aberto, AguardandoAprovacao, EmAndamento, EstadoTicket, Fechado
+};
 
 /**
  * Ticket
@@ -22,7 +27,7 @@ class Ticket
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -31,29 +36,22 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo", type="string", length=128)
+     * @ORM\Column(type="string", length=128)
      * @Assert\Length(min=8, minMessage="O título deve conter pelo menos 8 caracteres")
      */
     private $titulo;
 
     /**
-     * @var string
+     * @var EstadoTicket
      *
-     * @ORM\Column(name="descricao", type="string", length=255, nullable=true)
+     * @ORM\Column(type="estado_ticket")
      */
-    private $descricao;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="aberto", type="boolean")
-     */
-    private $aberto;
+    private $estado;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="prioridade", type="smallint")
+     * @ORM\Column(type="smallint")
      * @Assert\LessThan(value=6, message="A prioridade deve ser entre 0 e 5")
      * @Assert\GreaterThanOrEqual(value=0, message="A prioridade deve ser entre 0 e 5")
      */
@@ -62,14 +60,14 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dataHora", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $dataHora;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="previsaoResposta", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $previsaoResposta;
 
@@ -86,26 +84,32 @@ class Ticket
     private $atendenteResponsavel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Categoria")
+     * @ORM\ManyToOne(targetEntity="Tipo")
      */
-    private $categoria;
+    private $tipo;
 
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="MensagemTicket", mappedBy="ticket", cascade={"all"})
+     */
+    private $mensagens;
+
+    /**
+     * Inicializa um ticket aberto com a data de hoje e prioridade = 3
+     */
     public function __construct()
     {
-        $this->aberto = true;
+        $this->estado = new Aberto();
         $this->prioridade = 3;
         $this->dataHora = new DateTime();
-    }
-
-    public function getStatus(): string
-    {
-        return $this->aberto ? 'aberto' : 'fechado';
+        $this->mensagens = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId(): int
     {
@@ -140,48 +144,50 @@ class Ticket
     }
 
     /**
-     * Set descricao
+     * Set estado
      *
-     * @param string $descricao
+     * @param EstadoTicket $estado
      * @return Ticket
      */
-    public function setDescricao(string $descricao): self
+    public function setEstado(EstadoTicket $estado): self
     {
-        $this->descricao = $descricao;
+        $this->estado = $estado;
 
         return $this;
     }
 
     /**
-     * Get descricao
+     * Retorna o estado do ticket
+     *
+     * @return EstadoTicket
+     */
+    public function getEstado(): EstadoTicket
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Retorna o estado como string
      *
      * @return string
      */
-    public function getDescricao(): ?string
+    public function getStatus(): string
     {
-        return $this->descricao;
-    }
-
-    /**
-     * Set aberto
-     *
-     * @param boolean $aberto
-     * @return Ticket
-     */
-    public function setAberto(bool $aberto)
-    {
-        $this->aberto = $aberto;
-
-        return $this;
+        return $this->estado;
     }
 
     /**
      * Get aberto
      * @return boolean
      */
-    public function getAberto(): bool
+    public function isAberto(): bool
     {
-        return $this->aberto;
+        return $this->estado->ehAberto();
+    }
+
+    public function getCor(): string
+    {
+        return $this->estado->getCor();
     }
 
     /**
@@ -311,6 +317,8 @@ class Ticket
     public function setAtendenteResponsavel(Usuario $atendenteResponsavel): self
     {
         $this->atendenteResponsavel = $atendenteResponsavel;
+        $this->estado = new EmAndamento();
+        $this->addMensagem((new TicketMessenger())->getMensagemNovoResponsavel($this));
 
         return $this;
     }
@@ -328,13 +336,14 @@ class Ticket
     /**
      * Set categoria
      *
-     * @param Categoria $categoria
+     * @param Tipo $tipo
      *
      * @return Ticket
      */
-    public function setCategoria(Categoria $categoria): self
+    public function setTipo(Tipo $tipo): self
     {
-        $this->categoria = $categoria;
+        $this->tipo = $tipo;
+        $this->atendenteResponsavel = $tipo->getSupervisorResponsavel();
 
         return $this;
     }
@@ -342,10 +351,106 @@ class Ticket
     /**
      * Get categoria
      *
-     * @return Categoria
+     * @return Tipo
      */
-    public function getCategoria(): ?Categoria
+    public function getTipo(): ?Tipo
     {
-        return $this->categoria;
+        return $this->tipo;
+    }
+
+    /**
+     * Tenta fechar o ticket atual
+     *
+     * @throws \BadMethodCallException
+     */
+    public function fechar(): void
+    {
+        $this->estado->fechar($this);
+    }
+
+    /**
+     * Verifica se o ticket está aguardando aprovação do usuário
+     *
+     * @return bool
+     */
+    public function estaParaAprovacao(): bool
+    {
+        return $this->estado instanceof AguardandoAprovacao;
+    }
+
+    /**
+     * Reabre um ticket, recolocando-o no estado EmAndamento
+     */
+    public function reabrir(): void
+    {
+        $this->estado = new EmAndamento();
+        $mensagem = (new TicketMessenger())->getMensagemTicketReaberto($this);
+        $this->addMensagem($mensagem);
+    }
+
+    /**
+     * Verifica se um ticket pode ser gerenciado por determinado usuário.
+     * Verdadeiro se o ticket estiver aberto e o usuário for pelo menos de suporte e tiver as devidas permissões sobre
+     * ele ( caso seja de suporte, deve ser o responsável por ele, o que não é necessário caso seja supervisor ou adm )
+     *
+     * @param Usuario $usuario
+     * @return bool
+     */
+    public function podeSerGerenciado(Usuario $usuario): bool
+    {
+        return $this->isAberto() && $usuario->podeVer($this) && $usuario->ehDeSuporte();
+    }
+
+    /**
+     * Adiciona uma mensagem (interação) ao ticket
+     *
+     * @param MensagemTicket $mensagem
+     */
+    public function addMensagem(MensagemTicket $mensagem): void
+    {
+        $this->mensagens->add($mensagem);
+        $mensagem->setTicket($this);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMensagens(): Collection
+    {
+        return $this->mensagens;
+    }
+
+    /**
+     * Informa se determinado usuário pode reabrir o ticket
+     *
+     * @param Usuario $usuario
+     * @return bool
+     */
+    public function podeSerReabertoPor(Usuario $usuario): bool
+    {
+        return $this->usuarioCriador == $usuario && $this->estado instanceof Fechado;
+    }
+
+    public function __clone()
+    {
+        $this->id = null;
+        $this->atendenteResponsavel = $this->tipo->getSupervisorResponsavel();
+        $this->estado = new Aberto();
+        $this->previsaoResposta = null;
+        $this->mensagens = $this->clonarMensagens();
+        $this->addMensagem((new TicketMessenger())->getMensagemTicketReaberto($this));
+        $this->dataHora = new DateTime();
+    }
+
+    private function clonarMensagens(): Collection
+    {
+        $mensagensClone = new ArrayCollection();
+        foreach ($this->getMensagens() as $mensagem) {
+            /** @var MensagemTicket $mensagemClone */
+            $mensagemClone = clone $mensagem;
+            $mensagemClone->setTicket($this);
+            $mensagensClone->add($mensagemClone);
+        }
+        return $mensagensClone;
     }
 }

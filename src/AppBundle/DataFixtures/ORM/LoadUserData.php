@@ -5,8 +5,7 @@ use AppBundle\Entity\Usuario;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\{ContainerAwareInterface,ContainerInterface};
 
 /**
  * DataFixture de Usuário
@@ -56,6 +55,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 }

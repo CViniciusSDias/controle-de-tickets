@@ -9,10 +9,32 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.token_generator:
         class: AppBundle\Service\TokenGenerator
-        arguments: ["@doctrine"]
+        arguments: ["@app.usuario_repository"]
     app.email_recuperacao_senha:
         class: AppBundle\Service\EmailRecuperacaoSenha
-        arguments: ["@mailer", "@router", "@templating"]
+        arguments: ["@mailer", "@templating", "%dominio%"]
     app.redefinidor_senha:
         class: AppBundle\Service\RedefinidorDeSenha
         arguments: ["@security.password_encoder"]
+    app.usuario_repository:
+        class: AppBundle\Repository\UsuarioRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Usuario
+    app.ticket_repository:
+        class: AppBundle\Repository\TicketRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Ticket
+    app.email_ticket_aberto:
+        class: AppBundle\Service\AcoesTicket\EmailTicketAberto
+        arguments: ["@mailer", "@router", "%dominio%"]
+    app.email_interacao_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailInteracaoTicket
+        arguments: ["@mailer", "@router", "%dominio%"]
+    app.email_fechar_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailFecharTicket
+        arguments: ["@mailer", "@router", "%dominio%"]
+    app.email_reabrir_ticket:
+        class: AppBundle\Service\AcoesTicket\EmailReabrirTicket
+        arguments: ["@mailer", "@router", "%dominio%"]

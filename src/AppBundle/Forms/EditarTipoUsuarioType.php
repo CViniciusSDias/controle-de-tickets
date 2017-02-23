@@ -24,6 +24,7 @@ class EditarTipoUsuarioType extends AbstractType
                         'Tipo' => '',
                         'Usuário' => 'ROLE_USER',
                         'Suporte' => 'ROLE_ADMIN',
+                        'Supervisor' => 'ROLE_SUPERVISOR',
                         'Administrador' => 'ROLE_SUPER_ADMIN'
                     ]
                 ]

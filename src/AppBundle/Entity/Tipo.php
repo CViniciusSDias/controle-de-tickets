@@ -6,13 +6,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use InvalidArgumentException;
 
 /**
- * Categoria de um ticket
+ * Tipo de um ticket
  *
  * @package AppBundle\Entity
- * @ORM\Table(name="categoria")
+ * @ORM\Table(name="tipo")
  * @ORM\Entity
  */
-class Categoria
+class Tipo
 {
     /**
      * @var int
@@ -32,6 +32,31 @@ class Categoria
     private $nome;
 
     /**
+     * @var Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     */
+    private $supervisorResponsavel;
+
+    /**
+     * @return Usuario|null
+     */
+    public function getSupervisorResponsavel(): ?Usuario
+    {
+        return $this->supervisorResponsavel;
+    }
+
+    /**
+     * @param Usuario $supervisorResponsavel
+     * @return Tipo
+     */
+    public function setSupervisorResponsavel(Usuario $supervisorResponsavel): Tipo
+    {
+        $this->supervisorResponsavel = $supervisorResponsavel;
+        return $this;
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -46,7 +71,7 @@ class Categoria
      *
      * @param string $nome
      *
-     * @return Categoria
+     * @return Tipo
      */
     public function setNome(string $nome): self
     {

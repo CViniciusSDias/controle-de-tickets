@@ -1,15 +1,14 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\{
-    MensagemRecuperacaoSenha, TokenSenha, Usuario
-};
+use AppBundle\Entity\Usuario;
 use AppBundle\Forms\RedefinirSenhaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{Request, Response};
-use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use TypeError;
 
 /**
@@ -68,12 +67,17 @@ class LoginController extends Controller
             $manager->persist($token);
             $manager->flush();
 
-            $this->get('app.email_recuperacao_senha')->sendMail($token, $email);
+            $linkRecuperacao = $this->generateUrl(
+                'recuperar_senha',
+                ['token' => $token->getToken()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            $this->get('app.email_recuperacao_senha')->sendMail($linkRecuperacao, $email);
         } catch (Exception $e) {
             $this->addFlash('danger', $e->getMessage());
 
             return $this->redirect($request->headers->get('referer'));
-        } catch (TypeError $e) {
+        } catch (TypeError $e) { // Caso o usuário não seja encontrado pelo e-mail, um TypeError será lançado
             $this->get('logger')->warning('Tentativa de recuperação de senha com e-mail: ' . $email);
         }
 

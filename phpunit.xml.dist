@@ -27,4 +27,16 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="coverage-html" target="docs/phpunit/html" />
+        <log type="coverage-clover" target="docs/phpunit/coverage.xml" />
+        <log type="coverage-php" target="docs/phpunit/coverage.serialized" />
+        <log type="coverage-text" target="docs/phpunit/coverage.txt" />
+        <log type="json" target="docs/phpunit/logfile.json" />
+        <log type="tap" target="docs/phpunit/logfile.tap" />
+        <log type="junit" target="docs/phpunit/logfile.xml" logIncompleteSkipped="false" />
+        <log type="testdox-html" target="docs/phpunit/testdox.html" />
+        <log type="testdox-text" target="docs/phpunit/testdox.txt" />
+    </logging>
 </phpunit>

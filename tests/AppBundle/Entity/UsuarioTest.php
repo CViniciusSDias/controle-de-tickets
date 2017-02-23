@@ -38,4 +38,35 @@ class UsuarioTest extends TestCase
 
         $this->assertFalse($this->usuario->podeVer(($ticket)));
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testEmailInvalidoDeveLancarExcecao()
+    {
+        $this->usuario->setEmail('abc');
+    }
+
+    public function testEmailValidoNaoDeveLancarExcecao()
+    {
+        $email = 'email@example.com';
+        $this->usuario->setEmail($email);
+
+        static::assertEquals($email, $this->usuario->getEmail());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testTipoInvalidoDeveLancarExcecao()
+    {
+        $this->usuario->setTipo('tipo');
+    }
+
+    public function testTipoValidoNaoDeveLancarExcecao()
+    {
+        $this->usuario->setTipo('ROLE_SUPERVISOR');
+
+        static::assertEquals('Supervisor', $this->usuario->getNomeTipo());
+    }
 }

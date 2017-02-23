@@ -4,67 +4,138 @@
 {% block subtitulo %}#{{ ticket.id }}{% endblock %}
 
 {% block conteudo %}
-<section class="invoice">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2 class="page-header">
-                <i class="fa fa-ticket"></i> {{ ticket.titulo }}
-                <small class="pull-right">Criado em: {{ ticket.dataHora|date('d/m/Y H:i') }}</small>
-            </h2>
+<div class="row">
+    <section class="col-xs-8">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="timeline">
+                    <li class="time-label">
+                        <span class="bg-gray">Mensagens</span>
+                    </li>
+
+                    {% for mensagem in ticket.mensagens %}
+                    <li>
+                        {% if mensagem.deUsuario %}
+                        <i class="fa fa-envelope bg-{{ mensagem.autor == app.user ? 'blue' : 'red' }}"></i>
+                        {% else %}
+                        <i class="fa fa-check-square"></i>
+                        {% endif %}
+                        <div class="timeline-item {{ mensagem.deUsuario ? '' : 'msg-status' }}">
+                            <span class="time">
+                                <i class="fa fa-clock-o"></i>
+                                {{ mensagem.dataHora|date('m/d/Y H:i') }}
+                            </span>
+
+                            {% if mensagem.deUsuario %}
+                            <h3 class="timeline-header">{{ mensagem.autor }}</h3>
+                            {% endif %}
+                            <div class="timeline-body">{{ mensagem.texto|nl2br }}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+
+                    {% if ticket.aberto %}
+                    <li>
+                        <i class="fa fa-paper-plane bg-green"></i>
+                        <div class="timeline-item">
+                            <h3 class="timeline-header">Responder</h3>
+                            <div class="timeline-body">
+                                <form action="{{ path('enviar_mensagem', {'id': ticket.id}) }}" method="post">
+                                    <div class="form-group">
+                                        <textarea name="mensagem" class="form-control"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+    </section>
+
+    <div class="col-xs-4">
+        <section class="infos-ticket">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-ticket"></i> {{ ticket.titulo }}
+                        <small>Criado em: {{ ticket.dataHora|date('d/m/Y H:i') }}</small>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <h3>Título</h3>
+                        <p>{{ ticket.titulo }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Tipo</h3>
+                        <p>{{ ticket.tipo }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Estado</h3>
+                        <p>{{ ticket.status }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Criado por</h3>
+                        <p>{{ ticket.usuarioCriador }}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    {% if ticket.podeSerGerenciado(app.user) %}
+                        <div>
+                            <h3>Prioridade</h3>
+                            <p>{{ ticket.prioridade }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <h3>Data/Hora da criação</h3>
+                        <p>{{ ticket.dataHora|date('d/m/Y H:i') }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Atendente Responsável</h3>
+                        <p>{{ ticket.atendenteResponsavel ?? 'Sem responsável' }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Previsão de Resposta</h3>
+                        <p>{{ ticket.previsaoResposta|date('d/m/Y H:i') }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% if ticket.estaParaAprovacao and app.user == ticket.usuarioCriador %}
+        <div class="box box-primary text-center">
+            <div class="box-header with-border">
+                <h3 class="box-title">Seu problema foi resolvido?</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="col-xs-3 col-xs-offset-3">
+                    <a href="{{ path('fechar_ticket', {'id': ticket.id}) }}" class="btn btn-success btn-lg">
+                        <i class="fa fa-thumbs-o-up"></i>
+                    </a>
+                </div>
+
+                <div class="col-xs-3">
+                    <a href="{{ path('reabrir_ticket', {'id': ticket.id}) }}" class="btn btn-danger btn-lg">
+                        <i class="fa fa-thumbs-o-down"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div>
-                <h3>Título</h3>
-                <p>{{ ticket.titulo }}</p>
-            </div>
-
-            <div>
-                <h3>Categoria</h3>
-                <p>{{ ticket.categoria }}</p>
-            </div>
-
-            <div>
-                <h3>Descrição</h3>
-                <p>{{ ticket.descricao }}</p>
-            </div>
-
-            <div>
-                <h3>Aberto</h3>
-                <p>{{ ticket.aberto ? 'SIM' : 'NÃO' }}</p>
-            </div>
-
-            {% if app.user == ticket.atendenteResponsavel %}
-            <div>
-                <h3>Prioridade</h3>
-                <p>{{ ticket.prioridade }}</p>
-            </div>
-            {% endif %}
-        </div>
-
-        <div class="col-md-6">
-            <div>
-                <h3>Criado por</h3>
-                <p>{{ ticket.usuarioCriador }}</p>
-            </div>
-
-            <div>
-                <h3>Data/Hora da criação</h3>
-                <p>{{ ticket.dataHora|date('d/m/Y H:i') }}</p>
-            </div>
-
-            <div>
-                <h3>Atendente Responsável</h3>
-                <p>{{ ticket.atendenteResponsavel }}</p>
-            </div>
-
-            <div>
-                <h3>Previsão de Resposta</h3>
-                <p>{{ ticket.previsaoResposta|date('d/m/Y H:i') }}</p>
-            </div>
-        </div>
-    </div>
-</section>
+</div>
 {% endblock %}

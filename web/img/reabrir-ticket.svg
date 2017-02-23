@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1792"
+   height="1792"
+   viewBox="0 0 1792 1792"
+   version="1.1"
+   id="svg3682"
+   sodipodi:docname="reabrir-ticket.svg"
+   inkscape:version="0.92.1 r15371">
+  <metadata
+     id="metadata3688">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3686" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="878"
+     id="namedview3684"
+     showgrid="false"
+     inkscape:zoom="0.37332589"
+     inkscape:cx="562.51121"
+     inkscape:cy="896"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <path
+     d="M1024 452l316 316-572 572-316-316zm-211 979l618-618q19-19 19-45t-19-45l-362-362q-18-18-45-18t-45 18l-618 618q-19 19-19 45t19 45l362 362q18 18 45 18t45-18zm889-637l-907 908q-37 37-90.5 37t-90.5-37l-126-126q56-56 56-136t-56-136-136-56-136 56l-125-126q-37-37-37-90.5t37-90.5l907-906q37-37 90.5-37t90.5 37l125 125q-56 56-56 136t56 136 136 56 136-56l126 125q37 37 37 90.5t-37 90.5z"
+     id="path3680" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Circulo"
+     style="display:inline">
+    <circle
+       id="path3803"
+       cx="1272.3468"
+       cy="1269.668"
+       style="fill:#999999;stroke-width:1.7170732"
+       r="471.43799" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Add"
+     style="display:inline">
+    <g
+       id="g3790"
+       transform="matrix(1.7170731,0,0,1.7170731,852.06561,849.38581)"
+       style="fill:#ffffff">
+      <g
+         id="g3734"
+         style="fill:#ffffff">
+        <path
+           id="path3732"
+           d="m 268.175,488.161 c 98.2,-11 176.9,-89.5 188.1,-187.7 14.7,-128.4 -85.1,-237.7 -210.2,-239.1 v -57.6 c 0,-3.2 -4,-4.9 -6.7,-2.9 l -118.6,87.1 c -2,1.5 -2,4.4 0,5.9 l 118.6,87.1 c 2.7,2 6.7,0.2 6.7,-2.9 v -57.5 c 87.9,1.4 158.3,76.2 152.3,165.6 -5.1,76.9 -67.8,139.3 -144.7,144.2 -81.5,5.2 -150.8,-53 -163.2,-130 -2.3,-14.3 -14.8,-24.7 -29.2,-24.7 -17.9,0 -31.9,15.9 -29.1,33.6 17.4,109.7 118.7,192 236,178.9 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff" />
+      </g>
+      <g
+         id="g3736"
+         style="fill:#ffffff" />
+      <g
+         id="g3738"
+         style="fill:#ffffff" />
+      <g
+         id="g3740"
+         style="fill:#ffffff" />
+      <g
+         id="g3742"
+         style="fill:#ffffff" />
+      <g
+         id="g3744"
+         style="fill:#ffffff" />
+      <g
+         id="g3746"
+         style="fill:#ffffff" />
+      <g
+         id="g3748"
+         style="fill:#ffffff" />
+      <g
+         id="g3750"
+         style="fill:#ffffff" />
+      <g
+         id="g3752"
+         style="fill:#ffffff" />
+      <g
+         id="g3754"
+         style="fill:#ffffff" />
+      <g
+         id="g3756"
+         style="fill:#ffffff" />
+      <g
+         id="g3758"
+         style="fill:#ffffff" />
+      <g
+         id="g3760"
+         style="fill:#ffffff" />
+      <g
+         id="g3762"
+         style="fill:#ffffff" />
+      <g
+         id="g3764"
+         style="fill:#ffffff" />
+    </g>
+  </g>
+</svg>

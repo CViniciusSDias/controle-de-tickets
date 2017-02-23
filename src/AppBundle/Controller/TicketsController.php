@@ -1,11 +1,20 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Ticket;
-use AppBundle\Forms\{CriarTicketType, GerenciarTicketType};
+use AppBundle\Entity\{
+    MensagemTicket, Ticket, Usuario
+};
+use AppBundle\Exception\AbrirTicketException;
+use AppBundle\Forms\{
+    CriarTicketType, GerenciarTicketType
+};
+use AppBundle\Service\TicketManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\{
+    Request, Response
+};
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -16,17 +25,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class TicketsController extends Controller
 {
-    /**
-     * Raiz do projeto
-     *
-     * @Route("/")
-     * @return Response Redireciona o usuário para a tela de abertura de um novo ticket
-     */
-    public function indexAction(): Response
-    {
-        return $this->redirectToRoute('cadastrar_ticket');
-    }
-
     /**
      * Exibe o formulário de abertura de ticket e cria um novo ticket
      * com as informações enviadas por este formulário.
@@ -44,49 +42,24 @@ class TicketsController extends Controller
 
             /* Caso seja uma requisição post, e o formulário já tenha sido enviado */
             if ($form->isSubmitted()) {
-                $ticket = $form->getData();
-                $erros = $this->get('validator')->validate($ticket);
+                $ticketManager = new TicketManager();
+                $ticketManager
+                    ->addAcaoAoAbrir($this->get('app.ticket_repository'))
+                    ->addAcaoAoAbrir($this->get('app.email_ticket_aberto'));
+                $ticketManager->abrir($form, $this->getUser(), $this->get('validator'));
 
-                if (count($erros) === 0) {
-                    // Se o ticket passar na validação, salva no BD e recarrega a página
-                    $manager = $this->getDoctrine()->getManager();
-                    $ticket->usuarioCriador = $this->getUser();
-                    $manager->persist($ticket);
-                    $manager->flush();
-
-                    $this->addFlash('success', 'Ticket cadastrado com sucesso');
-
-                    return $this->redirect($request->getUri());
-                }
-
-                $this->adicionaErrosAoEscopoFlash($erros);
+                $this->addFlash('success', 'Ticket cadastrado com sucesso');
+                return $this->redirect($request->getUri());
             }
         } catch (\InvalidArgumentException $e) {
-            $this->adicionaErrosAoEscopoFlash(array($e));
+            $this->addErrosAoEscopoFlash([$e]);
+        } catch (AbrirTicketException $e) {
+            $this->addErrosAoEscopoFlash($e->getErros());
         }
 
         return $this->render('tickets/cadastrar.html.twig', [
             'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * Faz com que o usuário logado passe a ser o responsável pelo ticket passado na rota
-     *
-     * @Route("/tickets/{id}/assumir", name="assumir_responsabilidade")
-     * @param Ticket $ticket
-     * @param Request $request
-     * @return Response
-     */
-    public function assumirResponsabilidadeAction(Ticket $ticket, Request $request): Response
-    {
-        $manager = $this->getDoctrine()->getManager();
-        $ticket->setAtendenteResponsavel($this->getUser());
-        $manager->persist($ticket);
-        $manager->flush();
-
-        $this->addFlash('success', 'O tícket está agora sob sua responsabilidade.');
-        return $this->voltar($request);
     }
 
     /**
@@ -110,8 +83,9 @@ class TicketsController extends Controller
      */
     public function listarAbertosAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['aberto' => true]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findAbertos();
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -123,8 +97,9 @@ class TicketsController extends Controller
      */
     public function listarFechadosAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['aberto' => false]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findFechados();
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -136,8 +111,9 @@ class TicketsController extends Controller
      */
     public function listarTicketsDoAtendenteAction(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['atendenteResponsavel' => $this->getUser()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findByAtendente($this->getUser());
+
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
@@ -149,29 +125,38 @@ class TicketsController extends Controller
      */
     public function listarTicketsAbertosPeloUsuario(): Response
     {
-        $tickets = $this->getDoctrine()->getRepository('AppBundle:Ticket')
-            ->findBy(['usuarioCriador' => $this->getUser()]);
+        $ticketsRepo = $this->getDoctrine()->getRepository('AppBundle:Ticket');
+        $tickets = $ticketsRepo->findByCriador($this->getUser());
         return $this->render('tickets/listar.html.twig', ['tickets' => $tickets]);
     }
 
     /**
      * Exibe o formulário de gestão do ticket e altera seus dados com o envio do formulário
      *
-     * @Route("/tickets/{id}", name="gerenciar_ticket")
+     * @Route("/tickets/gerenciar/{id}", name="gerenciar_ticket")
      * @param Ticket $ticket
      * @param Request $request
      * @return Response
      */
     public function gerenciarAction(Ticket $ticket, Request $request): Response
     {
+        /** @var Usuario $usuarioLogado */
+        $usuarioLogado = $this->getUser();
+        if (!$ticket->podeSerGerenciado($usuarioLogado)) {
+            $this->addFlash('danger', 'Este ticket não pode ser gerenciado por você no momento.');
+            return $this->voltar($request);
+        }
+
+        $form = $this->createForm(GerenciarTicketType::class, $ticket);
         try {
-            $form = $this->createForm(GerenciarTicketType::class, $ticket);
+            if (!$this->isGranted('ROLE_SUPERVISOR')) {
+                $form->remove('atendenteResponsavel');
+            }
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
                 $ticket = $form->getData();
-                $validador = $this->get('validator');
-                $erros = $validador->validate($ticket);
+                $erros = $this->get('validator')->validate($ticket);
 
                 if (count($erros) === 0) {
                     $manager = $this->getDoctrine()->getManager();
@@ -182,11 +167,11 @@ class TicketsController extends Controller
                     return $this->redirect($request->getUri());
                 }
 
-                $this->adicionaErrosAoEscopoFlash($erros);
+                $this->addErrosAoEscopoFlash($erros);
             }
         } catch (\InvalidArgumentException $e) {
             // Caso haja erros de validação nas entidades
-            $this->adicionaErrosAoEscopoFlash([$e]);
+            $this->addErrosAoEscopoFlash([$e]);
         }
 
         return $this->render('tickets/gerenciar.html.twig', ['form' => $form->createView(), 'ticket' => $ticket]);
@@ -215,11 +200,74 @@ class TicketsController extends Controller
     }
 
     /**
+     * Fecha o ticket passado por parâmetro
+     *
+     * @Route("/tickets/fechar/{id}", name="fechar_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function fecharTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoFechar($this->get('app.ticket_repository'))
+            ->addAcaoAoFechar($this->get('app.email_fechar_ticket'));
+        $manager->fechar($ticket);
+
+        $this->addFlash('success', "Ticket #{$ticket->getId()} fechado com sucesso");
+
+        if ($ticket->estaParaAprovacao()) {
+            return $this->redirectToRoute('listar_tickets');
+        }
+        return $this->voltar($request);
+    }
+
+    /**
+     * Reabre o ticket passado por parâmetro
+     *
+     * @Route("/tickets/reabrir/{id}", name="reabrir_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function reabrirTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoReabrir($this->get('app.ticket_repository'))
+            ->addAcaoAoReabrir($this->get('app.email_reabrir_ticket'));
+        $manager->reabrir($ticket);
+        $this->addFlash('success', 'Seu ticket foi reaberto');
+
+        return $this->voltar($request);
+    }
+
+    /**
+     * Quando o usuário tentar reabrir um ticket já fechado, o mesmo deve ser clonado
+     *
+     * @Route("/tickets/clonar/{id}", name="clonar_ticket")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function clonarTicketAction(Ticket $ticket, Request $request): Response
+    {
+        $novoTicket = clone $ticket;
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($novoTicket);
+        $manager->flush();
+        $this->addFlash('success', 'Um novo ticket foi criado com todas as informações do ticket selecionado.');
+
+        return $this->voltar($request);
+    }
+
+    /**
      * Adiciona os erros passados por parâmetro no escopo flash da sessão
      *
-     * @param array $erros
+     * @param iterable $erros
      */
-    private function adicionaErrosAoEscopoFlash(array $erros): void
+    private function addErrosAoEscopoFlash(iterable $erros): void
     {
         foreach ($erros as $erro) {
             $this->addFlash('danger', $erro->getMessage());
@@ -240,5 +288,26 @@ class TicketsController extends Controller
             return $this->redirectToRoute('listar_tickets');
         }
         return $this->redirect($anterior);
+    }
+
+    /**
+     * Envia a mensagem contida no corpo do post para o ticket
+     *
+     * @Route("/tickets/{id}/enviar-mensagem", name="enviar_mensagem")
+     * @Method("POST")
+     * @param Ticket $ticket
+     * @param Request $request
+     * @return Response
+     */
+    public function enviarMensagemAction(Ticket $ticket, Request $request): Response
+    {
+        $textoMensagem = $request->request->get('mensagem');
+        $manager = new TicketManager();
+        $manager
+            ->addAcaoAoInteragir($this->get('app.ticket_repository'))
+            ->addAcaoAoInteragir($this->get('app.email_interacao_ticket'));
+        $manager->interagir($ticket, $textoMensagem, $this->getUser());
+
+        return $this->voltar($request);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Tipo;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-class CategoriasControllerTest extends AuthWebTestCase
+class TiposControllerTest extends AuthWebTestCase
 {
     /** @var  Client */
     private $client;
@@ -17,7 +17,7 @@ class CategoriasControllerTest extends AuthWebTestCase
     public function testNaoLogado()
     {
         $client  = static::createClient();
-        $crawler = $client->request('GET', '/categorias');
+        $crawler = $client->request('GET', '/tipos');
 
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("/login")')->count());
@@ -25,15 +25,16 @@ class CategoriasControllerTest extends AuthWebTestCase
 
     public function testListaCategorias()
     {
-        $crawler = $this->client->request('GET', '/categorias');
+        $crawler = $this->client->request('GET', '/tipos');
         $this->assertGreaterThan(0, $crawler->filter('h1:contains("Categorias")')->count());
     }
 
     public function testCategoriaComNomePequeno()
     {
-        $crawler = $this->client->request('GET', '/categorias');
-        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
-        $form['criar_categoria[nome]'] = 'a';
+        $crawler = $this->client->request('GET', '/tipos/novo');
+        $form = $crawler->selectButton('criar_tipo[salvar]')->form();
+        $form['criar_tipo[nome]'] = 'a';
+        $form['criar_tipo[supervisorResponsavel]'] = 1;
         $crawler = $this->client->submit($form);
         $this->assertGreaterThan(
             0,
@@ -42,16 +43,17 @@ class CategoriasControllerTest extends AuthWebTestCase
         );
     }
 
-    public function testInsereCategoria()
+    public function testInsereTipo()
     {
-        $crawler = $this->client->request('GET', '/categorias');
-        $form = $crawler->selectButton('criar_categoria[salvar]')->form();
-        $form['criar_categoria[nome]'] = 'Categoria';
+        $crawler = $this->client->request('GET', '/tipos/novo');
+        $form = $crawler->selectButton('criar_tipo[salvar]')->form();
+        $form['criar_tipo[nome]'] = 'Categoria';
+        $form['criar_tipo[supervisorResponsavel]'] = 1;
         $this->client->submit($form);
         $crawler = $this->client->followRedirect();
         $this->assertGreaterThan(
             0,
-            $crawler->filter('div.callout-success:contains("Categoria adicionada com sucesso")')
+            $crawler->filter('div.callout-success:contains("Tipo adicionado com sucesso")')
                 ->count()
         );
     }
