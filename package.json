@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "heroku-postbuild": "cd web && npm install"
+    }
+}
